@@ -1,0 +1,28 @@
+<%= form_for(@chapter) do |f| %>
+  <% if @chapter.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@chapter.errors.count, "error") %> prohibited this chapter from being saved:</h2>
+
+      <ul>
+      <% @chapter.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <label>Select Topics</label>
+    <%= f.collection_check_boxes :topic_ids, Topic.all, :id, :name do |b| %><br/>
+      <%= b.check_box %>
+      <%= b.label %>
+    <% end %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @chapter.name %>
+</p>
+
+<p>
+	<strong>Topic:</strong>
+	<% @chapter.topics.each do |topic| %>
+		<%= topic.name %>,
+	<% end %>
+</p>
+
+<%= link_to 'Edit', edit_chapter_path(@chapter) %> |
+<%= link_to 'Back', chapters_path %>
