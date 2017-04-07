@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  statement: MyText
+  chapter_topics_id: 1
+  question_type_id: 1
+  answer_option_id: 1
+
+two:
+  statement: MyText
+  chapter_topics_id: 1
+  question_type_id: 1
+  answer_option_id: 1
