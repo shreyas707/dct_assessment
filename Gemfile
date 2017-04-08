@@ -1,9 +1,10 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 gem 'devise'
 gem 'cancancan'
 gem 'nested_form'
-
+gem 'rubysl-pty', platforms: :ruby
+gem 'web-console-rails3', platforms: :ruby
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'
 # Use sqlite3 as the database for Active Record
