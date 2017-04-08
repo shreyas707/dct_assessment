@@ -15,6 +15,7 @@ class QuestionsController < ApplicationController
   # GET /questions/new
   def new
     @question = Question.new
+    @option = Option.new
   end
 
   # GET /questions/1/edit
@@ -69,6 +70,6 @@ class QuestionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def question_params
-      params.require(:question).permit(:statement, :chapter_id, :topic_id, :question_type_id, :answer_option_id)
+      params.require(:question).permit(:statement, :chapter_id, :topic_id, :question_type_id, :answer_option_id, options_attributes: [:id, :statement, :question_id, :is_answer, :_destroy])
     end
 end

@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.org/
+  remote: http://rubygems.org/
   specs:
     actionmailer (4.2.5.1)
       actionpack (= 4.2.5.1)
@@ -52,7 +52,7 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
     debug_inspector (0.0.2)
-    devise (4.2.0)
+    devise (4.2.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0, < 5.1)
@@ -166,6 +166,7 @@ DEPENDENCIES
   jquery-rails
   nested_form
   rails (= 4.2.5.1)
+  rubysl-pty
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   sqlite3
@@ -173,6 +174,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
+  web-console-rails3
 
 BUNDLED WITH
    1.14.6
