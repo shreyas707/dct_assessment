@@ -20,6 +20,7 @@ class BatchSetsController < ApplicationController
 
   # GET /batch_sets/1/edit
   def edit
+    #@batch_set_chapter_topic = BatchSetChapterTopic.where("batch_set_id = ?", params[:id]).first
   end
 
   # POST /batch_sets
@@ -69,6 +70,6 @@ class BatchSetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def batch_set_params
-      params.require(:batch_set).permit(:set_date, :batch_id, batch_set_chapter_topics_attributes: [:id, :batch_id, :chapter_id, :topic_id, :_destroy])
+      params.require(:batch_set).permit(:set_date, :batch_id, batch_set_chapter_topics_attributes: [:id, :batch_id, :chapter_id, :topic_id, :_destroy], question_ids: [])
     end
 end

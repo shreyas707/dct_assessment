@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BatchSetChapterTopicQuestionTest < ActiveSupport::TestCase
+class BatchSetQuestionTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

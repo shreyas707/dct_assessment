@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170410020721) do
+ActiveRecord::Schema.define(version: 20170410123609) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "statement"
@@ -22,19 +22,19 @@ ActiveRecord::Schema.define(version: 20170410020721) do
     t.datetime "updated_at",   null: false
   end
 
-  create_table "batch_set_chapter_topic_questions", force: :cascade do |t|
-    t.integer  "batch_set_chapter_topics_id"
-    t.integer  "question_id"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-  end
-
   create_table "batch_set_chapter_topics", force: :cascade do |t|
     t.integer  "batch_set_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "chapter_id"
     t.integer  "topic_id"
+  end
+
+  create_table "batch_set_questions", force: :cascade do |t|
+    t.integer  "batch_set_id"
+    t.integer  "question_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "batch_sets", force: :cascade do |t|
