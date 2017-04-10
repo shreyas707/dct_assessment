@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :batch_sets
   resources :answers
   resources :questions
   devise_for :users
