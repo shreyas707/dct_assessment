@@ -10,6 +10,7 @@ class BatchesController < ApplicationController
   # GET /batches/1
   # GET /batches/1.json
   def show
+    @batch_set = BatchSet.new
   end
 
   # GET /batches/new
@@ -69,6 +70,6 @@ class BatchesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def batch_params
-      params.require(:batch).permit(:title, :start_date, :end_date, :course_id)
+      params.require(:batch).permit(:title, :start_date, :end_date, :course_id)#, batch_sets_attributes: [:id, :set_date, :batch_id, :_destroy])
     end
 end

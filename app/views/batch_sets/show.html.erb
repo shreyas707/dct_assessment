@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Set date:</strong>
+  <%= @batch_set.set_date %>
+</p>
+
+<p>
+  <strong>Batch:</strong>
+  <%= @batch_set.batch_id %>
+</p>
+
+<%= link_to 'Edit', edit_batch_set_path(@batch_set) %> |
+<%= link_to 'Back', batch_sets_path %>

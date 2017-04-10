@@ -27,10 +27,6 @@
     <%= f.label :question_type_id %><br>
     <%= f.collection_select :question_type_id, QuestionType.all, :id, :name, prompt: "Select question type" %>
   </div>
-  <!-- <div class="field">
-    <%#= f.label :answer_option_id %><br>
-    <%#= f.number_field :answer_option_id %>
-  </div>-->
 
   <%= f.fields_for :options, @option do |option_form| %>
     <%= option_form.text_area :statement %><br/>
