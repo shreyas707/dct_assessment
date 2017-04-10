@@ -15,7 +15,7 @@
     <% @batch_sets.each do |batch_set| %>
       <tr>
         <td><%= batch_set.set_date %></td>
-        <td><%= batch_set.batch_id %></td>
+        <td><%= batch_set.batch.title %></td>
         <td><%= link_to 'Show', batch_set %></td>
         <td><%= link_to 'Edit', edit_batch_set_path(batch_set) %></td>
         <td><%= link_to 'Destroy', batch_set, method: :delete, data: { confirm: 'Are you sure?' } %></td>
