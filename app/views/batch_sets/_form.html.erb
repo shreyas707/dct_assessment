@@ -1,0 +1,36 @@
+<%= nested_form_for(@batch_set) do |f| %>
+  <% if @batch_set.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@batch_set.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+      <ul>
+      <% @batch_set.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :set_date %><br>
+    <%= f.date_select :set_date %>
+  </div>
+  <div class="field">
+    <%= f.label :batch_id %><br/>
+    <%= f.collection_select :batch_id, Batch.all, :id, :title, prompt:"Select Batch" %>
+  </div>
+  <br/>
+
+  <%= f.fields_for :batch_set_chapter_topics, @batch_set_chapter_topic do |b| %>
+    Select Topic<br/>
+    <%= b.collection_select :topic_id, Topic.all, :id, :name, prompt: "Select topic" %><br/><br/>
+    Select Chapter<br/>
+    <%= b.collection_select :chapter_id, Chapter.all, :id, :name, prompt: "Select Chapter" %><br/><br/>
+    <%= b.link_to_remove "Delete Topic and Chapter" %><br/>
+  <% end %>
+  <%= f.link_to_add "Add Topic and Chapter", :batch_set_chapter_topics %>
+  <br/><br/>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
