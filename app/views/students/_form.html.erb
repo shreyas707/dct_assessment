@@ -1,4 +1,4 @@
-<%= form_for(@student) do |f| %>
+<%= nested_form_for(@student) do |f| %>
   <% if @student.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@student.errors.count, "error") %> prohibited this student from being saved:</h2>
@@ -23,6 +23,14 @@
     <%= f.label :mobile %><br>
     <%= f.text_field :mobile %>
   </div>
+
+  <%= f.fields_for :batch_students, @batch_student do |b| %>
+    <label>Select Batch</label><br/>
+    <%= b.collection_select :batch_id, Batch.all, :id, :title, prompt: "Select" %>
+    <%= b.link_to_remove "Delete the batch" %><br/><br/>
+  <% end %>
+  <%= f.link_to_add "Add a batch", :batch_students %><br/><br/>
+
   <div class="actions">
     <%= f.submit %>
   </div>
