@@ -15,6 +15,7 @@ class StudentsController < ApplicationController
   # GET /students/new
   def new
     @student = Student.new
+    @batch_student = BatchStudent.new
   end
 
   # GET /students/1/edit
@@ -28,7 +29,7 @@ class StudentsController < ApplicationController
 
     respond_to do |format|
       if @student.save
-        format.html { redirect_to @student, notice: 'Student was successfully created.' }
+        format.html { redirect_to edit_student_path(@student), notice: 'Student was successfully created.' }
         format.json { render :show, status: :created, location: @student }
       else
         format.html { render :new }
@@ -69,6 +70,6 @@ class StudentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def student_params
-      params.require(:student).permit(:name, :email, :mobile)
+      params.require(:student).permit(:name, :email, :mobile, batch_students_attributes: [:id, :batch_id, :student_id, :_destroy])
     end
 end

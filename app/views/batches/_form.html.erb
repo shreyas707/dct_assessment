@@ -27,6 +27,13 @@
     <%= f.label :course_id %><br>
     <%= f.collection_select :course_id, Course.all, :id, :name, prompt: "Select Course" %>
   </div>
+  <!-- <div class="field">
+    <label>Select Students</label><br>
+    <%#= f.collection_check_boxes :student_ids, Student.all, :id, :name do |b| %>
+      <%#= b.check_box %>
+      <%#= b.label %>
+    <%# end %>
+  </div> -->
   <div class="actions">
     <%= f.submit %>
   </div>
