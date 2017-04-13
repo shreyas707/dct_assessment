@@ -14,6 +14,10 @@
   <% end %>
 
   <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
     <%= f.label :set_date %><br>
     <%= f.date_select :set_date %>
   </div>
@@ -25,7 +29,7 @@
 
   <%= f.fields_for :batch_set_chapter_topics, @batch_set_chapter_topic do |b| %>
     Select Topic<br/>
-    <%= b.collection_select :topic_id, Topic.all, :id, :name, prompt: "Select topic" %><br/><br/>
+    <%= b.collection_select :topic_id, Topic.all, :id, :name, prompt: "Select topic" %><br/>
     Select Chapter<br/>
     <%= b.collection_select :chapter_id, Chapter.all, :id, :name, prompt: "Select Chapter" %><br/>
     <%= b.link_to_remove "Delete Topic and Chapter" %><br/><br/>
@@ -35,7 +39,7 @@
 
   <b>Select Questions:</b><br/>
   	<% @batch_set.batch_set_chapter_topics.each do |bsct| %>
-  	<%= f.collection_check_boxes :question_ids, Question.where("topic_id = ?", bsct.topic_id), :id, :statement %>
+  	<%= f.collection_check_boxes :question_ids, Question.where("topic_id = ? AND chapter_id = ?", bsct.topic_id, bsct.chapter_id), :id, :statement %><br/>
 	<% end %><br/>
 
   <div class="actions">

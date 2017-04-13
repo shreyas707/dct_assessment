@@ -15,13 +15,7 @@
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
-  <div class="field">
-    <label>Select Topics</label>
-    <%= f.collection_check_boxes :topic_ids, Topic.all, :id, :name do |b| %><br/>
-      <%= b.check_box %>
-      <%= b.label %>
-    <% end %>
-  </div>
+  
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -7,10 +7,16 @@ class BatchesController < ApplicationController
     @batches = Batch.all
   end
 
+  def batch_questions
+    @batch = Batch.find(params[:batches])
+    @questions = Question.where
+    @answer = Answer.new
+  end
+
   # GET /batches/1
   # GET /batches/1.json
   def show
-    @batch_set = BatchSet.new
+     @batchsets = BatchSet.where('batch_id = ?', @batch.id)
   end
 
   # GET /batches/new
