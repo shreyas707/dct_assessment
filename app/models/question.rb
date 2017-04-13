@@ -1,6 +1,6 @@
 class Question < ActiveRecord::Base
 
-	#after_save :correct_answer_option
+	# after_save :correct_answer_option
 
 	belongs_to :chapter
 	belongs_to :topic
@@ -13,8 +13,9 @@ class Question < ActiveRecord::Base
 	has_many :batch_set_questions
 	has_many :batch_sets, through: :batch_set_questions
 
+	# private
 	# def correct_answer_option
-	# 	self.answer_option_id = Option.where('question_id = ? AND is_answer = ?', self.id, "t").first.id
+	#  	self.answer_option_id = Option.find_by(question_id: 'self.id', is_answer: 't')
 	# end
 
 end

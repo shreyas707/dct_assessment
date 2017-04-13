@@ -1,0 +1,34 @@
+<%= form_for(@answer) do |f| %>
+  <% if @answer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@answer.errors.count, "error") %> prohibited this answer from being saved:</h2>
+
+      <ul>
+      <% @answer.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% @batch.batch_sets.each do |b| %>   
+      <% b.batch_set_questions.each do |a| %>
+        <%= f.hidden_field :question_id, value: a.question.id %>
+        <%= f.hidden_field :batch_set_id, value: a.id %>
+        <%= f.hidden_field :user_id, value: current_user.id %>
+        <br/><%= a.question.statement %><br/>
+        <% if a.question.question_type_id == 1 %>
+          <% a.question.options.each do |option| %>
+            <%= option.statement %><%= f.radio_button :statement, "true" %><br/>
+          <% end %>
+        <% else %>
+          <%= f.text_field :statement %><br/>
+        <% end %>
+      <% end %>
+  <% end %>
+
+  <br/><br/>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

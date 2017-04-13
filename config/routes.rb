@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+  get 'batches/batch_questions'
+
   resources :batch_sets
   resources :answers
   resources :questions

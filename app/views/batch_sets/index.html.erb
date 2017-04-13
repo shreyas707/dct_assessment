@@ -7,6 +7,7 @@
     <tr>
       <th>Set date</th>
       <th>Batch</th>
+      <th>Title</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -14,6 +15,7 @@
   <tbody>
     <% @batch_sets.each do |batch_set| %>
       <tr>
+        <td><%= batch_set.title %></td>
         <td><%= batch_set.set_date %></td>
         <td><%= batch_set.batch.title %></td>
         <td><%= link_to 'Show', batch_set %></td>
