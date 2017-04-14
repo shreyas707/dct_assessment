@@ -1,7 +1,5 @@
 class Question < ActiveRecord::Base
-
-	# after_save :correct_answer_option
-
+	
 	belongs_to :chapter
 	belongs_to :topic
 	belongs_to :question_type
@@ -13,9 +11,18 @@ class Question < ActiveRecord::Base
 	has_many :batch_set_questions
 	has_many :batch_sets, through: :batch_set_questions
 
-	# private
-	# def correct_answer_option
-	#  	self.answer_option_id = Option.find_by(question_id: 'self.id', is_answer: 't')
-	# end
+	validates_presence_of :statement, :chapter_id, :topic_id, :question_type_id
+	
+	after_create :correct_answer_option
+
+	private
+	def correct_answer_option
+	  if self.question_type_id == 1
+	  	option = options.find_by_is_answer(true)
+	  	update(answer_option_id: option.id)
+	  else
+	  	return
+	  end
+	end
 
 end

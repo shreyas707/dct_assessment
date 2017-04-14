@@ -8,4 +8,6 @@ class BatchSet < ActiveRecord::Base
 	has_many :batch_set_questions
 	has_many :questions, through: :batch_set_questions
 
+	validates_presence_of :title, :set_date, :batch_id
+
 end

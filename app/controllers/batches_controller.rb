@@ -1,10 +1,15 @@
 class BatchesController < ApplicationController
   before_action :set_batch, only: [:show, :edit, :update, :destroy]
+  skip_before_filter :authenticate_user!
 
   # GET /batches
   # GET /batches.json
   def index
-    @batches = Batch.all
+    if current_user.try(:is_admin?)
+      @batches = Batch.all
+    else
+      @batches = current_student.batches
+    end
   end
 
   def batch_questions
@@ -16,7 +21,7 @@ class BatchesController < ApplicationController
   # GET /batches/1
   # GET /batches/1.json
   def show
-     @batchsets = BatchSet.where('batch_id = ?', @batch.id)
+    @batchsets = BatchSet.where('batch_id = ?', @batch.id)
   end
 
   # GET /batches/new

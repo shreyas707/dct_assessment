@@ -8,4 +8,6 @@ class Batch < ActiveRecord::Base
 	has_many :batch_students
 	has_many :students, through: :batch_students
 
+	validates_presence_of :title, :start_date, :end_date, :course_id
+
 end

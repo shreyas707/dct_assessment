@@ -21,8 +21,10 @@
         <td><%= batch.end_date %></td>
         <td><%= batch.course_id %></td>
         <td><%= link_to 'Show', batch %></td>
+        <% if current_user.try(:is_admin?) %>
         <td><%= link_to 'Edit', edit_batch_path(batch) %></td>
         <td><%= link_to 'Destroy', batch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
