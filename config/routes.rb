@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   resources :students
 
 
-  root to: "students#index"
+  root to: "batches#index"
 
 
   # The priority is based upon order of creation: first created -> highest priority.

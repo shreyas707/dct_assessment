@@ -8,6 +8,7 @@
 </head>
 <body>
 
+<% if current_user.try(:is_admin?) %>
   <%= link_to("Students", students_path) %>
   <%= link_to("Roles", roles_path) %>
   <%= link_to("Courses", courses_path) %>
@@ -17,6 +18,7 @@
   <%= link_to("Batch Set", batch_sets_path) %>
   <%= link_to("Questions", questions_path) %>
   <%= link_to("Question Types", question_types_path) %>
+<% end %>
 
   <% if user_signed_in? %>
   	<%= link_to("Logout", destroy_user_session_path, method: :delete) %>
