@@ -21,10 +21,7 @@
     <%= f.label :set_date %><br>
     <%= f.date_select :set_date %>
   </div>
-  <div class="field">
-    <%= f.label :batch_id %><br/>
-    <%= f.collection_select :batch_id, Batch.all, :id, :title, prompt:"Select Batch" %>
-  </div>
+  <%= f.hidden_field :batch_id, value: @batch.id %>
   <br/>
 
   <%= f.fields_for :batch_set_chapter_topics, @batch_set_chapter_topic do |b| %>
@@ -38,8 +35,8 @@
   <br/><br/><br/>
 
   <b>Select Questions:</b><br/>
-  	<% @batch_set.batch_set_chapter_topics.each do |bsct| %>
-  	<%= f.collection_check_boxes :question_ids, Question.where("topic_id = ? AND chapter_id = ?", bsct.topic_id, bsct.chapter_id), :id, :statement %><br/>
+  <% @batch_set.batch_set_chapter_topics.each do |bsct| %>
+    <%= f.collection_check_boxes :question_ids, Question.where("topic_id = ? AND chapter_id = ?", bsct.topic_id, bsct.chapter_id), :id, :statement %><br/>
 	<% end %><br/>
 
   <div class="actions">
@@ -47,5 +44,4 @@
   </div>
 <% end %>
 
-<%= link_to 'Show', @batch_set %> |
 <%= link_to 'Back', batch_sets_path %>

@@ -1,5 +1,5 @@
 class BatchSetsController < ApplicationController
-  before_action :set_batch_set, only: [:show, :edit, :update, :destroy]
+  before_action :set_batch_set, only: [:edit, :update, :destroy]
 
   # GET /batch_sets
   # GET /batch_sets.json
@@ -10,26 +10,31 @@ class BatchSetsController < ApplicationController
   # GET /batch_sets/1
   # GET /batch_sets/1.json
   def show
+    @batch_set = BatchSet.find(params[:id])
+    @batch = Batch.find(params[:batch_id])
+    @answer = Answer.new
   end
 
   # GET /batch_sets/new
   def new
     @batch_set = BatchSet.new
     @batch_set_chapter_topic = BatchSetChapterTopic.new
+    @batch = Batch.find(params[:batch_id])
   end
 
   # GET /batch_sets/1/edit
   def edit
-    #@batch_set_chapter_topic = BatchSetChapterTopic.where("batch_set_id = ?", params[:id]).first
+    @batch = Batch.find(params[:batch_id])
   end
 
   # POST /batch_sets
   # POST /batch_sets.json
   def create
     @batch_set = BatchSet.new(batch_set_params)
+    @batch = Batch.find(params[:batch_id])
     respond_to do |format|
       if @batch_set.save
-        format.html { redirect_to edit_batch_set_path(@batch_set), notice: 'Batch set was successfully created.' }
+        format.html { redirect_to edit_batch_batch_set_path(@batch, @batch_set), notice: 'Batch set was successfully created.' }
         format.json { render :show, status: :created, location: @batch_set }
       else
         format.html { render :new }
@@ -41,9 +46,10 @@ class BatchSetsController < ApplicationController
   # PATCH/PUT /batch_sets/1
   # PATCH/PUT /batch_sets/1.json
   def update
+    @batch = Batch.find(params[:batch_set][:batch_id])
     respond_to do |format|
       if @batch_set.update(batch_set_params)
-        format.html { redirect_to @batch_set, notice: 'Batch set was successfully updated.' }
+        format.html { redirect_to batch_batch_set_path(@batch, @batch_set), notice: 'Batch set was successfully updated.' }
         format.json { render :show, status: :ok, location: @batch_set }
       else
         format.html { render :edit }

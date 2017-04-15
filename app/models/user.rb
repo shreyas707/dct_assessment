@@ -15,4 +15,8 @@ class User < ActiveRecord::Base
     return true if self.role_id == 1
   end
 
+  def is_student?
+    return true if self.role_id == 2
+  end
+
 end

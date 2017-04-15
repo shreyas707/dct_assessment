@@ -22,10 +22,11 @@
 
 <%= link_to 'Edit', edit_batch_path(@batch) %> |
 <%= link_to 'Back', batches_path %> |
-<%= link_to 'New Batch_Set', new_batch_set_path %>
+<%= link_to "Add Batch Set", new_batch_batch_set_path(@batch) %> 
 
 <br/><br/>
 
-<% @batchsets.each do |b| %>
-  <%= link_to b.title, batches_batch_questions_path(:batches => @batch.id) %>
+<% @batch_sets.each do |batch_set| %>
+  <%#= link_to b.title, batches_batch_questions_path(:batches => @batch.id) %>
+  <%= link_to batch_set.title, batch_batch_set_path(@batch.id, batch_set.id) %>
 <% end %>

@@ -19,8 +19,10 @@
         <td><%= batch.title %></td>
         <td><%= batch.start_date %></td>
         <td><%= batch.end_date %></td>
-        <td><%= batch.course_id %></td>
-        <td><%= link_to 'Show', batch %></td>
+        <td><%= batch.course.name %></td>
+        <% if user_signed_in? %>
+          <td><%= link_to 'Show', batch %></td>
+        <% end %>
         <% if current_user.try(:is_admin?) %>
         <td><%= link_to 'Edit', edit_batch_path(batch) %></td>
         <td><%= link_to 'Destroy', batch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -32,4 +34,4 @@
 
 <br>
 
-<%= link_to 'New Batch', new_batch_path %>
+<%#= link_to 'New Batch', new_batch_path %>

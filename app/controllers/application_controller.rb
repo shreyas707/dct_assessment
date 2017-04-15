@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_student
 
   def current_student
-  	@current_student = current_user.student
+  	@current_student = current_user.student if current_user
   end
 
 end
