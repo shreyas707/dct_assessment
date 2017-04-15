@@ -2,7 +2,6 @@ Rails.application.routes.draw do
 
   get 'batches/batch_questions'
 
-  resources :batch_sets
   resources :answers
   resources :questions
   devise_for :users
@@ -11,11 +10,22 @@ Rails.application.routes.draw do
   resources :topics
   resources :courses
   resources :roles
-  resources :batches
+  resources :batches do 
+    resources :batch_sets
+  end
+  resources :batch_sets
   resources :students
 
 
-  root to: "batches#index"
+  devise_scope :user do
+    authenticated :user do
+      root 'batches#index', as: :authenticated_root
+    end
+
+    unauthenticated do
+      root 'devise/sessions#new', as: :unauthenticated_root
+    end
+  end
 
 
   # The priority is based upon order of creation: first created -> highest priority.

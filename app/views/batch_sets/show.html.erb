@@ -12,8 +12,43 @@
 
 <p>
   <strong>Batch:</strong>
-  <%= @batch_set.batch_id %>
+  <%= @batch_set.batch.title %>
 </p>
 
-<%= link_to 'Edit', edit_batch_set_path(@batch_set) %> |
+<%= link_to 'Edit', edit_batch_batch_set_path(@batch, @batch_set) %> |
 <%= link_to 'Back', batch_sets_path %>
+
+<%= form_for(@answer) do |f| %>
+  <% if @answer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@answer.errors.count, "error") %> prohibited this answer from being saved:</h2>
+
+      <ul>
+      <% @answer.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% @batch.batch_sets.each do |batch_set| %>   
+      <% batch_set.batch_set_questions.where("batch_set_id = ?", @batch_set.id).each do |bsq| %>
+        <%= f.hidden_field :question_id, value: bsq.question.id %>
+        <%= f.hidden_field :batch_set_id, value: bsq.batch_set.id %>
+        <%= f.hidden_field :user_id, value: current_user.id %>
+        <br/><%= bsq.question.statement %><br/>
+        <% if bsq.question.question_type_id == 1 %>
+          <% bsq.question.options.each do |option| %>
+            <%= option.statement %><%= f.radio_button :statement, "true" %><br/>
+          <% end %>
+        <% else %>
+          <%= f.text_field :statement %><br/>
+        <% end %>
+      <% end %>
+  <% end %>
+
+  <br/><br/>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

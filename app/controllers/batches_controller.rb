@@ -7,8 +7,10 @@ class BatchesController < ApplicationController
   def index
     if current_user.try(:is_admin?)
       @batches = Batch.all
-    else
+    elsif current_user.try(:is_student?)
       @batches = current_student.batches
+    else
+      @batches = Batch.all
     end
   end
 
@@ -21,7 +23,7 @@ class BatchesController < ApplicationController
   # GET /batches/1
   # GET /batches/1.json
   def show
-    @batchsets = BatchSet.where('batch_id = ?', @batch.id)
+    @batch_sets = BatchSet.where('batch_id = ?', @batch.id)
   end
 
   # GET /batches/new
