@@ -4,7 +4,12 @@ class BatchSetsController < ApplicationController
   # GET /batch_sets
   # GET /batch_sets.json
   def index
-    @batch_sets = BatchSet.all
+    @batch = Batch.find(params[:batch_id])
+    if current_user.try(:is_admin?)
+      @batch_sets = BatchSet.all
+    elsif current_user.try(:is_user?)
+      @batch_sets = BatchSet.where('batch_id = ?', @batch)
+    end
   end
 
   # GET /batch_sets/1
@@ -25,6 +30,7 @@ class BatchSetsController < ApplicationController
   # GET /batch_sets/1/edit
   def edit
     @batch = Batch.find(params[:batch_id])
+    @questions = Question.ids
   end
 
   # POST /batch_sets

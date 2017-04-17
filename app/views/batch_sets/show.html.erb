@@ -16,7 +16,7 @@
 </p>
 
 <%= link_to 'Edit', edit_batch_batch_set_path(@batch, @batch_set) %> |
-<%= link_to 'Back', batch_sets_path %>
+<%= link_to 'Back', @batch %>
 
 <%= form_for(@answer) do |f| %>
   <% if @answer.errors.any? %>
@@ -30,25 +30,56 @@
       </ul>
     </div>
   <% end %>
-
-  <% @batch.batch_sets.each do |batch_set| %>   
-      <% batch_set.batch_set_questions.where("batch_set_id = ?", @batch_set.id).each do |bsq| %>
-        <%= f.hidden_field :question_id, value: bsq.question.id %>
-        <%= f.hidden_field :batch_set_id, value: bsq.batch_set.id %>
-        <%= f.hidden_field :user_id, value: current_user.id %>
-        <br/><%= bsq.question.statement %><br/>
-        <% if bsq.question.question_type_id == 1 %>
-          <% bsq.question.options.each do |option| %>
-            <%= option.statement %><%= f.radio_button :statement, "true" %><br/>
-          <% end %>
-        <% else %>
-          <%= f.text_field :statement %><br/>
+  
+  <% @batch_set.batch_set_questions.each do |bsq| %>
+    <% if !(bsq.question.answers.where('user_id = ? AND question_id = ?', current_user.id, bsq.question.id)).exists? %>
+      <br/><%= bsq.question.statement %><br/>
+      <%= f.hidden_field :question_id, value: bsq.question.id %>
+      <%= f.hidden_field :user_id, value: current_user.id %>
+      <%= f.hidden_field :batch_set_id, value: @batch_set %>
+      <% if bsq.question.question_type_id == 1 %>
+        <% bsq.question.options.each do |option| %>
+          <%= f.radio_button :statement, option.statement %><%= option.statement %><br/>
         <% end %>
+      <% else %>
+        <%= f.text_field :statement %><br/><br/>
       <% end %>
-  <% end %>
+    <% end %>
+  <% end %> 
 
   <br/><br/>
   <div class="actions">
     <%= f.submit %>
   </div>
+<% end %> 
+
+<br/>
+
+<% if current_user.try(:is_student?) %>
+  <h3>Your answers</h3>
+
+  <% @batch_set.batch_set_questions.each do |bsq| %>
+    <% bsq.question.answers.where('user_id = ? AND question_id = ?', current_user.id, bsq.question.id).each do |answer| %>
+      <%= bsq.question.statement %><br/>
+      <%= answer.statement %><br/>
+      <% if bsq.question.question_type_id == 1 %>
+        <% if bsq.question.options.find_by(is_answer: true).statement == answer.statement %>
+          <%= "Correct answer" %>
+        <% else %>
+          <%= "Wrong answer" %>
+        <% end %><br/><br/>
+      <% end %><br/>
+    <% end %>
+  <% end %>
+
+<% elsif current_user.try(:is_admin?) %>
+  <h3>Student's Answers</h3>
+
+  <% @batch_set.batch_set_questions.each do |bsq| %>
+    <% bsq.question.answers.each do |answer| %>
+      <%= answer.user.student.name %><br/>
+      <%= bsq.question.statement %><br/>
+      <%= answer.statement %><br/><br/>
+    <% end %>
+  <% end %><br/>
 <% end %>
