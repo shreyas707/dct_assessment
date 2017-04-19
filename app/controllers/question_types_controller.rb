@@ -1,6 +1,8 @@
 class QuestionTypesController < ApplicationController
   before_action :set_question_type, only: [:show, :edit, :update, :destroy]
 
+  load_and_authorize_resource 
+
   # GET /question_types
   # GET /question_types.json
   def index

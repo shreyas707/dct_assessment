@@ -16,7 +16,6 @@ class Student < ActiveRecord::Base
 		user.student_id = self.id
 		user.email = self.email
 		user.password = "password"
-		user.role_id = 2
 		user.save 
 	end
 

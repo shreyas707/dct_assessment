@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
-  resources :questions
   devise_for :users
+  resources :questions
   resources :question_types
   resources :chapters
   resources :topics
@@ -14,17 +14,7 @@ Rails.application.routes.draw do
   resources :batch_sets
   resources :students
 
-
-  devise_scope :user do
-    authenticated :user do
-      root 'batches#index', as: :authenticated_root
-    end
-
-    unauthenticated do
-      root 'devise/sessions#new', as: :unauthenticated_root
-    end
-  end
-
+  root 'batches#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
