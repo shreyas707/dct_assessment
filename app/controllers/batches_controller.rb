@@ -14,12 +14,6 @@ class BatchesController < ApplicationController
     end
   end
 
-  def batch_questions
-    @batch = Batch.find(params[:batches])
-    @questions = Question.where
-    @answer = Answer.new
-  end
-
   # GET /batches/1
   # GET /batches/1.json
   def show

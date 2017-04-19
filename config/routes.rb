@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'batches/batch_questions'
-
-  resources :answers
   resources :questions
   devise_for :users
   resources :question_types
@@ -13,6 +10,7 @@ Rails.application.routes.draw do
   resources :batches do 
     resources :batch_sets
   end
+  resources :answers
   resources :batch_sets
   resources :students
 

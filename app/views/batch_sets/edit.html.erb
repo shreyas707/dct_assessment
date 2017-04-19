@@ -1,77 +1,112 @@
-<h1>Editing Batch Set</h1>
+<% if current_user.try(:is_admin?) %>
+  
+  <%= nested_form_for(@batch_set) do |f| %> 
+    <h1>Editing Batch Set</h1>
+    <% if @batch_set.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@batch_set.errors.count, "error") %> prohibited this question from being saved:</h2>
 
-<%= nested_form_for(@batch_set) do |f| %>
-  <% if @batch_set.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@batch_set.errors.count, "error") %> prohibited this question from being saved:</h2>
+        <ul>
+        <% @batch_set.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-      <ul>
-      <% @batch_set.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+    <div class="field">
+      <%= f.label :title %><br>
+      <%= f.text_field :title %>
+    </div>
+    <div class="field">
+      <%= f.label :set_date %><br>
+      <%= f.date_select :set_date %>
+    </div>
+    <%= f.hidden_field :batch_id, value: @batch.id %>
+    <br/>
+
+    <%= f.fields_for :batch_set_chapter_topics, @batch_set_chapter_topic do |b| %>
+      Select Topic<br/>
+      <%= b.collection_select :topic_id, Topic.all, :id, :name, prompt: "Select topic" %><br/>
+      Select Chapter<br/>
+      <%= b.collection_select :chapter_id, Chapter.all, :id, :name, prompt: "Select Chapter" %><br/>
+      <%= b.link_to_remove "Delete Topic and Chapter" %><br/><br/>
+    <% end %>
+    <%= f.link_to_add "Add Topic and Chapter", :batch_set_chapter_topics %>
+    <br/><br/><br/>
+
+    <b>Select Questions:</b><br/>
+    <table border = "1">
+      <thead>
+        <tr>
+          <th>Already asked</th>
+          <th>Yet to be asked</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+          <% @asked_questions = [] %>
+          <% @give_relevant_name = [] %>
+            <% @batch_set.batch_set_chapter_topics.each do |bsct| %>
+              <%= f.collection_check_boxes :question_ids, Question.where("topic_id = ? AND chapter_id = ?", bsct.topic_id, bsct.chapter_id), :id, :statement do |a| %><br/>
+                <%= a.check_box %>
+                <%= a.label %>
+                <%# binding.pry %>
+                <% @give_relevant_name.push(a.object.id) %>
+              <% end %><br/>
+              <% @asked_questions.push(@give_relevant_name) %>
+              <%# binding.pry %>
+              <% @asked_questions.each do |asked_question| %>
+                <%= @questions - asked_question %>
+                <%# binding.pry %>
+              <% end %>
+          	<% end %>
+          </td>
+          <td>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br/>
+    <div class="actions">
+      <%= f.submit %>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :set_date %><br>
-    <%= f.date_select :set_date %>
-  </div>
-  <%= f.hidden_field :batch_id, value: @batch.id %>
-  <br/>
-
-  <%= f.fields_for :batch_set_chapter_topics, @batch_set_chapter_topic do |b| %>
-    Select Topic<br/>
-    <%= b.collection_select :topic_id, Topic.all, :id, :name, prompt: "Select topic" %><br/>
-    Select Chapter<br/>
-    <%= b.collection_select :chapter_id, Chapter.all, :id, :name, prompt: "Select Chapter" %><br/>
-    <%= b.link_to_remove "Delete Topic and Chapter" %><br/><br/>
-  <% end %>
-  <%= f.link_to_add "Add Topic and Chapter", :batch_set_chapter_topics %>
-  <br/><br/><br/>
-
-  <b>Select Questions:</b><br/>
-  <table border = "1">
-    <thead>
-      <tr>
-        <th>Already asked</th>
-        <th>Yet to be asked</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-        <% @asked_questions = [] %>
-        <% @give_relevant_name = [] %>
-          <% @batch_set.batch_set_chapter_topics.each do |bsct| %>
-            <%= f.collection_check_boxes :question_ids, Question.where("topic_id = ? AND chapter_id = ?", bsct.topic_id, bsct.chapter_id), :id, :statement do |a| %><br/>
-              <%= a.check_box %>
-              <%= a.label %>
-              <%# binding.pry %>
-              <% @give_relevant_name.push(a.object.id) %>
-            <% end %><br/>
-            <% @asked_questions.push(@give_relevant_name) %>
-            <%# binding.pry %>
-            <% @asked_questions.each do |asked_question| %>
-              <%= @questions - asked_question %>
-              <%# binding.pry %>
+<% elsif current_user.try(:is_student?) %>
+  
+  <h1>All the best!</h1>
+  <%= form_for([@batch, @batch_set]) do |f| %>
+    <%= f.hidden_field :batch_id, value: @batch.id %>
+      <% @batch_set.batch_set_questions.each do |bsq| %>
+        <% if !(bsq.question.answers.where('user_id = ? AND question_id = ?', current_user.id, bsq.question.id)).exists? %>
+          <br/><%= bsq.question.statement %><br/>
+          <%= f.fields_for :answers, @answer do |ans| %>
+            <%= ans.hidden_field :question_id, value: bsq.question.id %>
+            <%= ans.hidden_field :user_id, value: current_user.id %>
+            <%= ans.hidden_field :batch_set_id, value: @batch_set.id %>
+            <% if bsq.question.question_type_id == 1 %>
+              <% bsq.question.options.each do |option| %>
+                <%= ans.radio_button :statement, option.statement %><%= option.statement %><br/>
+              <% end %>
+            <% else %>
+              <%= ans.text_field :statement %><br/><br/>
             <% end %>
-        	<% end %>
-        </td>
-        <td>
+          <% end %>
+          <% break %>
+        <% else %>
+          <h2>Goodjob! You have already answered all questions in this class.</h2>
+          <% break %>
+        <% end %>
+      <% end %> 
+      <br/><br/>
+      <div class="actions">
+        <%= f.submit 'Submit answer' %>
+      </div>
+  <% end %>
 
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <br/>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 <% end %>
 
-<%= link_to 'Back', batch_sets_path %>
+<%= link_to 'Back', batch_batch_set_path(@batch, @batch_set) %>
