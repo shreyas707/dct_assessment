@@ -4,7 +4,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  belongs_to :role
   belongs_to :student
 
   has_many :answers
@@ -12,11 +11,11 @@ class User < ActiveRecord::Base
   validates_presence_of :email, :password
 
   def is_admin?
-    return true if self.role_id == 1
+    return true if self.role == "admin"
   end
 
   def is_student?
-    return true if self.role_id == 2
+    return true if self.role == "student"
   end
 
 end

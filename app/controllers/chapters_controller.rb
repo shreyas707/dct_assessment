@@ -1,5 +1,7 @@
 class ChaptersController < ApplicationController
   before_action :set_chapter, only: [:show, :edit, :update, :destroy]
+  
+  load_and_authorize_resource 
 
   # GET /chapters
   # GET /chapters.json
