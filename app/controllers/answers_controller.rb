@@ -25,7 +25,8 @@ class AnswersController < ApplicationController
   # POST /answers.json
   def create
     @answer = Answer.new(answer_params)
-
+    @batch = Batch.find(params[:batch_id])
+    @batch_set = BatchSet.find(params[:batch_set_id])
     respond_to do |format|
       if @answer.save
         format.html { redirect_to :back, notice: 'Answer was successfully created.' }
@@ -42,7 +43,7 @@ class AnswersController < ApplicationController
   def update
     respond_to do |format|
       if @answer.update(answer_params)
-        format.html { redirect_to @answer, notice: 'Answer was successfully updated.' }
+        format.html { redirect_to :back, notice: 'Answer was successfully updated.' }
         format.json { render :show, status: :ok, location: @answer }
       else
         format.html { render :edit }

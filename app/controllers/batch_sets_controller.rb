@@ -31,6 +31,7 @@ class BatchSetsController < ApplicationController
   def edit
     @batch = Batch.find(params[:batch_id])
     @questions = Question.ids
+    @answer = Answer.new
   end
 
   # POST /batch_sets
@@ -53,9 +54,14 @@ class BatchSetsController < ApplicationController
   # PATCH/PUT /batch_sets/1.json
   def update
     @batch = Batch.find(params[:batch_set][:batch_id])
+    @answer = Answer.new
     respond_to do |format|
       if @batch_set.update(batch_set_params)
-        format.html { redirect_to batch_batch_set_path(@batch, @batch_set), notice: 'Batch set was successfully updated.' }
+        if current_user.try(:is_admin?)
+          format.html { redirect_to batch_batch_set_path(@batch, @batch_set), notice: 'Batch set was successfully updated.' }
+        else
+          format.html { redirect_to batch_batch_set_path(@batch, @batch_set), notice: 'Answers have been submitted.' }       
+        end
         format.json { render :show, status: :ok, location: @batch_set }
       else
         format.html { render :edit }
@@ -82,6 +88,6 @@ class BatchSetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def batch_set_params
-      params.require(:batch_set).permit(:title, :set_date, :batch_id, batch_set_chapter_topics_attributes: [:id, :batch_id, :chapter_id, :topic_id, :_destroy], question_ids: [])
+      params.require(:batch_set).permit(:title, :set_date, :batch_id, batch_set_chapter_topics_attributes: [:id, :batch_id, :chapter_id, :topic_id, :_destroy], answers_attributes:[:question_id, :batch_set_id, :user_id, :statement], question_ids: [])
     end
 end
