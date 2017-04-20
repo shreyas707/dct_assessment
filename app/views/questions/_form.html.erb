@@ -17,26 +17,27 @@
   </div>
   <div class="field">
     <label>Select Topic:</label><br>
-    <%= f.collection_select :topic_id, Topic.all, :id, :name, prompt: "Select topic" %>
+    <%= f.collection_select :topic_id, Topic.all, :id, :name, {prompt: "Select topic"}, {class: "ui search dropdown"} %>
   </div>
   <div class="field">
     <label>Select Chapter:</label><br>
-    <%= f.collection_select :chapter_id, Chapter.all, :id, :name, prompt: "Select chapter" %>
+    <%= f.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select chapter"}, {class: "ui search dropdown"}%>
   </div>
   <div class="field">
     <%= f.label :question_type_id %><br>
-    <%= f.collection_select :question_type_id, QuestionType.all, :id, :name, prompt: "Select question type" %>
+    <%= f.collection_select :question_type_id, QuestionType.all, :id, :name, {prompt: "Select question type"}, {class: "ui search dropdown"} %>
   </div>
 
   <%= f.fields_for :options, @option do |option_form| %>
+    <%= "Option" %><br/>
     <%= option_form.text_area :statement %><br/>
     <%= option_form.radio_button :is_answer, true, class: "ui radio checkbox" %>True
     <%= option_form.radio_button :is_answer, false, class: "ui radio checkbox" %>False<br/>
     <%= option_form.link_to_remove "Remove this option" %><br/>
-  <% end %>
+  <% end %><br/>
   <%= f.link_to_add "Add option", :options %>
   <br/><br/>
   <div class="actions">
-    <%= f.submit class: "ui primary button" %>
+    <%= f.submit class: "ui primary button" %><br/><br/>
   </div>
 <% end %>

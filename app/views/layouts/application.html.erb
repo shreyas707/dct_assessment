@@ -20,6 +20,8 @@
           <%= link_to("Batches", batches_path, class: controller.controller_name == "batches" ? "active item" : "item") %>
           <%= link_to("Questions", questions_path, class: controller.controller_name == "questions" ? "active item" : "item") %>
           <%= link_to("Question Types", question_types_path, class: controller.controller_name == "question_types" ? "active item" : "item") %>
+        <% else %>
+          <%= link_to("Batches", batches_path, class: "active item") %>
         <% end %>
 
         <div class="right menu">
