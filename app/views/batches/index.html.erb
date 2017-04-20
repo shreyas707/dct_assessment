@@ -10,8 +10,10 @@
       <th>End date</th>
       <th>Course</th>
       <th>Show</th>
-      <th>Edit</th>
-      <th>Destroy</th>
+      <% if current_user.is_admin? %>
+        <th>Edit</th>
+        <th>Destroy</th>
+      <% end %>
     </tr>
   </thead>
 

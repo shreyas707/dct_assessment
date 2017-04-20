@@ -26,12 +26,12 @@
 
   <%= f.fields_for :batch_students, @batch_student do |b| %>
     <label>Select Batch</label><br/>
-    <%= b.collection_select :batch_id, Batch.all, :id, :title, prompt: "Select" %><br/>
+    <%= b.collection_select :batch_id, Batch.all, :id, :title, {prompt: "Select"}, {class: "ui dropdown"} %><br/>
     <%= b.link_to_remove "Delete the batch" %><br/><br/>
   <% end %>
   <%= f.link_to_add "Add a batch", :batch_students %><br/><br/>
 
   <div class="actions">
-    <%= f.submit class: "ui button" %>
+    <%= f.submit class: "ui button" %><br/><br/>
   </div>
 <% end %>

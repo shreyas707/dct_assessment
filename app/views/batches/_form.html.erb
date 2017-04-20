@@ -13,34 +13,32 @@
 
   <div class="field">
     <%= f.label :title %><br>
-    <div class="ui input"><%= f.text_field :title %></div>
+    <div class="ui input"><%= f.text_field :title %></div><br/><br/>
   </div>
 
   <div class="field">
     <%= f.label :start_date %><br>
-    <%= f.date_select :start_date %>
+    <%= f.date_select :start_date, {class: "ui search dropdown"} %><br/><br/>
   </div>
   <div class="field">
     <%= f.label :end_date %><br>
     <%= f.date_select :end_date %>
+    
+    <br/><br/>
   </div>
   <div class="field">
     <%= f.label :course_id %><br>
-    <%= f.collection_select :course_id, Course.all, :id, :name %>
-  </div>
-<!--   <select class="ui dropdown">
-    <option value="">Gender</option>
-    <option value="1">Male</option>
-    <option value="0">Female</option>
-  </select> -->
+    <%= f.collection_select :course_id, Course.all, :id, :name, {prompt: "Select Course"}, {class: "ui search dropdown"} %>
+  </div><br/><br/>
+  
    <div class="field">
     <label>Select Students</label><br>
     <%= f.collection_check_boxes :student_ids, Student.all, :id, :name do |b| %>
       <%= b.check_box class: "ui checkbox" %>
       <%= b.label %><br/>
-    <% end %>
+    <% end %><br/>
   </div> 
   <div class="actions">
-    <%= f.submit class: "ui primary button" %>
+    <%= f.submit class: "ui primary button" %><br/><br/>
   </div>
 <% end %>
