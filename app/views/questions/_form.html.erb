@@ -30,13 +30,13 @@
 
   <%= f.fields_for :options, @option do |option_form| %>
     <%= option_form.text_area :statement %><br/>
-    <%= option_form.radio_button :is_answer, true %>True
-    <%= option_form.radio_button :is_answer, false %>False<br/>
+    <%= option_form.radio_button :is_answer, true, class: "ui radio checkbox" %>True
+    <%= option_form.radio_button :is_answer, false, class: "ui radio checkbox" %>False<br/>
     <%= option_form.link_to_remove "Remove this option" %><br/>
   <% end %>
   <%= f.link_to_add "Add option", :options %>
   <br/><br/>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit class: "ui primary button" %>
   </div>
 <% end %>

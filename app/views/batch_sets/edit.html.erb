@@ -16,7 +16,7 @@
 
     <div class="field">
       <%= f.label :title %><br>
-      <%= f.text_field :title %>
+      <div class="ui input"><%= f.text_field :title %></div>
     </div>
     <div class="field">
       <%= f.label :set_date %><br>
@@ -36,7 +36,7 @@
     <br/><br/><br/>
 
     <b>Select Questions:</b><br/>
-    <table border = "1">
+    <table class="ui celled padded table">
       <thead>
         <tr>
           <th>Already asked</th>
@@ -46,21 +46,21 @@
       <tbody>
         <tr>
           <td>
-          <% @asked_questions = [] %>
-          <% @give_relevant_name = [] %>
+          <%# @asked_questions = [] %>
+          <%# @give_relevant_name = [] %>
             <% @batch_set.batch_set_chapter_topics.each do |bsct| %>
               <%= f.collection_check_boxes :question_ids, Question.where("topic_id = ? AND chapter_id = ?", bsct.topic_id, bsct.chapter_id), :id, :statement do |a| %><br/>
                 <%= a.check_box %>
                 <%= a.label %>
                 <%# binding.pry %>
-                <% @give_relevant_name.push(a.object.id) %>
+                <%# @give_relevant_name.push(a.object.id) %>
               <% end %><br/>
-              <% @asked_questions.push(@give_relevant_name) %>
+              <%# @asked_questions.push(@give_relevant_name) %>
               <%# binding.pry %>
-              <% @asked_questions.each do |asked_question| %>
-                <%= @questions - asked_question %>
+              <%# @asked_questions.each do |asked_question| %>
+                <%#= @questions - asked_question %>
                 <%# binding.pry %>
-              <% end %>
+              <%# end %>
           	<% end %>
           </td>
           <td>
@@ -71,7 +71,7 @@
     </table>
     <br/>
     <div class="actions">
-      <%= f.submit %>
+      <%= f.submit class: "ui button"%>
     </div>
   <% end %>
 
@@ -89,13 +89,12 @@
             <%= ans.hidden_field :batch_set_id, value: @batch_set.id %>
             <% if bsq.question.question_type_id == 1 %>
               <% bsq.question.options.each do |option| %>
-                <%= ans.radio_button :statement, option.statement %><%= option.statement %><br/>
+                <%= ans.radio_button :statement, option.statement, class: "ui radio checkbox" %><%= option.statement %><br/>
               <% end %>
             <% else %>
-              <%= ans.text_field :statement %><br/><br/>
+              <div class="ui input"><%= ans.text_field :statement %></div><br/><br/>
             <% end %>
           <% end %>
-          <% break %>
         <% else %>
           <h2>Goodjob! You have already answered all questions in this class.</h2>
           <% break %>
@@ -103,10 +102,12 @@
       <% end %> 
       <br/><br/>
       <div class="actions">
-        <%= f.submit 'Submit answer' %>
+        <%= f.submit 'Submit answer', class: "ui primary button" %>
       </div>
   <% end %>
 
 <% end %>
 
-<%= link_to 'Back', batch_batch_set_path(@batch, @batch_set) %>
+<%= link_to 'Back', batch_batch_set_path(@batch, @batch_set), class: "ui black button" %>
+
+<br/><br/>

@@ -16,3 +16,5 @@
 //= require_tree .
 //= require jquery_nested_form
 //= require semantic-ui
+//= require semantic-ui/modal
+//= require semantic-ui/dropdown

@@ -1,33 +1,39 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @batch.title %>
-</p>
+<div class="ui segment">
+  <p>
+    <strong>Title:</strong>
+    <%= @batch.title %>
+  </p>
 
-<p>
-  <strong>Start date:</strong>
-  <%= @batch.start_date %>
-</p>
+  <p>
+    <strong>Start date:</strong>
+    <%= @batch.start_date %>
+  </p>
 
-<p>
-  <strong>End date:</strong>
-  <%= @batch.end_date %>
-</p>
+  <p>
+    <strong>End date:</strong>
+    <%= @batch.end_date %>
+  </p>
 
-<p>
-  <strong>Course:</strong>
-  <%= @batch.course.name %>
-</p>
+  <p>
+    <strong>Course:</strong>
+    <%= @batch.course.name %>
+  </p>
 
-<% if current_user.try(:is_admin?) %>
-  <%= link_to 'Edit', edit_batch_path(@batch) %> |
-  <%= link_to "Add Batch Set", new_batch_batch_set_path(@batch) %> 
-<% end %>
-<%= link_to 'Back', batches_path %> 
+  <% if current_user.try(:is_admin?) %>
+    <%= link_to 'Edit', edit_batch_path(@batch), class: "ui button" %>
+    <%= link_to "Add Batch Set", new_batch_batch_set_path(@batch), class: "ui primary button" %> 
+  <% end %>
 
-<br/><br/>
+  <br/><br/>
 
-<% @batch_sets.each do |batch_set| %>
-  <%= link_to batch_set.title, batch_batch_set_path(@batch.id, batch_set.id) %>
-<% end %>
+  <% @batch_sets.each do |batch_set| %>
+    <%= link_to batch_set.title, batch_batch_set_path(@batch.id, batch_set.id), class: "ui orange button" %>
+  <% end %>
+
+  <br/><br/>
+
+  <%= link_to 'Back', batches_path, class: "ui black button" %> 
+</div>
+

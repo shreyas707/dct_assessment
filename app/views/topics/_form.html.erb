@@ -13,16 +13,16 @@
 
   <div class="field">
     <%= f.label :name %><br>
-    <%= f.text_field :name %>
+    <div class="ui input"><%= f.text_field :name %></div>
   </div>
   <div class="field">
     <label>Select courses that the topics belong to:</label>
     <%= f.collection_check_boxes :course_ids, Course.all, :id, :name do |b| %><br/>
-      <%= b.check_box %>
+      <%= b.check_box class: "ui checkbox" %>
       <%= b.label %>
     <% end %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit class: "ui primary button" %>
   </div>
 <% end %>

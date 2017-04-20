@@ -1,36 +1,40 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <div class="ui container">
+    <head>
 
-  <title>DctAssessment</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
+      <title>DctAssessment</title>
+      <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+      <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+      <%= csrf_meta_tags %>
 
-</head>
-<body>
+    </head>
+    <body>
+      
+      <div class="ui secondary pointing menu">
+        <% if current_user.try(:is_admin?) %>
+          <%= link_to("Students", students_path, class: controller.controller_name == "students" ? "active item" : "item") %>
+          <%= link_to("Courses", courses_path, class: controller.controller_name == "courses" ? "active item" : "item") %>
+          <%= link_to("Topics", topics_path, class: controller.controller_name == "topics" ? "active item" : "item") %>
+          <%= link_to("Chapters", chapters_path, class: controller.controller_name == "chapters" ? "active item" : "item") %>
+          <%= link_to("Batches", batches_path, class: controller.controller_name == "batches" ? "active item" : "item") %>
+          <%= link_to("Questions", questions_path, class: controller.controller_name == "questions" ? "active item" : "item") %>
+          <%= link_to("Question Types", question_types_path, class: controller.controller_name == "question_types" ? "active item" : "item") %>
+        <% end %>
 
-<% if current_user.try(:is_admin?) %>
-  <%= link_to("Students", students_path) %>
-  <%= link_to("Roles", roles_path) %>
-  <%= link_to("Courses", courses_path) %>
-  <%= link_to("Topics", topics_path) %>
-  <%= link_to("Chapters", chapters_path) %>
-  <%= link_to("Batches", batches_path) %>
-  <%#= link_to("Batch Set", batch_sets_path) %>
-  <%= link_to("Questions", questions_path) %>
-  <%= link_to("Question Types", question_types_path) %>
-<% end %>
+        <div class="right menu">
+          <% if user_signed_in? %>
+          	<%= link_to("Logout", destroy_user_session_path, method: :delete, class: "ui item") %>
+          <% else %>
+          	<%= link_to("Login", new_user_session_path, class: "ui item") %>
+          <% end %>
+        </div>
+      </div>
 
-  <% if user_signed_in? %>
-  	<%= link_to("Logout", destroy_user_session_path, method: :delete) %>
-  <% else %>
-  	<%= link_to("Login", new_user_session_path) %>
-  <% end %>
+      <p class="alert"><%= alert %></p>
 
-  <p class="alert"><%= alert %></p>
+      <%= yield %>
 
-  <%= yield %>
-
-</body>
+    </body>
+  </div>
 </html>

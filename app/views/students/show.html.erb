@@ -1,19 +1,20 @@
 <p id="notice"><%= notice %></p>
+<div class="ui segment">
+	<p>
+	  <strong>Name:</strong>
+	  <%= @student.name %>
+	</p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @student.name %>
-</p>
+	<p>
+	  <strong>Email:</strong>
+	  <%= @student.email %>
+	</p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @student.email %>
-</p>
+	<p>
+	  <strong>Mobile:</strong>
+	  <%= @student.mobile %>
+	</p>
 
-<p>
-  <strong>Mobile:</strong>
-  <%= @student.mobile %>
-</p>
-
-<%= link_to 'Edit', edit_student_path(@student) %> |
-<%= link_to 'Back', students_path %>
+	<%= link_to 'Edit', edit_student_path(@student), class: "ui button" %>
+	<%= link_to 'Back', students_path, class: "ui black button" %>
+</div>
