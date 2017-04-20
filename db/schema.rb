@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170419112510) do
+ActiveRecord::Schema.define(version: 20170420111441) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "statement"
@@ -57,8 +57,9 @@ ActiveRecord::Schema.define(version: 20170419112510) do
     t.date     "start_date"
     t.date     "end_date"
     t.integer  "course_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "complete",   default: false
   end
 
   create_table "chapter_topics", force: :cascade do |t|

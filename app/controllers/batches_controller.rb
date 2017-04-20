@@ -8,10 +8,10 @@ class BatchesController < ApplicationController
   def index
     if current_user.try(:is_admin?)
       @batches = Batch.all
+      @on_going_batches = Batch.where("complete = ?", false)
+      @completed_batches = Batch.where("complete = ?", true)
     elsif current_user.try(:is_student?)
       @batches = current_student.batches
-    else
-      @batches = Batch.all
     end
   end
 
@@ -78,6 +78,6 @@ class BatchesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def batch_params
-      params.require(:batch).permit(:title, :start_date, :end_date, :course_id)
+      params.require(:batch).permit(:title, :start_date, :end_date, :course_id, :complete)
     end
 end

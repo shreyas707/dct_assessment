@@ -6,6 +6,13 @@
 	  <%= @chapter.name %>
 	</p>
 
+	<p>
+		<strong>Topics:</strong>
+		<% @chapter.topics.each do |topic| %>
+			<%= topic.name %>,
+		<% end %>
+	</p>
+
 	<%= link_to 'Edit', edit_chapter_path(@chapter), class: "ui button" %>
 	<%= link_to 'Back', chapters_path, class: "ui black button" %>
 </div>

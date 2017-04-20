@@ -21,6 +21,11 @@
     <%= @batch.course.name %>
   </p>
 
+  <p>
+    <strong>Completed? </strong>
+    <%= @batch.complete %>
+  </p>
+
   <% if current_user.try(:is_admin?) %>
     <%= link_to 'Edit', edit_batch_path(@batch), class: "ui button" %>
     <%= link_to "Add Batch Set", new_batch_batch_set_path(@batch), class: "ui primary button" %> 
