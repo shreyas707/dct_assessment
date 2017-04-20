@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'faker'
-# gem 'semantic-ui-sass', git: 'https://github.com/doabit/semantic-ui-sass.git'
+gem 'semantic-ui-sass', git: 'https://github.com/doabit/semantic-ui-sass.git'
 gem 'cancancan', '~> 1.10'
 gem 'devise'
 gem 'nested_form'
