@@ -1,52 +1,54 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @batch_set.title %>
-</p>
+<div class="ui segment">
+  <p>
+    <strong>Title:</strong>
+    <%= @batch_set.title %>
+  </p>
 
-<p>
-  <strong>Set date:</strong>
-  <%= @batch_set.set_date %>
-</p>
+  <p>
+    <strong>Set date:</strong>
+    <%= @batch_set.set_date %>
+  </p>
 
-<p>
-  <strong>Batch:</strong>
-  <%= @batch_set.batch.title %>
-</p>
+  <p>
+    <strong>Batch:</strong>
+    <%= @batch_set.batch.title %>
+  </p>
 
-<% if current_user.try(:is_admin?) %>
-  <%= link_to 'Edit', edit_batch_batch_set_path(@batch, @batch_set) %> |
-<% elsif current_user.try(:is_student?) %>
-  <%= link_to 'Questions', edit_batch_batch_set_path(@batch, @batch_set) %> |
-<% end %>
-<%= link_to 'Back', @batch %>
-
-<% if current_user.try(:is_student?) %>
-  <h3>Your answers</h3>
-
-  <% @batch_set.batch_set_questions.each do |bsq| %>
-    <% bsq.question.answers.where('user_id = ? AND question_id = ?', current_user.id, bsq.question.id).each do |answer| %>
-      <%= bsq.question.statement %><br/>
-      <%= answer.statement %><br/>
-      <% if bsq.question.question_type_id == 1 %>
-        <% if bsq.question.options.find_by(is_answer: true).statement == answer.statement %>
-          <%= "Correct answer" %>
-        <% else %>
-          <%= "Wrong answer" %>
-        <% end %><br/><br/>
-      <% end %><br/>
-    <% end %>
+  <% if current_user.try(:is_admin?) %>
+    <%= link_to 'Edit', edit_batch_batch_set_path(@batch, @batch_set), class: "ui button" %>
+  <% elsif current_user.try(:is_student?) %>
+    <%= link_to 'Questions', edit_batch_batch_set_path(@batch, @batch_set), class: "ui orange button" %>
   <% end %>
+  <%= link_to 'Back', @batch, class: "ui black button" %>
 
-<% elsif current_user.try(:is_admin?) %>
-  <h3>Student's Answers</h3>
+  <% if current_user.try(:is_student?) %>
+    <h3>Your answers</h3>
 
-  <% @batch_set.batch_set_questions.each do |bsq| %>
-    <% bsq.question.answers.each do |answer| %>
-      <%= answer.user.student.name %><br/>
-      <%= bsq.question.statement %><br/>
-      <%= answer.statement %><br/><br/>
+    <% @batch_set.batch_set_questions.each do |bsq| %>
+      <% bsq.question.answers.where('user_id = ? AND question_id = ?', current_user.id, bsq.question.id).each do |answer| %>
+        <%= bsq.question.statement %><br/>
+        <%= answer.statement %><br/>
+        <% if bsq.question.question_type_id == 1 %>
+          <% if bsq.question.options.find_by(is_answer: true).statement == answer.statement %>
+            <%= "Correct answer" %>
+          <% else %>
+            <%= "Wrong answer" %>
+          <% end %><br/><br/>
+        <% end %><br/>
+      <% end %>
     <% end %>
-  <% end %><br/>
-<% end %>
+
+  <% elsif current_user.try(:is_admin?) %>
+    <h3>Student's Answers</h3>
+
+    <% @batch_set.batch_set_questions.each do |bsq| %>
+      <% bsq.question.answers.each do |answer| %>
+        <%= answer.user.student.name %><br/>
+        <%= bsq.question.statement %><br/>
+        <%= answer.statement %><br/><br/>
+      <% end %>
+    <% end %><br/>
+  <% end %>
+</div>

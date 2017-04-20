@@ -1,30 +1,32 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Statement:</strong>
-  <%= @question.statement %>
-</p>
+<div class="ui segment">
+  <p>
+    <strong>Statement:</strong>
+    <%= @question.statement %>
+  </p>
 
-<p>
-  <strong>Chapter:</strong>
-  <%= @question.chapter.name %>
-</p>
+  <p>
+    <strong>Chapter:</strong>
+    <%= @question.chapter.name %>
+  </p>
 
-<p>
-  <strong>Topic:</strong>
-  <%= @question.topic.name %>
-</p>
+  <p>
+    <strong>Topic:</strong>
+    <%= @question.topic.name %>
+  </p>
 
-<p>
-  <strong>Question type:</strong>
-  <%= @question.question_type.name %>
-</p>
+  <p>
+    <strong>Question type:</strong>
+    <%= @question.question_type.name %>
+  </p>
 
-<p><strong>Options</strong>
-  <% @options.each do |option| %>
-  	<ul><li><%= option.statement %></li></ul>
-  <% end %>
-</p>
+  <p><strong>Options</strong>
+    <% @options.each do |option| %>
+    	<ul><li><%= option.statement %></li></ul>
+    <% end %>
+  </p>
 
-<%= link_to 'Edit', edit_question_path(@question) %> |
-<%= link_to 'Back', questions_path %>
+  <%= link_to 'Edit', edit_question_path(@question), class: "ui button" %>
+  <%= link_to 'Back', questions_path, class: "ui black button" %>
+</div>
