@@ -37,7 +37,13 @@
       <%= b.check_box class: "ui checkbox" %>
       <%= b.label %><br/>
     <% end %><br/>
-  </div> 
+  </div>
+
+  <div class="field">
+    <label>Completed?</label>
+    <%= f.check_box :complete, class: "ui checkbox" %><br/><br/>
+  </div>
+
   <div class="actions">
     <%= f.submit class: "ui primary button" %><br/><br/>
   </div>

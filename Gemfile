@@ -1,11 +1,12 @@
 source 'http://rubygems.org'
 
-gem 'semantic-ui-sass', git: 'https://github.com/doabit/semantic-ui-sass.git'
+gem 'faker'
+#gem 'semantic-ui-sass', git: 'https://github.com/doabit/semantic-ui-sass.git'
 gem 'cancancan', '~> 1.10'
 gem 'devise'
 gem 'nested_form'
-gem 'rubysl-pty', platforms: :ruby
-gem 'web-console-rails3', platforms: :ruby
+#gem 'rubysl-pty', platforms: :ruby
+#gem 'web-console-rails3', platforms: :ruby
 gem 'pry-rails', '~> 0.3.4'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'

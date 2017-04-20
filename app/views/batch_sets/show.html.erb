@@ -32,9 +32,9 @@
         <%= answer.statement %><br/>
         <% if bsq.question.question_type_id == 1 %>
           <% if bsq.question.options.find_by(is_answer: true).statement == answer.statement %>
-            <font color="green"><%= "Correct answer" %></font>
+            <i class="checkmark icon"></i><font color="green"><%= "Correct answer" %></font>
           <% else %>
-            <font color="red"><%= "Wrong answer" %></font><br/>
+            <i class="remove icon"></i><font color="red"><%= "Wrong answer" %></font><br/>
             <font color="green"><%= bsq.question.options.find_by(is_answer: true).statement %></font><%= " is the correct answer" %>
           <% end %><br/><br/>
         <% end %><br/>
@@ -46,9 +46,17 @@
 
     <% @batch_set.batch_set_questions.each do |bsq| %>
       <% bsq.question.answers.each do |answer| %>
-        <%= answer.user.student.name %><br/>
+        <b><%= answer.user.student.name %></b><br/>
         <%= bsq.question.statement %><br/>
-        <%= answer.statement %><br/><br/>
+        <%= answer.statement %><br/>
+        <% if bsq.question.question_type_id == 1 %>
+          <% if bsq.question.options.find_by(is_answer: true).statement == answer.statement %>
+            <i class="checkmark icon"></i><font color="green"><%= "Correct answer" %></font>
+          <% else %>
+            <i class="remove icon"></i><font color="red"><%= "Wrong answer" %></font><br/>
+            <font color="green"><%= bsq.question.options.find_by(is_answer: true).statement %></font><%= " is the correct answer" %>
+          <% end %><br/><br/>
+        <% end %>
       <% end %>
     <% end %><br/>
   <% end %>
