@@ -1,18 +1,16 @@
 source 'http://rubygems.org'
 
-gem 'faker'
 gem 'semantic-ui-sass', git: 'https://github.com/doabit/semantic-ui-sass.git'
 gem 'cancancan', '~> 1.10'
 gem 'devise'
 gem 'nested_form'
-#gem 'rubysl-pty', platforms: :ruby
-#gem 'web-console-rails3', platforms: :ruby
 gem 'pry-rails', '~> 0.3.4'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'
 # Use sqlite3 as the database for Active Record
 group :development, :test do
   gem 'sqlite3'
+  gem 'faker', git: 'https://github.com/stympy/faker.git'
 end
 
 group :production do

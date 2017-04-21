@@ -27,16 +27,16 @@
           <%= link_to("Batches", batches_path, class: controller.controller_name == "batches" ? "active item" : "item") %>
           <%= link_to("Questions", questions_path, class: controller.controller_name == "questions" ? "active item" : "item") %>
           <%= link_to("Question Types", question_types_path, class: controller.controller_name == "question_types" ? "active item" : "item") %>
-        <% else %>
-          <%= link_to("Batches", batches_path, class: "active item") %>
+        <% elsif current_user.try(:is_student?) %>
+          <%= link_to("Batches", batches_path, class: controller.controller_name == "batches" ? "active item" : "item") %>
         <% end %>
 
         <div class="right menu">
           <% if user_signed_in? %>
-            <%= link_to "Edit Account", edit_user_registration_path, class: "ui item" %>
+            <%= link_to("Edit Account", edit_user_registration_path, class: controller.controller_name == "registrations" ? "active ui item" : "ui item") %>
           	<%= link_to("Logout", destroy_user_session_path, method: :delete, class: "ui item") %>
           <% else %>
-          	<%= link_to("Login", new_user_session_path, class: "ui item") %>
+          	<%= link_to("Login", new_user_session_path, class: controller.controller_name == "sessions" ? "active ui item" : "ui item") %>
           <% end %>
         </div>
       </div>
