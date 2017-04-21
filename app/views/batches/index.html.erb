@@ -1,77 +1,109 @@
 <p id="notice"><%= notice %></p>
 
-<h3>On Going Batches</h3>
+<% if current_user.is_admin? %>
+  <h3>On Going Batches</h3>
 
-<table class="ui celled padded table">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Start date</th>
-      <th>End date</th>
-      <th>Course</th>
-      <th>Show</th>
-      <% if current_user.is_admin? %>
-        <th>Edit</th>
-        <th>Destroy</th>
-      <% end %>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @on_going_batches.each do |batch| %>
+  <table class="ui celled padded table">
+    <thead>
       <tr>
-        <td><%= batch.title %></td>
-        <td><%= batch.start_date %></td>
-        <td><%= batch.end_date %></td>
-        <td><%= batch.course.name %></td>
-        <% if user_signed_in? %>
-          <td><%= link_to 'Show', batch %></td>
-        <% end %>
-        <% if current_user.try(:is_admin?) %>
-        <td><%= link_to 'Edit', edit_batch_path(batch) %></td>
-        <td><%= link_to 'Destroy', batch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Title</th>
+        <th>Start date</th>
+        <th>End date</th>
+        <th>Course</th>
+        <th>Show</th>
+        <% if current_user.is_admin? %>
+          <th>Edit</th>
+          <th>Destroy</th>
         <% end %>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<h3>Completed Batches</h3>
-
-<table class="ui celled padded table">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Start date</th>
-      <th>End date</th>
-      <th>Course</th>
-      <th>Show</th>
-      <% if current_user.is_admin? %>
-        <th>Edit</th>
-        <th>Destroy</th>
+    <tbody>
+      <% @on_going_batches.each do |batch| %>
+        <tr>
+          <td><%= batch.title %></td>
+          <td><%= batch.start_date %></td>
+          <td><%= batch.end_date %></td>
+          <td><%= batch.course.name %></td>
+          <% if user_signed_in? %>
+            <td><%= link_to 'Show', batch %></td>
+          <% end %>
+          <% if current_user.try(:is_admin?) %>
+          <td><%= link_to 'Edit', edit_batch_path(batch) %></td>
+          <td><%= link_to 'Destroy', batch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
+        </tr>
       <% end %>
-    </tr>
-  </thead>
+    </tbody>
+  </table>
 
-  <tbody>
-    <% @completed_batches.each do |batch| %>
+  <h3>Completed Batches</h3>
+
+  <table class="ui celled padded table">
+    <thead>
       <tr>
-        <td><%= batch.title %></td>
-        <td><%= batch.start_date %></td>
-        <td><%= batch.end_date %></td>
-        <td><%= batch.course.name %></td>
-        <% if user_signed_in? %>
-          <td><%= link_to 'Show', batch %></td>
-        <% end %>
-        <% if current_user.try(:is_admin?) %>
-        <td><%= link_to 'Edit', edit_batch_path(batch) %></td>
-        <td><%= link_to 'Destroy', batch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Title</th>
+        <th>Start date</th>
+        <th>End date</th>
+        <th>Course</th>
+        <th>Show</th>
+        <% if current_user.is_admin? %>
+          <th>Edit</th>
+          <th>Destroy</th>
         <% end %>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br/>
+    <tbody>
+      <% @completed_batches.each do |batch| %>
+        <tr>
+          <td><%= batch.title %></td>
+          <td><%= batch.start_date %></td>
+          <td><%= batch.end_date %></td>
+          <td><%= batch.course.name %></td>
+          <% if user_signed_in? %>
+            <td><%= link_to 'Show', batch %></td>
+          <% end %>
+          <% if current_user.try(:is_admin?) %>
+          <td><%= link_to 'Edit', edit_batch_path(batch) %></td>
+          <td><%= link_to 'Destroy', batch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <br/>
+
+  <% else %>
+  
+    <h3>Your Batches</h3>
+
+    <table class="ui celled padded table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Start date</th>
+          <th>End date</th>
+          <th>Course</th>
+          <th>Show</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @batches.each do |batch| %>
+          <tr>
+            <td><%= batch.title %></td>
+            <td><%= batch.start_date %></td>
+            <td><%= batch.end_date %></td>
+            <td><%= batch.course.name %></td>
+            <td><%= link_to 'Show', batch %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table> 
+
+  <% end %>
 
 <%= link_to 'New Batch', new_batch_path, class: "ui primary button" %>
+<br/><br/>

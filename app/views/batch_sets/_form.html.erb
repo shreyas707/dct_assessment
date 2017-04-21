@@ -26,14 +26,14 @@
 
   <%= f.fields_for :batch_set_chapter_topics, @batch_set_chapter_topic do |b| %>
     Select Topic<br/>
-    <%= b.collection_select :topic_id, Topic.all, :id, :name, prompt: "Select topic" %><br/><br/>
+    <%= b.collection_select :topic_id, Topic.all, :id, :name, {prompt: "Select topic"}, {class: "ui search dropdown"} %><br/><br/>
     Select Chapter<br/>
-    <%= b.collection_select :chapter_id, Chapter.all, :id, :name, prompt: "Select Chapter" %><br/>
+    <%= b.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select Chapter"}, {class: "ui search dropdown"} %><br/>
     <%= b.link_to_remove "Delete Topic and Chapter" %><br/><br/><br/>
   <% end %>
   <%= f.link_to_add "Add Topic and Chapter", :batch_set_chapter_topics %>
   <br/><br/>
   <div class="actions">
-    <%= f.submit class: "ui primary button" %>
+    <%= f.submit class: "ui primary button" %><br/><br/>
   </div>
 <% end %>

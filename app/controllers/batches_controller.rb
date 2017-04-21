@@ -6,11 +6,10 @@ class BatchesController < ApplicationController
   # GET /batches
   # GET /batches.json
   def index
-    if current_user.try(:is_admin?)
-      @batches = Batch.all
+    if current_user.is_admin?
       @on_going_batches = Batch.where("complete = ?", false)
       @completed_batches = Batch.where("complete = ?", true)
-    elsif current_user.try(:is_student?)
+    elsif current_user.is_student?
       @batches = current_student.batches
     end
   end

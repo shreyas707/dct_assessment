@@ -5,6 +5,13 @@ GIT
     semantic-ui-sass (2.2.9.3)
       sass (>= 3.2)
 
+GIT
+  remote: https://github.com/stympy/faker.git
+  revision: 040bd63cd65a1bea46ae31921a2b4c6dddf04f97
+  specs:
+    faker (1.8.0)
+      i18n (~> 0.5)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -68,8 +75,6 @@ GEM
       warden (~> 1.2.3)
     erubis (2.7.0)
     execjs (2.7.0)
-    faker (1.7.3)
-      i18n (~> 0.5)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     i18n (0.8.1)
@@ -186,7 +191,7 @@ DEPENDENCIES
   cancancan (~> 1.10)
   coffee-rails (~> 4.1.0)
   devise
-  faker
+  faker!
   jbuilder (~> 2.0)
   jquery-rails
   nested_form
