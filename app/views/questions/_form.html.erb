@@ -32,7 +32,7 @@
     <%= "Option" %><br/>
     <%= option_form.text_area :statement %><br/>
     <%= option_form.radio_button :is_answer, true, class: "ui radio checkbox" %>True
-    <%= option_form.radio_button :is_answer, false, class: "ui radio checkbox" %>False<br/>
+    <!-- <%#= option_form.radio_button :is_answer, false, class: "ui radio checkbox" %>False --><br/>
     <%= option_form.link_to_remove "Remove this option" %><br/>
   <% end %><br/>
   <%= f.link_to_add "Add option", :options %>

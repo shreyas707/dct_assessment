@@ -7,8 +7,6 @@
     <tr>
       <th>Name</th>
       <th>Show</th>
-      <th>Edit</th>
-      <th>Destroy</th>
     </tr>
   </thead>
 
@@ -17,8 +15,6 @@
       <tr>
         <td><%= course.name %></td>
         <td><%= link_to 'Show', course %></td>
-        <td><%= link_to 'Edit', edit_course_path(course) %></td>
-        <td><%= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

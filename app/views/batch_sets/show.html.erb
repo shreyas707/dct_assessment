@@ -16,12 +16,12 @@
     <%= @batch_set.batch.title %>
   </p>
 
-  <% if current_user.try(:is_admin?) %>
-    <%= link_to 'Edit', edit_batch_batch_set_path(@batch, @batch_set), class: "ui button" %>
-  <% elsif current_user.try(:is_student?) %>
-    <%= link_to 'Questions', edit_batch_batch_set_path(@batch, @batch_set), class: "ui orange button" %>
+
+  <%= link_to current_user.is_admin? ? 'Edit' : 'Questions', edit_batch_batch_set_path(@batch, @batch_set), class: "ui button" %>
+  <%= link_to 'Back', @batch, class: "ui black button" %><br/><br/>
+  <% if current_user.is_admin? %>
+    <%= link_to 'Delete Batch Set', @batch_batch_set, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
   <% end %>
-  <%= link_to 'Back', @batch, class: "ui black button" %>
 
   <% if current_user.try(:is_student?) %>
     <h3>Your answers</h3>
@@ -42,22 +42,73 @@
     <% end %>
 
   <% elsif current_user.try(:is_admin?) %>
-    <h3>Student's Answers</h3>
 
-    <% @batch_set.batch_set_questions.each do |bsq| %>
-      <% bsq.question.answers.each do |answer| %>
-        <b><%= answer.user.student.name %></b><br/>
-        <%= bsq.question.statement %><br/>
-        <%= answer.statement %><br/>
-        <% if bsq.question.question_type_id == 1 %>
-          <% if bsq.question.options.find_by(is_answer: true).statement == answer.statement %>
-            <i class="checkmark icon"></i><font color="green"><%= "Correct answer" %></font>
-          <% else %>
-            <i class="remove icon"></i><font color="red"><%= "Wrong answer" %></font><br/>
-            <font color="green"><%= bsq.question.options.find_by(is_answer: true).statement %></font><%= " is the correct answer" %>
-          <% end %><br/><br/>
-        <% end %>
-      <% end %>
-    <% end %><br/>
+    <h2>Student's Answers</h2>
+
+    <!-- PRACTICE THIS. DISPLAY THE TABLE BELOW USING arrange_questions METHOD. -->
+    <%# @batch_set.arrange_questions.each do |key, questions| %>
+      <%# questions.each do |question| %>
+        <%# question.statement %>
+      <%# end %>
+    <%# end %>
+
+    <h3>MCQ</h3>
+    <% @batch_set.questions.where("question_type_id = ?", QuestionType.find_by(name: "MCQ")).each do |bsq| %>
+      <h4><%= bsq.statement %></h4>
+      <%= "Options:" %>
+      <% bsq.options.each do |option| %>
+        <%= option.statement %>,
+      <% end %><br/>
+      <%= "Correct Answer:" %>
+      <%= bsq.options.find_by(is_answer: true).statement %> 
+      <table class="ui celled padded table">
+        <thead>
+          <tr>
+            <th>Students</th>
+            <th>Answers</th>  
+            <th>Correct?</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% bsq.answers.each do |answer| %>
+          <tr>
+            <td><%= answer.user.student.name %></td>
+            <td><%= answer.statement %></td>
+            <td>
+              <% if bsq.options.find_by(is_answer: true).statement == answer.statement %>
+                <i class="checkmark icon"></i>
+              <% else %>
+                <i class="remove icon"></i>
+              <% end %>    
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+
+    <h3>Text Based Questions</h3>
+    <% @batch_set.questions.where("question_type_id = ?", QuestionType.find_by(name: "Text")).each do |bsq| %>
+      <h4><%= bsq.statement %></h4>
+      <table class="ui celled padded table">
+        <thead>
+          <tr>
+            <th>Students</th>
+            <th>Answers</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% bsq.answers.each do |answer| %>
+            <tr>
+              <td><%= answer.user.student.name %></td>
+              <td><%= answer.statement %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+
   <% end %>
 </div>

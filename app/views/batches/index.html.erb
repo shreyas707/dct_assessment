@@ -11,10 +11,6 @@
         <th>End date</th>
         <th>Course</th>
         <th>Show</th>
-        <% if current_user.is_admin? %>
-          <th>Edit</th>
-          <th>Destroy</th>
-        <% end %>
       </tr>
     </thead>
 
@@ -25,13 +21,7 @@
           <td><%= batch.start_date %></td>
           <td><%= batch.end_date %></td>
           <td><%= batch.course.name %></td>
-          <% if user_signed_in? %>
-            <td><%= link_to 'Show', batch %></td>
-          <% end %>
-          <% if current_user.try(:is_admin?) %>
-          <td><%= link_to 'Edit', edit_batch_path(batch) %></td>
-          <td><%= link_to 'Destroy', batch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          <% end %>
+          <td><%= link_to 'Show', batch %></td>
         </tr>
       <% end %>
     </tbody>

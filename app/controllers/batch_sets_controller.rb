@@ -75,9 +75,10 @@ class BatchSetsController < ApplicationController
   # DELETE /batch_sets/1
   # DELETE /batch_sets/1.json
   def destroy
+    @batch = Batch.find(params[:batch_id])
     @batch_set.destroy
     respond_to do |format|
-      format.html { redirect_to batch_sets_url, notice: 'Batch set was successfully destroyed.' }
+      format.html { redirect_to @batch, notice: 'Batch set was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

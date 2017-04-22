@@ -7,5 +7,6 @@
 	</p>
 
 	<%= link_to 'Edit', edit_question_type_path(@question_type), class: "ui button" %>
-	<%= link_to 'Back', question_types_path, class: "ui black button" %>
+	<%= link_to 'Back', question_types_path, class: "ui black button" %><br/><br/>
+	<%= link_to 'Destroy', @question_type, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
 </div>

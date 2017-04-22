@@ -21,10 +21,19 @@
     <%= @batch.course.name %>
   </p>
 
-  <p>
-    <strong>Completed? </strong>
-    <%= @batch.complete %>
-  </p>
+  <% if current_user.is_admin? %>
+
+    <p>
+      <strong>Total number of students: </strong>
+      <%= @batch.students.count %>
+    </p>
+
+    <p>
+      <strong>Completed? </strong>
+      <%= @batch.complete %>
+    </p>
+
+  <% end %>
 
   <% if current_user.try(:is_admin?) %>
     <%= link_to 'Edit', edit_batch_path(@batch), class: "ui button" %>
@@ -39,6 +48,8 @@
 
   <br/><br/>
 
-  <%= link_to 'Back', batches_path, class: "ui black button" %> 
+  <%= link_to 'Back', batches_path, class: "ui black button" %><br/><br/> 
+  <%= link_to 'Delete Batch', @batch, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
+
 </div>
 
