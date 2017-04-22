@@ -13,4 +13,11 @@ class BatchSet < ActiveRecord::Base
 
 	validates_presence_of :title, :set_date, :batch_id
 
+	def arrange_questions
+		questions = {}
+		questions["mcq"] = self.questions.where('question_type_id = ?', QuestionType.find_by(name: "MCQ"))
+		questions["text"] = self.questions.where('question_type_id = ?', QuestionType.find_by(name: "Text"))
+		return questions
+	end
+
 end

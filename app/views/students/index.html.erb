@@ -1,6 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Listing Students</h1>
+<h3>Students count: <%= @students.count %></h3>
 
 <table class="ui celled padded table">
   <thead>
@@ -9,8 +10,6 @@
       <th>Email</th>
       <th>Mobile</th>
       <th>Show</th>
-      <th>Edit</th>
-      <th>Destroy</th>
     </tr>
   </thead>
 
@@ -21,8 +20,6 @@
         <td><%= student.email %></td>
         <td><%= student.mobile %></td>
         <td><%= link_to 'Show', student %></td>
-        <td><%= link_to 'Edit', edit_student_path(student) %></td>
-        <td><%= link_to 'Destroy', student, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

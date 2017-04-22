@@ -28,5 +28,6 @@
   </p>
 
   <%= link_to 'Edit', edit_question_path(@question), class: "ui button" %>
-  <%= link_to 'Back', questions_path, class: "ui black button" %>
+  <%= link_to 'Back', questions_path, class: "ui black button" %><br/><br/>
+  <%= link_to 'Destroy', @question, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
 </div>

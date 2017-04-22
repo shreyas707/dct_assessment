@@ -11,8 +11,6 @@
       <th>Question type</th>
       <th>Correct option</th>
       <th>Show</th>
-      <th>Edit</th>
-      <th>Destroy</th>
     </tr>
   </thead>
 
@@ -25,8 +23,6 @@
         <td><%= question.question_type.name %></td>
         <td><%= question.options.find_by(question_id: question.id).try(:statement) %></td>
         <td><%= link_to 'Show', question %></td>
-        <td><%= link_to 'Edit', edit_question_path(question) %></td>
-        <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -34,4 +30,4 @@
 
 <br>
 
-<%= link_to 'New Question', new_question_path, class: "ui primary button" %>
+<%= link_to 'New Question', new_question_path, class: "ui primary button" %><br/><br/>

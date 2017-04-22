@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   devise_for :users
+  resources :users
   resources :questions
   resources :question_types
   resources :chapters
