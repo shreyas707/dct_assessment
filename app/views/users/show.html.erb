@@ -15,16 +15,18 @@
 	<%= @user.student.try(:mobile) %>
 </p>
 
-<p>
-	<strong>Batches:</strong>
-	<% @user.student.batches.each do |batch| %>
-		<%= batch.title %><br/>
-		<strong>Start Date</strong>
-		<%= batch.start_date %><br/>
-		<strong>End Date</strong>
-		<%= batch.end_date %>
-	<% end %>
-</p>
+<% if @user.role == "student" %>
+	<p>
+		<strong>Batches:</strong>
+		<% @user.student.batches.each do |batch| %>
+			<%= batch.title %><br/>
+			<strong>Start Date</strong>
+			<%= batch.start_date %><br/>
+			<strong>End Date</strong>
+			<%= batch.end_date %>
+		<% end %>
+	</p>
+<% end %>
 
 <%= link_to 'Edit', edit_user_path(@user), class: "ui button" %>
 <%= link_to 'Back', users_path, class: "ui black button" %><br/><br/>

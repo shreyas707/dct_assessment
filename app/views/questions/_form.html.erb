@@ -24,6 +24,12 @@
     <%= f.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select chapter"}, {class: "ui search dropdown"}%>
   </div>
   <div class="field">
+    <%= f.label :kind %><br>
+    <%= f.radio_button :kind, "assessment" %>Assessment<br/>
+    <%= f.radio_button :kind, "assignment" %>Assignment<br/>
+  </div>
+
+  <div class="field">
     <%= f.label :question_type_id %><br>
     <%= f.collection_select :question_type_id, QuestionType.all, :id, :name, {prompt: "Select question type"}, {class: "ui search dropdown"} %>
   </div>
@@ -35,7 +41,8 @@
     <!-- <%#= option_form.radio_button :is_answer, false, class: "ui radio checkbox" %>False --><br/>
     <%= option_form.link_to_remove "Remove this option" %><br/>
   <% end %><br/>
-  <%= f.link_to_add "Add option", :options %>
+  <%= f.link_to_add "Add option", :options %><br/>
+
   <br/><br/>
   <div class="actions">
     <%= f.submit class: "ui primary button" %><br/><br/>

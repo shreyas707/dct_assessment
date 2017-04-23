@@ -11,7 +11,7 @@ class Question < ActiveRecord::Base
 	has_many :batch_set_questions
 	has_many :batch_sets, through: :batch_set_questions
 
-	validates_presence_of :statement, :chapter_id, :topic_id, :question_type_id
+	validates_presence_of :statement, :chapter_id, :topic_id, :question_type_id, :kind
 	
 	after_create :correct_answer_option
 

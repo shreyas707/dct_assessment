@@ -22,6 +22,11 @@
       <%= f.label :set_date %><br>
       <%= f.date_select :set_date %>
     </div>
+    <div class="field">
+      <%= f.label :kind %><br>
+      <%= f.radio_button :kind, "assessment" %>Assessment<br/>
+      <%= f.radio_button :kind, "assignment" %>Assignment<br/>
+    </div>
     <%= f.hidden_field :batch_id, value: @batch.id %>
     <br/>
 
@@ -92,7 +97,7 @@
                 <%= ans.radio_button :statement, option.statement, class: "ui radio checkbox" %><%= option.statement %><br/>
               <% end %>
             <% else %>
-              <div class="ui input"><%= ans.text_field :statement %></div><br/><br/>
+              <div class="ui input"><%= ans.text_area :statement %></div><br/><br/>
             <% end %>
           <% end %>
         <% else %>
