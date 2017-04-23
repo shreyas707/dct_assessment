@@ -17,8 +17,13 @@
   </p>
 
   <p>
+    <strong>Kind:</strong>
+    <%= @question.kind %>
+  </p>
+
+  <p>
     <strong>Question type:</strong>
-    <%= @question.question_type.name %>
+    <%= @question.question_type.try(:name) %>
   </p>
 
   <p><strong>Options</strong>

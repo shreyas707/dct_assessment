@@ -16,6 +16,11 @@
     <%= @batch_set.batch.title %>
   </p>
 
+  <p>
+    <strong>Kind:</strong>
+    <%= @batch_set.kind %>
+  </p>
+
 
   <%= link_to current_user.is_admin? ? 'Edit' : 'Questions', edit_batch_batch_set_path(@batch, @batch_set), class: "ui button" %>
   <%= link_to 'Back', @batch, class: "ui black button" %><br/><br/>

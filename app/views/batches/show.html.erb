@@ -40,12 +40,15 @@
     <%= link_to "Add Batch Set", new_batch_batch_set_path(@batch), class: "ui primary button" %> 
   <% end %>
 
-  <br/><br/>
+  <h4>Assessments</h4>
+  <% @batch_sets.where('kind = ?', "assessment").each do |batch_set| %>
+    <%= link_to batch_set.title, batch_batch_set_path(@batch.id, batch_set.id), class: "ui orange button" %>
+  <% end %><br/>
 
-  <% @batch_sets.each do |batch_set| %>
+  <h4>Programming Assignments</h4>
+  <% @batch_sets.where('kind = ?', "assignment").each do |batch_set| %>
     <%= link_to batch_set.title, batch_batch_set_path(@batch.id, batch_set.id), class: "ui orange button" %>
   <% end %>
-
   <br/><br/>
 
   <%= link_to 'Back', batches_path, class: "ui black button" %><br/><br/> 

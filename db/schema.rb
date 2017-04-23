@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170421073036) do
+ActiveRecord::Schema.define(version: 20170422085205) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "statement"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20170421073036) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "title"
+    t.string   "kind"
   end
 
   create_table "batch_students", force: :cascade do |t|
@@ -110,6 +111,7 @@ ActiveRecord::Schema.define(version: 20170421073036) do
     t.datetime "updated_at",       null: false
     t.integer  "topic_id"
     t.integer  "chapter_id"
+    t.string   "kind"
   end
 
   create_table "students", force: :cascade do |t|
