@@ -31,6 +31,7 @@
   <% end %>
 
   <% if current_user.try(:is_student?) %>
+
     <h3>Your answers</h3>
 
     <% @batch_set.batch_set_questions.each do |bsq| %>
@@ -127,7 +128,7 @@
           <%= answer.statement %><br/><br/>
         <% end %>
       <% end %>
-      
+
     <% end %>
   <% end %>
 </div>
