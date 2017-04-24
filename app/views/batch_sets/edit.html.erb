@@ -23,6 +23,10 @@
       <%= f.date_select :set_date %>
     </div>
     <div class="field">
+      <%= f.label :due_date %><br>
+      <%= f.date_select :due_date %>
+    </div>
+    <div class="field">
       <%= f.label :kind %><br>
       <%= f.radio_button :kind, "assessment" %>Assessment<br/>
       <%= f.radio_button :kind, "assignment" %>Assignment<br/>
@@ -84,35 +88,39 @@
   
   <h1>Answer the following questions</h1>
   <%= form_for([@batch, @batch_set]) do |f| %>
-    <%= f.hidden_field :batch_id, value: @batch.id %>
-    <% @batch_set.batch_set_questions.each do |bsq| %>
-      <% if !(bsq.question.answers.where('user_id = ? AND question_id = ?', current_user.id, bsq.question.id)).exists? %>
-        <h4><%= bsq.question.statement %></h4>
-        <%= f.fields_for :answers, @answer do |ans| %>
-          <%= ans.hidden_field :question_id, value: bsq.question.id %>
-          <%= ans.hidden_field :user_id, value: current_user.id %>
-          <%= ans.hidden_field :batch_set_id, value: @batch_set.id %>
-          <% if bsq.question.question_type_id == 1 %>
-            <% bsq.question.options.each do |option| %>
-              <%= ans.radio_button :statement, option.statement, class: "ui radio checkbox" %><%= option.statement %><br/>
+    <% if @batch_set.due_date < Date.today %>
+      <%= "This assignment was due on #{@batch_set.due_date}" %><br/><br/>
+    <% else %>
+      <%= f.hidden_field :batch_id, value: @batch.id %>
+      <% @batch_set.batch_set_questions.each do |bsq| %>
+        <% if !(bsq.question.answers.where('user_id = ? AND question_id = ?', current_user.id, bsq.question.id)).exists? %>
+          <h4><%= bsq.question.statement.html_safe %></h4>
+          <%= f.fields_for :answers, @answer do |ans| %>
+            <%= ans.hidden_field :question_id, value: bsq.question.id %>
+            <%= ans.hidden_field :user_id, value: current_user.id %>
+            <%= ans.hidden_field :batch_set_id, value: @batch_set.id %>
+            <% if bsq.question.question_type_id == 1 %>
+              <% bsq.question.options.each do |option| %>
+                <%= ans.radio_button :statement, option.statement.html_safe, class: "ui radio checkbox" %><%= option.statement.html_safe %><br/>
+              <% end %>
+            <% else %>
+              <div class="ui form">
+                <div class="field">
+                  <%= ans.cktext_area :statement, rows: bsq.question.kind == "assessment" ? "3" : "10" %>
+                </div>    
+              </div>
             <% end %>
-          <% else %>
-            <div class="ui form">
-              <div class="field">
-                <%= ans.text_area :statement, rows: bsq.question.kind == "assessment" ? "3" : "10" %>
-              </div>    
-            </div>
           <% end %>
+        <% else %>
+          <h2>You have already answered all questions in this class.</h2>
+          <% break %>
         <% end %>
-      <% else %>
-        <h2>You have already answered all questions in this class.</h2>
-        <% break %>
-      <% end %>
-    <% end %> 
-    <br/><br/>
-    <div class="actions">
-      <%= f.submit 'Submit answer', class: "ui primary button" %><br/><br/>
-    </div>
+      <% end %> 
+      <br/><br/>
+      <div class="actions">
+        <%= f.submit 'Submit answer', class: "ui primary button" %><br/><br/>
+      </div>
+    <% end %>
   <% end %>
 
 <% end %>

@@ -17,7 +17,7 @@
   <tbody>
     <% @questions.where('kind = ?', "assessment").each do |question| %>
       <tr>
-        <td><%= question.statement %></td>
+        <td><%= question.statement.html_safe %></td>
         <td><%= question.chapter.name %></td>
         <td><%= question.topic.try(:name) %></td>
         <td><%= question.question_type.name %></td>
@@ -43,7 +43,7 @@
   <tbody>
     <% @questions.where('kind = ?', "assignment").each do |question| %>
       <tr>
-        <td><%= question.statement %></td>
+        <td><%= question.statement.html_safe %></td>
         <td><%= question.chapter.name %></td>
         <td><%= question.topic.try(:name) %></td>
         <td><%= link_to 'Show', question %></td>

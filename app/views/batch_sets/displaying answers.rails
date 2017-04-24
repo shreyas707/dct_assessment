@@ -1,14 +1,14 @@
 <% @batch_set.batch_set_questions.each do |bsq| %>
       <% bsq.question.answers.each do |answer| %>
         <b><%= answer.user.student.name %></b><br/>
-        <%= bsq.question.statement %><br/>
-        <%= answer.statement %><br/>
+        <%= bsq.question.statement.html_safe %><br/>
+        <%= answer.statement.html_safe %><br/>
         <% if bsq.question.question_type_id == 1 %>
-          <% if bsq.question.options.find_by(is_answer: true).statement == answer.statement %>
+          <% if bsq.question.options.find_by(is_answer: true).statement.html_safe == answer.statement.html_safe %>
             <i class="checkmark icon"></i><font color="green"><%= "Correct answer" %></font>
           <% else %>
             <i class="remove icon"></i><font color="red"><%= "Wrong answer" %></font><br/>
-            <font color="green"><%= bsq.question.options.find_by(is_answer: true).statement %></font><%= " is the correct answer" %>
+            <font color="green"><%= bsq.question.options.find_by(is_answer: true).statement.html_safe %></font><%= " is the correct answer" %>
           <% end %><br/><br/>
         <% end %>
       <% end %>
@@ -16,7 +16,7 @@
 
 
     <% @batch_set.batch_set_questions.each do |bsq| %>
-      <h4><%= bsq.question.statement %></h4>
+      <h4><%= bsq.question.statement.html_safe %></h4>
       <table class="ui celled padded table">
         
         <thead>

@@ -13,13 +13,13 @@
   
   <% @batch_set.batch_set_questions.each do |bsq| %>
     <% if !(bsq.question.answers.where('user_id = ? AND question_id = ?', current_user.id, bsq.question.id)).exists? %>
-      <br/><%= bsq.question.statement %><br/>
+      <br/><%= bsq.question.statement.html_safe.html_safe %><br/>
       <%= f.hidden_field :question_id, value: bsq.question.id %>
       <%= f.hidden_field :user_id, value: current_user.id %>
       <%= f.hidden_field :batch_set_id, value: @batch_set %>
       <% if bsq.question.question_type_id == 1 %>
         <% bsq.question.options.each do |option| %>
-          <%= f.radio_button :statement, option.statement %><%= option.statement %><br/>
+          <%= f.radio_button :statement, option.statement.html_safe %><%= option.statement.html_safe %><br/>
         <% end %>
       <% else %>
         <%= f.text_field :statement %><br/><br/>
@@ -40,10 +40,10 @@
 
   <% @batch_set.batch_set_questions.each do |bsq| %>
     <% bsq.question.answers.where('user_id = ? AND question_id = ?', current_user.id, bsq.question.id).each do |answer| %>
-      <%= bsq.question.statement %><br/>
-      <%= answer.statement %><br/>
+      <%= bsq.question.statement.html_safe %><br/>
+      <%= answer.statement.html_safe %><br/>
       <% if bsq.question.question_type_id == 1 %>
-        <% if bsq.question.options.find_by(is_answer: true).statement == answer.statement %>
+        <% if bsq.question.options.find_by(is_answer: true).statement.html_safe == answer.statement.html_safe %>
           <%= "Correct answer" %>
         <% else %>
           <%= "Wrong answer" %>
@@ -58,8 +58,8 @@
   <% @batch_set.batch_set_questions.each do |bsq| %>
     <% bsq.question.answers.each do |answer| %>
       <%= answer.user.student.name %><br/>
-      <%= bsq.question.statement %><br/>
-      <%= answer.statement %><br/><br/>
+      <%= bsq.question.statement.html_safe %><br/>
+      <%= answer.statement.html_safe %><br/><br/>
     <% end %>
   <% end %><br/>
 <% end %>
