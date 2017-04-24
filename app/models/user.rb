@@ -18,4 +18,12 @@ class User < ActiveRecord::Base
     return true if self.role == "student"
   end
 
+  def active_for_authentication?
+    super and self.is_active?
+  end
+
+  def inactive_message
+    "You are not allowed to log in."
+  end
+
 end
