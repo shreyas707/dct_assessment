@@ -13,11 +13,7 @@
 
   <div class="field">
     <%= f.label :statement %><br>
-    <div class="ui form">
-      <div class="field">
-        <%= f.text_area :statement, rows: "2" %>
-      </div>
-    </div>
+        <%= f.cktext_area :statement, id: "editor1" %>
   </div>
   <div class="field">
     <label>Select Topic:</label><br>

@@ -16,7 +16,7 @@
   <tbody>
     <% @answers.each do |answer| %>
       <tr>
-        <td><%= answer.statement %></td>
+        <td><%= answer.statement.html_safe %></td>
         <td><%= answer.question_id %></td>
         <td><%= answer.user_id %></td>
         <td><%= answer.batch_set_id %></td>

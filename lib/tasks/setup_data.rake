@@ -49,7 +49,7 @@
 
 # 	100.times do 
 # 		q = Question.new
-# 		q.statement = Faker::Lorem.sentence
+# 		q.statement.html_safe = Faker::Lorem.sentence
 # 		q.chapter_id = Chapter.all.pluck(:id).sample
 # 		q.topic_id = Topic.all.pluck(:id).sample
 # 		q.question_type_id = QuestionType.all.pluck(:id).sample

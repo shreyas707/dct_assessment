@@ -18,7 +18,7 @@ class AnswersControllerTest < ActionController::TestCase
 
   test "should create answer" do
     assert_difference('Answer.count') do
-      post :create, answer: { batch_set_id: @answer.batch_set_id, question_id: @answer.question_id, statement: @answer.statement, user_id: @answer.user_id }
+      post :create, answer: { batch_set_id: @answer.batch_set_id, question_id: @answer.question_id, statement: @answer.statement.html_safe, user_id: @answer.user_id }
     end
 
     assert_redirected_to answer_path(assigns(:answer))
@@ -35,7 +35,7 @@ class AnswersControllerTest < ActionController::TestCase
   end
 
   test "should update answer" do
-    patch :update, id: @answer, answer: { batch_set_id: @answer.batch_set_id, question_id: @answer.question_id, statement: @answer.statement, user_id: @answer.user_id }
+    patch :update, id: @answer, answer: { batch_set_id: @answer.batch_set_id, question_id: @answer.question_id, statement: @answer.statement.html_safe, user_id: @answer.user_id }
     assert_redirected_to answer_path(assigns(:answer))
   end
 

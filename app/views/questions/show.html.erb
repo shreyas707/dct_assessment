@@ -3,7 +3,7 @@
 <div class="ui segment">
   <p>
     <strong>Statement:</strong>
-    <%= @question.statement %>
+    <%= @question.statement.html_safe %>
   </p>
 
   <p>
@@ -28,7 +28,7 @@
 
   <p><strong>Options</strong>
     <% @options.each do |option| %>
-    	<ul><li><%= option.statement %></li></ul>
+    	<ul><li><%= option.statement.html_safe %></li></ul>
     <% end %>
   </p>
 
