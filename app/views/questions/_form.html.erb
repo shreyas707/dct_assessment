@@ -13,7 +13,11 @@
 
   <div class="field">
     <%= f.label :statement %><br>
-    <%= f.text_area :statement %>
+    <div class="ui form">
+      <div class="field">
+        <%= f.text_area :statement, rows: "2" %>
+      </div>
+    </div>
   </div>
   <div class="field">
     <label>Select Topic:</label><br>
@@ -36,7 +40,11 @@
 
   <%= f.fields_for :options, @option do |option_form| %>
     <%= "Option" %><br/>
-    <%= option_form.text_area :statement %><br/>
+    <div class="ui form">
+      <div class="field">
+        <%= option_form.text_area :statement, rows: "2" %><br/>
+      </div>
+    </div>
     <%= option_form.radio_button :is_answer, true, class: "ui radio checkbox" %>True
     <!-- <%#= option_form.radio_button :is_answer, false, class: "ui radio checkbox" %>False --><br/>
     <%= option_form.link_to_remove "Remove this option" %><br/>
