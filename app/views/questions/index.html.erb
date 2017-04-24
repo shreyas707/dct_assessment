@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Questions</h1>
+<h1>Assessment Questions</h1>
 
 <table class="ui celled padded table">
   <thead>
@@ -15,13 +15,37 @@
   </thead>
 
   <tbody>
-    <% @questions.each do |question| %>
+    <% @questions.where('kind = ?', "assessment").each do |question| %>
       <tr>
         <td><%= question.statement %></td>
         <td><%= question.chapter.name %></td>
         <td><%= question.topic.try(:name) %></td>
         <td><%= question.question_type.name %></td>
         <td><%= question.options.find_by(question_id: question.id).try(:statement) %></td>
+        <td><%= link_to 'Show', question %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h1>Assignment Questions</h1>
+
+<table class="ui celled padded table">
+  <thead>
+    <tr>
+      <th>Statement</th>
+      <th>Chapter</th>
+      <th>Topic</th>
+      <th>Show</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @questions.where('kind = ?', "assignment").each do |question| %>
+      <tr>
+        <td><%= question.statement %></td>
+        <td><%= question.chapter.name %></td>
+        <td><%= question.topic.try(:name) %></td>
         <td><%= link_to 'Show', question %></td>
       </tr>
     <% end %>
