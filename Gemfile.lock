@@ -6,14 +6,6 @@ GIT
       sass (>= 3.2)
 
 GIT
-  remote: https://github.com/galetahub/ckeditor.git
-  revision: 11d3a5b905646c6fd397f7710f95fb9eb29f0865
-  specs:
-    ckeditor (4.2.2)
-      cocaine
-      orm_adapter (~> 0.5.0)
-
-GIT
   remote: https://github.com/stympy/faker.git
   revision: 9224b3469d001d725087ad00994bd384790e4f74
   specs:
@@ -65,9 +57,6 @@ GEM
     builder (3.2.3)
     byebug (9.0.6)
     cancancan (1.16.0)
-    climate_control (0.1.0)
-    cocaine (0.5.8)
-      climate_control (>= 0.0.3, < 1.0)
     coderay (1.1.1)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
@@ -200,7 +189,6 @@ PLATFORMS
 DEPENDENCIES
   byebug
   cancancan (~> 1.10)
-  ckeditor!
   coffee-rails (~> 4.1.0)
   devise
   faker!
