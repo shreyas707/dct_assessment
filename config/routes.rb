@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
 
-  mount Ckeditor::Engine => '/ckeditor'
-  mount Ckeditor::Engine => '/ckeditor'
   devise_for :users, skip: [:registrations]
     as :user do
     get "/sign_in" => "devise/sessions#new" # custom path to login/sign_in
