@@ -26,6 +26,8 @@
     <%= f.hidden_field :role, value: "admin" %>
     <br/><br/>
 
+    <label>Disable this user</label>&nbsp&nbsp<%= f.radio_button :is_active, value: false %><br/><br/>
+
   </div>
 
   <%= f.submit 'Submit', class: "ui primary button" %><br/><br/>
