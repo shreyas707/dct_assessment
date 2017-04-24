@@ -106,7 +106,7 @@
             <% else %>
               <div class="ui form">
                 <div class="field">
-                  <%= ans.cktext_area :statement, rows: bsq.question.kind == "assessment" ? "3" : "10" %>
+                  <%= ans.text_area :statement, id: "editor1" %>
                 </div>    
               </div>
             <% end %>

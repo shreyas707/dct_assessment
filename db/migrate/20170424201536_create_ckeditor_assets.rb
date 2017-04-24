@@ -1,5 +1,5 @@
 class CreateCkeditorAssets < ActiveRecord::Migration
-  drop_table :ckeditor_assets
+  #drop_table :ckeditor_assets
   def self.up
     create_table :ckeditor_assets do |t|
       t.string  :data_file_name, null: false
