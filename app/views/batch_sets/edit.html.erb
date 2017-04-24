@@ -82,7 +82,7 @@
 
 <% elsif current_user.try(:is_student?) %>
   
-  <h1>All the best!</h1>
+  <h1>Answer the following questions</h1>
   <%= form_for([@batch, @batch_set]) do |f| %>
     <%= f.hidden_field :batch_id, value: @batch.id %>
       <% @batch_set.batch_set_questions.each do |bsq| %>
@@ -101,7 +101,7 @@
             <% end %>
           <% end %>
         <% else %>
-          <h2>Goodjob! You have already answered all questions in this class.</h2>
+          <h2>You have already answered all questions in this class.</h2>
           <% break %>
         <% end %>
       <% end %> 
