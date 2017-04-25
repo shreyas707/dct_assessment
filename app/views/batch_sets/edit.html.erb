@@ -88,9 +88,9 @@
   
   <h1>Answer the following questions</h1>
   <%= form_for([@batch, @batch_set]) do |f| %>
-    <%# if @batch_set.due_date < Date.today %>
-      <%#= "This assignment was due on #{@batch_set.due_date}" %><br/><br/>
-    <%# else %>
+    <% if @batch_set.due_date < Date.today %>
+      <%= "This assignment was due on #{@batch_set.due_date}" %><br/><br/>
+    <% else %>
       <%= f.hidden_field :batch_id, value: @batch.id %>
       <% @batch_set.batch_set_questions.each do |bsq| %>
         <% if !(bsq.question.answers.where('user_id = ? AND question_id = ?', current_user.id, bsq.question.id)).exists? %>
@@ -120,7 +120,7 @@
       <div class="actions">
         <%= f.submit 'Submit answer', class: "ui primary button" %><br/><br/>
       </div>
-    <%# end %>
+    <% end %>
   <% end %>
 
 <% end %>
