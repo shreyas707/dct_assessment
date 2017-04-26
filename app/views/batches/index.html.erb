@@ -65,35 +65,36 @@
 
   <br/>
 
-  <% else %>
+  <%= link_to 'New Batch', new_batch_path, class: "ui primary button" %>
+
+<% else %>
   
-    <h3>Your Batches</h3>
+  <h3>Your Batches</h3>
 
-    <table class="ui celled padded table">
-      <thead>
+  <table class="ui celled padded table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Start date</th>
+        <th>End date</th>
+        <th>Course</th>
+        <th>Show</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @batches.each do |batch| %>
         <tr>
-          <th>Title</th>
-          <th>Start date</th>
-          <th>End date</th>
-          <th>Course</th>
-          <th>Show</th>
+          <td><%= batch.title %></td>
+          <td><%= batch.start_date %></td>
+          <td><%= batch.end_date %></td>
+          <td><%= batch.course.name %></td>
+          <td><%= link_to 'Show', batch %></td>
         </tr>
-      </thead>
+      <% end %>
+    </tbody>
+  </table> 
 
-      <tbody>
-        <% @batches.each do |batch| %>
-          <tr>
-            <td><%= batch.title %></td>
-            <td><%= batch.start_date %></td>
-            <td><%= batch.end_date %></td>
-            <td><%= batch.course.name %></td>
-            <td><%= link_to 'Show', batch %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table> 
+<% end %>
 
-  <% end %>
-
-<%= link_to 'New Batch', new_batch_path, class: "ui primary button" %>
 <br/><br/>

@@ -1,6 +1,5 @@
 source 'http://rubygems.org'
 
-#gem 'ckeditor', git: 'https://github.com/galetahub/ckeditor.git'
 gem 'semantic-ui-sass', git: 'https://github.com/doabit/semantic-ui-sass.git'
 gem 'cancancan', '~> 1.10'
 gem 'devise'
