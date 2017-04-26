@@ -8,7 +8,7 @@ class Ability
     elsif user.role == "student"
         can :create, [Answer]
         can :read, [Answer, Batch, BatchSet]
-        can :update, [BatchSet]
+        # can :update, [BatchSet]
     end
     # Define abilities for the passed in user here. For example:
     #

@@ -15,6 +15,14 @@ class BatchSet < ActiveRecord::Base
 
 	validates_presence_of :title, :set_date, :batch_id, :due_date
 
+	def date_field  # What this returns will be what is shown in the field
+	  due_date.strftime("%d-%b-%Y") if due_date.present?
+	end 
+
+	def time_field
+	  due_date.strftime("%I:%M %p") if due_date.present?
+	end
+
 	def arrange_questions
 		questions = {}
 		questions["mcq"] = self.questions.where('question_type_id = ?', QuestionType.find_by(name: "MCQ"))

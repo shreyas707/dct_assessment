@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   belongs_to :student
 
   has_many :answers
+  has_many :comments
 
   validates_presence_of :email, :password
 

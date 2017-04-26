@@ -1,0 +1,84 @@
+<h2>Student's Answers</h2>
+
+<!-- PRACTICE THIS. DISPLAY THE TABLE BELOW USING arrange_questions METHOD. -->
+<%# @batch_set.arrange_questions.each do |key, questions| %>
+  <%# questions.each do |question| %>
+    <%# question.statement.html_safe %>
+  <%# end %>
+<%# end %>
+
+<% if @batch_set.kind == "assessment" %>
+  <h3>MCQ</h3>
+  <% @batch_set.questions.where("question_type_id = ? AND kind = ?", QuestionType.find_by(name: "MCQ"), "assessment").each do |bsq| %>
+    <h4><%= bsq.statement.html_safe %></h4>
+    <%= "Options:" %>
+    <% bsq.options.each do |option| %>
+      <%= option.statement.html_safe %>,
+    <% end %><br/>
+    <%= "Correct Answer:" %>
+    <%= bsq.options.find_by(is_answer: true).statement.html_safe %> 
+    <table class="ui celled padded table">
+      <thead>
+        <tr>
+          <th>Students</th>
+          <th>Answers</th>  
+          <th>Correct?</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% bsq.answers.each do |answer| %>
+        <% if bsq.options.find_by(is_answer: true).statement.html_safe != answer.statement.html_safe %>
+          <tr class="negative">
+        <% else %>
+          <tr class="positive">
+        <% end %>
+          <td><%= answer.user.student.name %></td>
+          <td><%= answer.statement.html_safe %></td>
+          <td>
+            <% if bsq.options.find_by(is_answer: true).statement.html_safe == answer.statement.html_safe %>
+              <i class="checkmark icon"></i>
+            <% else %>
+              <i class="remove icon"></i>
+            <% end %>    
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <h3>Text Based Questions</h3>
+  <% @batch_set.questions.where('question_type_id = ? AND kind = ?', QuestionType.find_by(name: "Text"), "assessment").each do |bsq| %>
+    <h4><%= bsq.statement.html_safe %></h4>
+    <table class="ui celled padded table">
+      <thead>
+        <tr>
+          <th>Students</th>
+          <th>Answers</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% bsq.answers.each do |answer| %>
+          <tr>
+            <td><%= answer.user.student.name %></td>
+            <td><%= answer.statement.html_safe %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+<% elsif @batch_set.kind == "assignment" %>
+
+  <h3>Assignment:</h3>
+  <% @batch_set.questions.where("kind = ?", "assignment").each do |bsq| %>
+    <h4><%= bsq.statement.html_safe %></h4>
+    <% bsq.answers.each do |answer| %>
+      <b><%= answer.user.student.name %><br/></b>
+      <%= answer.statement.html_safe %><br/><br/>
+    <% end %>
+  <% end %>
+
+<% end %>

@@ -33,6 +33,8 @@
   
    <div class="field">
     <label>Select Students</label><br>
+    <%#= f.collection_select :student_ids, Student.all, :id, :name, {prompt: "Select Students"}, {class: "ui fluid search dropdown", multiple: ""} %>
+    <%#= f.select(:student_ids, options_for_select(Student.all.collect{|x| [x.name,x.id,class: 'item']}),{prompt: 'Select categories'}, multiple: true, class:'ui fluid dropdown selection multiple') %>
     <%= f.collection_check_boxes :student_ids, Student.all, :id, :name do |b| %>
       <%= b.check_box class: "ui checkbox" %>
       <%= b.label %><br/>
