@@ -15,6 +15,10 @@ class Question < ActiveRecord::Base
 	
 	after_create :correct_answer_option
 
+	def formatted_statement
+		self.statement.html_safe
+	end
+
 	private
 	def correct_answer_option
 	  if self.question_type_id == 1

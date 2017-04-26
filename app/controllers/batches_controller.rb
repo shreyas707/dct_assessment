@@ -20,6 +20,11 @@ class BatchesController < ApplicationController
     @batch_sets = BatchSet.where('batch_id = ?', @batch.id)
   end
 
+  def student
+    @batch = Batch.find(params[:batch])
+    @student = Student.find(params[:student])
+  end
+
   # GET /batches/new
   def new
     @batch = Batch.new

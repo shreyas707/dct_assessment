@@ -33,6 +33,13 @@
       <%= @batch.complete %>
     </p>
 
+    <p>
+      <strong>List of students in this batch: </strong>
+      <% @batch.students.each do |student| %>
+        <%= link_to student.name, batches_student_path(:batch => @batch.id, :student => student.id) %>,
+      <% end %>
+    </p>
+
   <% end %>
 
   <% if current_user.try(:is_admin?) %>
