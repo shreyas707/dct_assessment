@@ -20,6 +20,7 @@ class BatchSetsController < ApplicationController
     @batch_set = BatchSet.find(params[:id])
     @batch = Batch.find(params[:batch_id])
     @answer = Answer.new
+    @comment = Comment.new
   end
 
   # GET /batch_sets/new

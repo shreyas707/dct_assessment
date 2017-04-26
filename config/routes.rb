@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :comments
   devise_for :users, skip: [:registrations]
     as :user do
     get "/sign_in" => "devise/sessions#new" # custom path to login/sign_in
@@ -14,12 +15,14 @@ Rails.application.routes.draw do
   resources :topics
   resources :courses
   resources :roles
+  get 'batches/student'
   resources :batches do 
     resources :batch_sets
   end
   resources :answers
   resources :batch_sets
   resources :students
+
 
   root 'batches#index'
 

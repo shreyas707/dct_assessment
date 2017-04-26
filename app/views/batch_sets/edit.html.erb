@@ -1,4 +1,4 @@
-<% if current_user.is_admin? %>
+<%# if current_user.is_admin? %>
 
   <%= nested_form_for(@batch_set) do |f| %> 
     <h1>Editing Batch Set</h1>
@@ -58,7 +58,7 @@
           <%# @asked_questions = [] %>
           <%# @give_relevant_name = [] %>
             <% @batch_set.batch_set_chapter_topics.each do |bsct| %>
-              <%= f.collection_check_boxes :question_ids, Question.where("topic_id = ? AND chapter_id = ?", bsct.topic_id, bsct.chapter_id), :id, :statement do |a| %><br/>
+              <%= f.collection_check_boxes :question_ids, Question.where("topic_id = ? AND chapter_id = ?", bsct.topic_id, bsct.chapter_id), :id, :formatted_statement do |a| %><br/>
                 <%= a.check_box %>
                 <%= a.label %>
                 <%# binding.pry %>
@@ -87,4 +87,4 @@
 
   <br/><br/>
 
-<% end %>
+<%# end %>

@@ -1,7 +1,7 @@
 <%= form_for([@batch, @batch_set]) do |f| %>
-  <% if @batch_set.due_date < Time.now %>
-    <%= "This assignment was due on #{@batch_set.date_field}, before #{@batch_set.time_field}" %><br/><br/>
-  <% else %>
+  <%# if @batch_set.due_date < Time.now %>
+    <%#= "This assignment was due on #{@batch_set.date_field}, before #{@batch_set.time_field}" %><br/><br/>
+  <%# else %>
     <% @batch_set.batch_set_questions.each do |bsq| %>
       <%= f.hidden_field :batch_id, value: @batch.id %>
       <% if !(bsq.question.answers.where('user_id = ? AND question_id = ?', current_user.id, bsq.question.id)).exists? %>
@@ -32,7 +32,7 @@
         <% end %>
       <% end %>
     </div>
-  <% end %>
+  <%# end %>
 <% end %>
 
 <% @batch_set.batch_set_questions.each do |bsq| %>
@@ -44,8 +44,11 @@
 
 <% @batch_set.batch_set_questions.each do |bsq| %>
   <% bsq.question.answers.where('user_id = ? AND question_id = ?', current_user.id, bsq.question.id).each do |answer| %>
-    <b><%= bsq.question.statement.html_safe.html_safe %></b><br/>
-    <%= answer.statement.html_safe.html_safe %><br/>
+    <b><%= bsq.question.statement.html_safe %></b><br/>
+    <%= answer.statement.html_safe %><br/>
+    <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
+      Comments: <%= comment.statement %><br/>
+    <% end %>
     <% if bsq.question.question_type_id == 1 %>
       <% if bsq.question.options.find_by(is_answer: true).statement.html_safe == answer.statement.html_safe %>
         <i class="checkmark icon"></i><font color="green"><%= "Correct answer" %></font>

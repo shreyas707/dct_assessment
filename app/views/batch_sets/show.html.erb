@@ -8,10 +8,10 @@
   <%= @batch_set.batch.title %></p>
 
   <p><strong>Due Date:</strong>
-  <%= @batch_set.date_field %></p>
+  <%= @batch_set.due_date %></p>
 
   <p><strong>Due Time:</strong>
-  <%= @batch_set.time_field %></p>
+  <%#= @batch_set.due_date.strftime("%I:%M %p") %></p>
 
   <% if current_user.is_admin? %>
     <p><strong>Set Date:</strong>
@@ -30,11 +30,11 @@
     <%= link_to 'Delete Batch Set', @batch_batch_set, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
   <% end %>
 
-  <% if current_user.try(:is_student?) %>
+  <% if current_user.is_student? %>
 
     <%= render "student_answers" %>
 
-  <% elsif current_user.try(:is_admin?) %>
+  <% elsif current_user.is_admin? %>
 
     <%= render "admin_answers" %>
 

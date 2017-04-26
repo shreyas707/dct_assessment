@@ -56,6 +56,8 @@
         <tr>
           <th>Students</th>
           <th>Answers</th>
+          <th>Comments</th>
+          <th>Add Comment</th>
         </tr>
       </thead>
 
@@ -64,6 +66,19 @@
           <tr>
             <td><%= answer.user.student.name %></td>
             <td><%= answer.statement.html_safe %></td>
+            <td>
+                <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
+                  <%= comment.statement %><br/>
+                <% end %>
+            </td>
+            <td>
+              <%= form_for (@comment) do |f| %>
+                <%= f.hidden_field :user_id, value: current_user.id %>
+                <%= f.hidden_field :answer_id, value: answer.id %>
+                <div class="ui input"><%= f.text_field :statement %></div>
+                <%= f.submit %>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>
