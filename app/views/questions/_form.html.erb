@@ -41,7 +41,7 @@
         <%= option_form.text_area :statement, rows: "2" %><br/>
       </div>
     </div>
-    <%= option_form.radio_button :is_answer, true, class: "ui radio checkbox" %>True
+    <%= option_form.check_box :is_answer, value: true, class: "ui radio checkbox" %>True
     <!-- <%#= option_form.radio_button :is_answer, false, class: "ui radio checkbox" %>False --><br/>
     <%= option_form.link_to_remove "Remove this option" %><br/>
   <% end %><br/>
