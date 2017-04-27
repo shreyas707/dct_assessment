@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :appreciations
   resources :comments
   devise_for :users, skip: [:registrations]
     as :user do

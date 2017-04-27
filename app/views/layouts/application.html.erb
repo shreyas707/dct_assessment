@@ -7,10 +7,20 @@
       <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
       <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
       <%= csrf_meta_tags %>
+      
+      <!-- for ckeditor -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.6.2/ckeditor.js"></script>
       <script>
       $(document).ready(function(){
           CKEDITOR.replaceAll( 'textEditor' );
+      });
+      </script>
+
+      <!-- semantic ui -->
+      <script>
+      $(document).ready(function(){
+        $('.ui.accordion')
+          .accordion()
       });
       </script>
 

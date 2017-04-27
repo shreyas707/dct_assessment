@@ -92,7 +92,13 @@
     <h4><%= bsq.statement.html_safe %></h4>
     <% bsq.answers.each do |answer| %>
       <b><%= answer.user.student.name %><br/></b>
-      <%= answer.statement.html_safe %><br/><br/>
+      <%= answer.statement.html_safe %>
+      <%= form_for (@comment) do |f| %>
+        <%= f.hidden_field :user_id, value: current_user.id %>
+        <%= f.hidden_field :answer_id, value: answer.id %>
+        <div class="ui input"><%= f.text_field :statement %></div>
+        <%= f.submit %><br/><br/><br/>
+      <% end %>
     <% end %>
   <% end %>
 

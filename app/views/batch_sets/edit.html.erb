@@ -1,4 +1,4 @@
-<%# if current_user.is_admin? %>
+<% if current_user.is_admin? %>
 
   <%= nested_form_for(@batch_set) do |f| %> 
     <h1>Editing Batch Set</h1>
@@ -87,4 +87,8 @@
 
   <br/><br/>
 
-<%# end %>
+<% else %>
+
+  <%= "Seems like you missed answering some question(s). Please go back and answer all the questions." %>
+
+<% end %>
