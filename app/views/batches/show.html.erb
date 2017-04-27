@@ -8,12 +8,12 @@
 
   <p>
     <strong>Start date:</strong>
-    <%= @batch.start_date %>
+    <%= @batch.start_date.strftime("%d-%b-%Y") %>
   </p>
 
   <p>
     <strong>End date:</strong>
-    <%= @batch.end_date %>
+    <%= @batch.end_date.strftime("%d-%b-%Y") %>
   </p>
 
   <p>

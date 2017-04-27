@@ -8,14 +8,14 @@
   <%= @batch_set.batch.title %></p>
 
   <p><strong>Due Date:</strong>
-  <%= @batch_set.due_date %></p>
+  <%= @batch_set.date_field %></p>
 
   <p><strong>Due Time:</strong>
-  <%#= @batch_set.due_date.strftime("%I:%M %p") %></p>
+  <%= @batch_set.time_field %></p>
 
   <% if current_user.is_admin? %>
     <p><strong>Set Date:</strong>
-    <%= @batch_set.set_date %></p>
+    <%= @batch_set.set_date.strftime("%d-%b-%Y") %></p>
 
     <p><strong>Kind:</strong>
     <%= @batch_set.kind %></p>

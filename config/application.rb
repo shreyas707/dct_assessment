@@ -8,7 +8,7 @@ Bundler.require(*Rails.groups)
 
 module DctAssessment
   class Application < Rails::Application
-    # config.time_zone = 'Kolkata'
+    config.time_zone = 'Kolkata'
     # config.active_record.default_timezone = 'Kolkata'
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
