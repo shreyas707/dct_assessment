@@ -20,7 +20,9 @@
       <script>
       $(document).ready(function(){
         $('.ui.accordion')
-          .accordion()
+          .accordion();
+        $('.ui.dropdown')
+          .dropdown();
       });
       </script>
 
@@ -51,6 +53,7 @@
           <%= link_to("Batches", batches_path, class: controller.controller_name == "batches" ? "active item" : "item") %>
           <%= link_to("Questions", questions_path, class: controller.controller_name == "questions" ? "active item" : "item") %>
           <%= link_to("Question Types", question_types_path, class: controller.controller_name == "question_types" ? "active item" : "item") %>
+          <%= link_to("Remarks", remarks_path, class: controller.controller_name == "remarks" ? "active item" : "item") %>
         <% elsif current_user.try(:is_student?) %>
           <%= link_to("Batches", batches_path, class: controller.controller_name == "batches" ? "active item" : "item") %>
         <% end %>

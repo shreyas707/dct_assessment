@@ -13,6 +13,7 @@ class Student < ActiveRecord::Base
 	private
 	def create_user
 		user = User.new
+		user.name = self.name
 		user.student_id = self.id
 		user.email = self.email
 		user.password = "password"

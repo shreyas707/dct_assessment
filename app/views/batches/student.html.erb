@@ -1,109 +1,105 @@
 <h3><%= @batch.title %></h3>
 <h3><%= @student.name %></h3>
 
-
-<div class="ui styled accordion">
-  <div class="title">
-    <i class="dropdown icon"></i>
-	<h4>Assignments</h4>
-  </div>
-</div>
-
-		
-
 <h4>Assessments</h4>
 
 <div class="ui styled accordion">
-  <div class="title active">
-    <i class="dropdown icon"></i>
-    Level 1
-  </div>
-  <div class="content active">
-    Welcome to level 1
-    <div class="accordion transition visible" style="display: block !important;">
-      <div class="active title">
-          <i class="dropdown icon"></i>
-          Level 1A
-      </div>
-      <div class="active content">
-        <p>Level 1A Contents</p>
-        <div class="accordion">
-          <div class="title">
-              <i class="dropdown icon"></i>
-              Level 1A-A
-          </div>
-          <div class="content">
-              Level 1A-A Contents
-          </div>
-          <div class="title">
-              <i class="dropdown icon"></i>
-              Level 1A-B
-          </div>
-          <div class="content">
-              Level 1A-B Contents
-          </div>
+  <% @batch.batch_sets.where('kind = ?', "assessment").each do |batch_set| %>
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <%= batch_set.title %>
+    </div>
+    <div class="content">
+      <div class="accordion transition visible" style="display: block !important;">
+        <div class="title">
+            <i class="dropdown icon"></i>
+            MCQ
+        </div>
+        <div class="content">
+          <% batch_set.questions.where('question_type_id == ?', "1").each do |question| %>
+            <div class="accordion">
+              <div class="title">
+                <p>
+                  <i class="dropdown icon"></i>
+                  <%= question.statement %><br/>
+                  <% if question.options.find_by(is_answer: true).statement.html_safe == question.answers.find_by(user_id: @student.user.id).try(:statement) %>
+                    <i class="checkmark icon"></i><font color="green"><%= "Correct answer" %></font>
+                  <% else %>
+                    <i class="remove icon"></i><font color="red"><%= "Wrong answer" %></font><br/>
+                  <% end %>
+                </p>
+              </div>
+              <div class="content">
+                <%= question.answers.find_by(user_id: @student.user.id).try(:statement) %>
+                <% if question.options.find_by(is_answer: true).statement.html_safe != question.answers.find_by(user_id: @student.user.id).try(:statement) %>
+                  <br/><font color="green"><%= question.options.find_by(is_answer: true).statement.html_safe %></font><%= " is the correct answer" %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <div class="title">
+            <i class="dropdown icon"></i>
+            Text
+        </div>
+        <div class="content">
+          <% batch_set.questions.where('question_type_id == ?', "2").each do |question| %>
+            <div class="accordion">
+              <div class="title">
+                <p>
+                  <i class="dropdown icon"></i>
+                  <%= question.statement %><br/>
+                </p>
+              </div>
+              <div class="content">
+                <p>
+                  <%= question.answers.find_by(user_id: @student.user.id).try(:statement) %><br/>
+                  <%= "Comment: " %><% question.answers.find_by(user_id: @student.user.id).comments.each do |comment| %>
+                    <%= comment.try(:statement) %>
+                  <% end %>
+                </p>
+              </div>
+              <!-- <div class="title">
+                  <i class="dropdown icon"></i>
+                  Level 1A-B
+              </div>
+              <div class="content">
+                  Level 1A-B Contents
+              </div> -->
+            </div>
+          <% end %>
         </div>
       </div>
-      <div class="title">
-          <i class="dropdown icon"></i>
-          Level 1B
-      </div>
-      <div class="content">
-          Level 1B Contents
-      </div>
-      <div class="title">
-          <i class="dropdown icon"></i>
-          Level 1C
-      </div>
-      <div class="content">
-          Level 1C Contents
-      </div>
     </div>
-  </div>
-  <div class="title">
-    <i class="dropdown icon"></i>
-    Level 2
-  </div>
-  <div class="content">
-    <p>Welcome to level 2</p>
-    <div class="accordion">
-      <div class="active title">
-        <i class="dropdown icon"></i>
-        Level 2A
-      </div>
-      <div class="active content">
-        <p>Level 2A Contents</p>
-        <div class="accordion">
-          <div class="title">
-              <i class="dropdown icon"></i>
-              Level 2A-A
-          </div>
-          <div class="content">
-              Level 2A-A Contents
-          </div>
-          <div class="title">
-              <i class="dropdown icon"></i>
-              Level 2A-B
-          </div>
-          <div class="content">
-              Level 2A-B Contents
-          </div>
-        </div>
-      </div>
-      <div class="title">
-          <i class="dropdown icon"></i>
-          Level 2B
-      </div>
-      <div class="content">
-          Level 2B Contents
-      </div>
-      <div class="title">
-          <i class="dropdown icon"></i>
-          Level 2C
-      </div>
-      <div class="content">
-          Level 2C Contents
-      </div>
-    </div>
-  </div>
+  <% end %>
 </div>
+
+<br/><br/>
+
+<h4>Assignments</h4>
+
+<div class="ui styled accordion">
+  <% @batch.batch_sets.where('kind = ?', "assignment").each do |batch_set| %>
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <%= batch_set.title %>
+    </div>
+    <div class="content">
+      <% batch_set.questions.each do |question| %>
+        <div class="accordion transition visible" style="display: block !important;">
+          <div class="title">
+              <i class="dropdown icon"></i>
+              <%= question.statement %>
+          </div>
+          <div class="content">
+            <p class="transition visible" style="display: block !important;">
+              <%= question.answers.find_by(user_id: @student.user.id).try(:formatted_statement) %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<br/><br/>

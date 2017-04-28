@@ -1,0 +1,12 @@
+<p id="notice"><%= notice %></p>
+
+<div class="ui segment">
+	<p>
+	  <strong>Title:</strong>
+	  <%= @remark.title %>
+	</p>
+
+	<%= link_to 'Edit', edit_remark_path(@remark), class: "ui button" %>
+	<%= link_to 'Back', remarks_path, class: "ui black button" %><br/><br/>
+	<%= link_to 'Destroy', @remark, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
+</div>

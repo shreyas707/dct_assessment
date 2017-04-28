@@ -57,7 +57,7 @@
           <th>Students</th>
           <th>Answers</th>
           <th>Comments</th>
-          <th>Add Comment</th>
+          <th>Remarks</th>
         </tr>
       </thead>
 
@@ -71,6 +71,11 @@
                   <%= comment.statement %><br/>
                 <% end %>
             </td>
+            <td><%= answer.remark.try(:title) %></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
             <td>
               <%= form_for (@comment) do |f| %>
                 <%= f.hidden_field :user_id, value: current_user.id %>
@@ -78,6 +83,12 @@
                 <div class="ui input"><%= f.text_field :statement %></div>
                 <%= f.submit %>
               <% end %>
+            </td>
+            <td>
+            <%= form_for (answer) do |f| %>
+              <%= f.collection_select :remark_id, Remark.all, :id, :title, prompt: "Select a remark" %>
+              <%= f.submit %>
+            <% end %>
             </td>
           </tr>
         <% end %>
