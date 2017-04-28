@@ -30,7 +30,7 @@
                 </p>
               </div>
               <div class="content">
-                <%= question.answers.find_by(user_id: @student.user.id).try(:statement) %>
+                <%= question.answers.find_by(user_id: @student.user.id).try(:formatted_statement) %>
                 <% if question.options.find_by(is_answer: true).statement.html_safe != question.answers.find_by(user_id: @student.user.id).try(:statement) %>
                   <br/><font color="green"><%= question.options.find_by(is_answer: true).statement.html_safe %></font><%= " is the correct answer" %>
                 <% end %>
@@ -48,12 +48,12 @@
               <div class="title">
                 <p>
                   <i class="dropdown icon"></i>
-                  <%= question.statement %><br/>
+                  <%= question.formatted_statement %><br/>
                 </p>
               </div>
               <div class="content">
                 <p>
-                  <%= question.answers.find_by(user_id: @student.user.id).try(:statement) %><br/>
+                  <%= question.answers.find_by(user_id: @student.user.id).try(:formatted_statement) %><br/>
                   <%= "Comment: " %><% question.answers.find_by(user_id: @student.user.id).comments.each do |comment| %>
                     <%= comment.try(:statement) %>
                   <% end %>
@@ -89,7 +89,7 @@
         <div class="accordion transition visible" style="display: block !important;">
           <div class="title">
               <i class="dropdown icon"></i>
-              <%= question.statement %>
+              <%= question.formatted_statement %>
           </div>
           <div class="content">
             <p class="transition visible" style="display: block !important;">
