@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170427053414) do
+ActiveRecord::Schema.define(version: 20170427104056) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "statement"
@@ -20,13 +20,7 @@ ActiveRecord::Schema.define(version: 20170427053414) do
     t.integer  "batch_set_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-  end
-
-  create_table "appreciations", force: :cascade do |t|
-    t.string   "title"
-    t.integer  "answer_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "remark_id"
   end
 
   create_table "batch_set_chapter_topics", force: :cascade do |t|
@@ -130,6 +124,12 @@ ActiveRecord::Schema.define(version: 20170427053414) do
     t.string   "kind"
   end
 
+  create_table "remarks", force: :cascade do |t|
+    t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "students", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
@@ -160,6 +160,7 @@ ActiveRecord::Schema.define(version: 20170427053414) do
     t.datetime "updated_at",                                 null: false
     t.string   "role",                   default: "student"
     t.boolean  "is_active",              default: true
+    t.string   "name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
