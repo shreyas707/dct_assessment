@@ -23,6 +23,7 @@
           <th>Students</th>
           <th>Answers</th>  
           <th>Correct?</th>
+          <th>Delete</th>
         </tr>
       </thead>
 
@@ -42,6 +43,7 @@
               <i class="remove icon"></i>
             <% end %>    
           </td>
+          <td><%= link_to 'Delete Answer', answer, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %></td>
         </tr>
         <% end %>
       </tbody>
@@ -75,7 +77,7 @@
           </tr>
           <tr>
             <td></td>
-            <td></td>
+            <td><%= link_to 'Delete Answer', answer, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %></td>
             <td>
               <%= form_for (@comment) do |f| %>
                 <%= f.hidden_field :user_id, value: current_user.id %>
@@ -99,11 +101,15 @@
 <% elsif @batch_set.kind == "assignment" %>
 
   <h3>Assignment:</h3>
-  <% @batch_set.questions.where("kind = ?", "assignment").each do |bsq| %>
-    <h4><%= bsq.statement.html_safe %></h4>
-    <% bsq.answers.each do |answer| %>
+  <% @batch_set.questions.where("kind = ?", "assignment").each do |question| %>
+    <h4><%= question.statement.html_safe %></h4>
+    <% question.answers.each do |answer| %>
       <b><%= answer.user.student.name %><br/></b>
       <%= answer.statement.html_safe %>
+      <% answer.comments.each do |comment| %>
+        <b><%= "Comment: " %></b>
+        <%= comment.try(:statement) %>
+      <% end %><br/><br/>
       <%= form_for (@comment) do |f| %>
         <%= f.hidden_field :user_id, value: current_user.id %>
         <%= f.hidden_field :answer_id, value: answer.id %>
