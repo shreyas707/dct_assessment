@@ -16,7 +16,7 @@
             MCQ
         </div>
         <div class="content">
-          <% batch_set.questions.where('question_type_id == ?', "1").each do |question| %>
+          <% batch_set.questions.where('question_type_id = ?', "1").each do |question| %>
             <div class="accordion">
               <div class="title">
                 <p>
@@ -43,7 +43,7 @@
             Text
         </div>
         <div class="content">
-          <% batch_set.questions.where('question_type_id == ?', "2").each do |question| %>
+          <% batch_set.questions.where('question_type_id = ?', "2").each do |question| %>
             <div class="accordion">
               <div class="title">
                 <p>
