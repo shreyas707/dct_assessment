@@ -17,10 +17,7 @@
   </div>
   <div class="field">
     <label>Select courses that the topics belong to:</label>
-    <%= f.collection_check_boxes :course_ids, Course.all, :id, :name do |b| %><br/>
-      <%= b.check_box class: "ui checkbox" %>
-      <%= b.label %>
-    <% end %><br/><br/>
+    <%= f.collection_select :course_ids, Course.all, :id, :name, {prompt: "Select Courses"}, {class: "ui fluid search dropdown", multiple: ""} %><br/><br/>
   </div>
   <div class="actions">
     <%= f.submit class: "ui primary button" %><br/><br/>

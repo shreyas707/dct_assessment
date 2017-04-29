@@ -74,3 +74,105 @@
 </div>
 
 <br/><br/>
+
+<div class="ui styled accordion">
+  <% @batch.batch_sets.where('kind = ?', "assessment").each do |batch_set| %>
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <%= batch_set.title %>
+    </div>
+    <div class="content">
+      <div class="accordion transition visible" style="display: block !important;">
+        <div class="title">
+            <i class="dropdown icon"></i>
+            MCQ
+        </div>
+        <div class="content">
+          <% batch_set.questions.where('question_type_id = ?', "1").each do |question| %>
+            <div class="accordion">
+              <div class="title">
+                <p>
+                  <i class="dropdown icon"></i>
+                  <%= question.statement %><br/>
+                  <% if question.options.find_by(is_answer: true).statement.html_safe == question.answers.find_by(user_id: @student.user.id).try(:statement) %>
+                    <i class="checkmark icon"></i><font color="green"><%= "Correct answer" %></font>
+                  <% else %>
+                    <i class="remove icon"></i><font color="red"><%= "Wrong answer" %></font><br/>
+                  <% end %>
+                </p>
+              </div>
+              <div class="content">
+                <%= question.answers.find_by(user_id: @student.user.id).try(:formatted_statement) %>
+                <% if question.options.find_by(is_answer: true).statement.html_safe != question.answers.find_by(user_id: @student.user.id).try(:statement) %>
+                  <br/><font color="green"><%= question.options.find_by(is_answer: true).statement.html_safe %></font><%= " is the correct answer" %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <div class="title">
+            <i class="dropdown icon"></i>
+            Text
+        </div>
+        <div class="content">
+          <% batch_set.questions.where('question_type_id = ?', "2").each do |question| %>
+            <div class="accordion">
+              <div class="title">
+                <p>
+                  <i class="dropdown icon"></i>
+                  <%= question.formatted_statement %>
+                </p>
+              </div>
+              <div class="content">
+                  <% if question.answers.where("user_id = ?", @student.user.id).exists? %>
+                    <%= question.answers.find_by(user_id: @student.user.id).formatted_statement %><br/>
+                    <% question.answers.find_by(user_id: @student.user.id).comments.each do |comment| %>
+                      <%= "Comment: " %>
+                      <%= comment.try(:statement) %>
+                    <% end %>
+                  <% else %>
+                    <%= "This question hasn't been answered yet by the user." %>
+                  <% end %>
+              </div>
+              <!-- <div class="title">
+                  <i class="dropdown icon"></i>
+                  Level 1A-B
+              </div>
+              <div class="content">
+                  Level 1A-B Contents
+              </div> -->
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<br/><br/>
+
+<div class="ui styled accordion">
+  <% @batch.batch_sets.where('kind = ?', "assignment").each do |batch_set| %>
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <%= batch_set.title %>
+    </div>
+    <div class="content">
+      <% batch_set.questions.each do |question| %>
+        <div class="accordion transition visible" style="display: block !important;">
+          <div class="title">
+              <i class="dropdown icon"></i>
+              <%= question.formatted_statement %>
+          </div>
+          <div class="content">
+            <p class="transition visible" style="display: block !important;">
+              <%= question.answers.find_by(user_id: @student.user.id).try(:formatted_statement) %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<br/><br/>

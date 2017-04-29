@@ -21,6 +21,7 @@ class BatchSetsController < ApplicationController
     @batch = Batch.find(params[:batch_id])
     @answer = Answer.new
     @comment = Comment.new
+    @batch_set_answers = Answer.where('batch_set_id = ?', @batch_set.id)
   end
 
   # GET /batch_sets/new
@@ -35,6 +36,7 @@ class BatchSetsController < ApplicationController
     @batch = Batch.find(params[:batch_id])
     @questions = Question.ids
     @answer = Answer.new
+    @batch_set_questions = BatchSetQuestion.where('batch_set_id = ?', @batch_set.id)
   end
 
   # POST /batch_sets
