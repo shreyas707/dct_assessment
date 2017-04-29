@@ -70,6 +70,7 @@
             <td><%= answer.statement.html_safe %></td>
             <td>
                 <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
+                  <b><%= comment.user.name %></b>:
                   <%= comment.statement %><br/>
                 <% end %>
             </td>
@@ -106,15 +107,38 @@
     <% question.answers.each do |answer| %>
       <b><%= answer.user.student.name %><br/></b>
       <%= answer.statement.html_safe %>
-      <% answer.comments.each do |comment| %>
-        <b><%= "Comment: " %></b>
-        <%= comment.try(:statement) %>
-      <% end %><br/><br/>
-      <%= form_for (@comment) do |f| %>
-        <%= f.hidden_field :user_id, value: current_user.id %>
-        <%= f.hidden_field :answer_id, value: answer.id %>
-        <div class="ui input"><%= f.text_field :statement %></div>
-        <%= f.submit %><br/><br/><br/>
+      <% if answer.comments.exists? %>
+        <div class="ui comments">
+          <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
+            <div class="comment">
+              <a class="avatar">
+                <img src="/images/avatar/small/stevie.jpg">
+              </a>
+              <div class="content">
+                <a class="author"><%= comment.user.name %></a>
+    <!--             <div class="metadata">
+                  <div class="date">distance</div>
+                  <div class="rating">
+                    <i class="star icon"></i>
+                    <%#= answer.remark.try(:title) %>
+                  </div>
+                </div> -->
+                <div class="text">
+                  <% if comment.user.role == "admin" && !answer.remark.nil? %>
+                    <%= "Remark: " %><%= answer.remark.title %><br/>
+                  <% end %>
+                  <%= comment.statement %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <%= form_for (@comment) do |f| %>
+          <%= f.hidden_field :user_id, value: current_user.id %>
+          <%= f.hidden_field :answer_id, value: answer.id %>
+          <div class="ui input"><%= f.text_field :statement %></div>
+          <%= f.submit class: "ui primary button" %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>

@@ -18,10 +18,7 @@
 
   <div class="field">
     <label>Select topics that the chapter belongs to:</label>
-    <%= f.collection_check_boxes :topic_ids, Topic.all, :id, :name do |b| %><br/>
-      <%= b.check_box class: "ui checkbox" %>
-      <%= b.label %>
-    <% end %><br/><br/>
+    <%= f.collection_select :topic_ids, Topic.all, :id, :name, {prompt: "Select Chapters"}, {class: "ui fluid search dropdown", multiple: ""} %><br/>
   </div>
 
   <div class="actions">
