@@ -56,19 +56,23 @@
         <tr>
           <% if @batch_set_questions.exists? %>
             <td>
-              <% asked_questions = [] %>
-              <%# @batch_set.batch_set_chapter_topics.each do |bsct| %>
-                  <% @batch_set_questions.each do |bsq| %>
-                    <%= bsq.question.formatted_statement %><br/>
-                    <% asked_questions.push(bsq.question.formatted_statement) %>
-                    <%= asked_questions %>
-                  <% end %>
-                <%#= f.collection_check_boxes :question_ids, Question.where("topic_id = ? AND chapter_id = ?", bsct.topic_id, bsct.chapter_id), :id, :formatted_statement do |a| %><br/>
-                  <%#= a.check_box %>
-                  <%#= a.label %>
-                <%# end %><br/>
-              <%# end %>
-            </td>
+              <%# @asked_questions = [] %>
+              <%# @give_relevant_name = [] %>
+                <% @batch_set.batch_set_chapter_topics.each do |bsct| %>
+                  <%= f.collection_check_boxes :question_ids, Question.where("topic_id = ? AND chapter_id = ?", bsct.topic_id, bsct.chapter_id), :id, :formatted_statement do |a| %><br/>
+                    <%= a.check_box %>
+                    <%= a.label %>
+                    <%# binding.pry %>
+                    <%# @give_relevant_name.push(a.object.id) %>
+                  <% end %><br/>
+                  <%# @asked_questions.push(@give_relevant_name) %>
+                  <%# binding.pry %>
+                  <%# @asked_questions.each do |asked_question| %>
+                    <%#= @questions - asked_question %>
+                    <%# binding.pry %>
+                  <%# end %>
+                <% end %>
+              </td>
             <% else %>
             <td>
             <% %>
