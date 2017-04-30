@@ -12,7 +12,7 @@
   <% end %>
   
   <% @batch_set.batch_set_questions.each do |bsq| %>
-    <% if !(bsq.question.answers.where('user_id = ? AND question_id = ?', current_user.id, bsq.question.id)).exists? %>
+    <% if !(bsq.question.answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, bsq.question.id, @batch_set.id)).exists? %>
       <br/><%= bsq.question.statement.html_safe %><br/>
       <%= f.hidden_field :question_id, value: bsq.question.id %>
       <%= f.hidden_field :user_id, value: current_user.id %>
@@ -39,7 +39,7 @@
   <h3>Your answers</h3>
 
   <% @batch_set.batch_set_questions.each do |bsq| %>
-    <% bsq.question.answers.where('user_id = ? AND question_id = ?', current_user.id, bsq.question.id).each do |answer| %>
+    <% bsq.question.answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, bsq.question.id, @batch_set.id).each do |answer| %>
       <%= bsq.question.statement.html_safe %><br/>
       <%= answer.statement.html_safe %><br/>
       <% if bsq.question.question_type_id == 1 %>
