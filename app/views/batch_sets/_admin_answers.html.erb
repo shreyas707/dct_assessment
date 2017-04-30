@@ -28,12 +28,12 @@
       </thead>
 
       <tbody>
-        <% bsq.answers.each do |answer| %>
-        <% if bsq.options.find_by(is_answer: true).statement.html_safe != answer.statement.html_safe %>
-          <tr class="negative">
-        <% else %>
-          <tr class="positive">
-        <% end %>
+        <% bsq.answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
+          <% if bsq.options.find_by(is_answer: true).statement.html_safe != answer.statement.html_safe %>
+            <tr class="negative">
+          <% else %>
+            <tr class="positive">
+          <% end %>
           <td><%= answer.user.student.name %></td>
           <td><%= answer.statement.html_safe %></td>
           <td>
@@ -64,7 +64,7 @@
       </thead>
 
       <tbody>
-        <% bsq.answers.each do |answer| %>
+        <% bsq.answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
           <tr>
             <td><%= answer.user.student.name %></td>
             <td><%= answer.statement.html_safe %></td>
@@ -104,7 +104,7 @@
   <h3>Assignment:</h3>
   <% @batch_set.questions.where("kind = ?", "assignment").each do |question| %>
     <h4><%= question.statement.html_safe %></h4>
-    <% question.answers.each do |answer| %>
+    <% question.answers.where("batch_set_id = ?", @batch_set.id).each do |answer| %>
       <b><%= answer.user.student.name %><br/></b>
       <%= answer.statement.html_safe %>
       <% if answer.comments.exists? %>
