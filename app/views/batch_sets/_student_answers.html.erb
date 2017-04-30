@@ -57,8 +57,12 @@
 <% @batch_set.batch_set_questions.each do |bsq| %>
   <% bsq.question.answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, bsq.question.id, @batch_set.id).each do |answer| %>
     <b><%= bsq.question.statement.html_safe %></b><br/>
-    <%= answer.statement.html_safe %>
+    <%= answer.statement.html_safe %><br/>
+    <% if !answer.remark.nil? %>
+      <b>Remark: </b><%= answer.remark.title %><br/>
+    <% end %><br/>
     <% if answer.comments.exists? %>
+    <b>Feedback:</b>
       <div class="ui comments">
         <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
           <div class="comment">
@@ -75,9 +79,6 @@
                 </div>
               </div> -->
               <div class="text">
-                <% if comment.user.role == "admin" && !answer.remark.nil? %>
-                  <%= "Remark: " %><%= answer.remark.title %><br/>
-                <% end %>
                 <%= comment.statement %>
               </div>
             </div>
