@@ -83,7 +83,7 @@
               <%= form_for (@comment) do |f| %>
                 <%= f.hidden_field :user_id, value: current_user.id %>
                 <%= f.hidden_field :answer_id, value: answer.id %>
-                <div class="ui input"><%= f.text_field :statement %></div>
+                <%= f.text_area :statement, class: "textEditor" %>
                 <%= f.submit %>
               <% end %>
             </td>
@@ -176,7 +176,7 @@
                 <%= form_for (@comment) do |f| %>
                   <%= f.hidden_field :user_id, value: current_user.id %>
                   <%= f.hidden_field :answer_id, value: answer.id %>
-                  <div class="ui input"><%= f.text_field :statement %></div>
+                  <%= f.text_area :statement, class: "textEditor" %>
                   <%= f.submit class: "ui primary button" %>
                 <% end %><br/>
                 <%= form_for (answer) do |f| %>
