@@ -54,7 +54,7 @@
       </thead>
       <tbody>
         <tr>
-          <% if @batch_set_questions.exists? %>
+          <%# if @batch_set_questions.exists? %>
             <td>
               <%# @asked_questions = [] %>
               <%# @give_relevant_name = [] %>
@@ -73,11 +73,11 @@
                   <%# end %>
                 <% end %>
               </td>
-            <% else %>
+          <%# else %>
             <td>
             <% %>
             </td>
-          <% end %>
+          <%# end %>
         </tr>
       </tbody>
     </table>
