@@ -22,25 +22,25 @@
   
     <p>
       <strong>Students who haven't submitted the answers: </strong>
-      <% if @batch_set_answers.exists? %>
-        <% all_students = [] %>
-        <% answered_students = [] %>
-        <% unanswered_students = [] %>
-        <% @batch_set_answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
-          <% answer.batch_set.batch.students.each do |student| %>
-            <% all_students.push(student.name) %>
-          <% end %>
-        <% end %>
-        <% @batch_set_answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
-          <% answered_students.push(answer.user.student.name) %>
-        <% end %>
-        <% unanswered_students = all_students - answered_students %>
-        <% unanswered_students.uniq.each do |student| %>
-          <%= student %>,
-        <% end %>
-      <% else %>
-        <%= "Nobody has answered the questions yet." %>
-      <% end %>
+      <%# if @batch_set_answers.exists? %>
+        <%# all_students = [] %>
+        <%# answered_students = [] %>
+        <%# unanswered_students = [] %>
+        <%# @batch_set_answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
+          <%# answer.batch_set.batch.students.each do |student| %>
+            <%# all_students.push(student.name) %>
+          <%# end %>
+        <%# end %>
+        <%# @batch_set_answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
+          <%# answered_students.push(answer.user.student.name) %>
+        <%# end %>
+        <%# unanswered_students = all_students - answered_students %>
+        <%# unanswered_students.uniq.each do |student| %>
+          <%#= student %>,
+        <%# end %>
+      <%# else %>
+        <%#= "Nobody has answered the questions yet." %>
+      <%# end %>
     </p>
   <% end %>
 
