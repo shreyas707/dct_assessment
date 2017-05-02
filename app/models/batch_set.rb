@@ -3,14 +3,14 @@ class BatchSet < ActiveRecord::Base
 	validate :check_date
 
 	belongs_to :batch
-	has_many :answers#, dependent: :destroy
+	has_many :answers  #, dependent: :destroy
 
 	accepts_nested_attributes_for :answers
 
-	has_many :batch_set_chapter_topics#, dependent: :destroy
+	has_many :batch_set_chapter_topics  #, dependent: :destroy
 	accepts_nested_attributes_for :batch_set_chapter_topics, :allow_destroy => true
 
-	has_many :batch_set_questions#, dependent: :destroy
+	has_many :batch_set_questions  #, dependent: :destroy
 	has_many :questions, through: :batch_set_questions
 
 	validates_presence_of :title, :set_date, :batch_id, :due_date
