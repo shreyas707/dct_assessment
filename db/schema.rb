@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170427104056) do
+ActiveRecord::Schema.define(version: 20170502031318) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "statement"
@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 20170427104056) do
     t.integer  "topic_id"
     t.integer  "chapter_id"
     t.string   "kind"
+    t.string   "code"
   end
 
   create_table "remarks", force: :cascade do |t|

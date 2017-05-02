@@ -42,14 +42,15 @@
 
     <p>
       <strong>Students yet to submit:</strong>
-      <% if @batch.batch_sets.where('due_date < ?', Date.today).exists? %>
-        <% @batch.batch_sets.where('due_date < ?', Date.today).each do |batch_set| %>
-          <br/><%= batch_set.title %>:
-          <%  %>
-        <% end %>
-      <% else %>
-        <%= "All students have submitted all assignments." %>
-      <% end %>
+      <%# if @batch.batch_sets.where('due_date < ?', Date.today).exists? %>
+        <%# @batch.batch_sets.where('due_date < ?', Date.today).each do |batch_set| %>
+          <%# if @batch_set.batch.students.where('batch_set_id = ? AND ') %>
+          <br/><%#= batch_set.title %>:
+          <%# end %>
+        <%# end %>
+      <%# else %>
+        <%#= "All students have submitted all assignments." %>
+      <%# end %>
     </p>
 
   <% end %>
