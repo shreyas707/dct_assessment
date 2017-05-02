@@ -4,12 +4,14 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  belongs_to :student
+  belongs_to :student, dependent: :destroy
 
-  has_many :answers
-  has_many :comments
+  has_many :answers, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   validates_presence_of :email, :password
+
+  
 
   def is_admin?
     return true if self.role == "admin"

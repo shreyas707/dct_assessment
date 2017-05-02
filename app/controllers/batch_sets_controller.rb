@@ -34,7 +34,6 @@ class BatchSetsController < ApplicationController
   # GET /batch_sets/1/edit
   def edit
     @batch = Batch.find(params[:batch_id])
-    @questions = Question.ids
     @answer = Answer.new
     @batch_set_questions = BatchSetQuestion.where('batch_set_id = ?', @batch_set.id)
   end

@@ -18,13 +18,13 @@
 <% if @user.role == "student" %>
 	<p>
 		<strong>Batches:</strong>
-		<% @user.student.batches.each do |batch| %>
-			<%= batch.title %><br/>
+		<%# @user.student.batches.each do |batch| %>
+			<%#= batch.title %><br/>
 			<strong>Start Date</strong>
-			<%= batch.start_date %><br/>
+			<%#= batch.start_date %><br/>
 			<strong>End Date</strong>
-			<%= batch.end_date %>
-		<% end %>
+			<%#= batch.end_date %>
+		<%# end %>
 	</p>
 <% end %>
 

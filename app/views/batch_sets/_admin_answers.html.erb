@@ -71,7 +71,7 @@
             <td>
                 <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
                   <b><%= comment.user.name %></b>:
-                  <%= comment.statement %><br/>
+                  <%= comment.statement.html_safe %><br/>
                 <% end %>
             </td>
             <td><%= answer.remark.try(:title) %></td>
@@ -127,7 +127,7 @@
                   <%# if comment.user.role == "admin" && !answer.remark.nil? %>
                     <%#= "Remark: " %><%#= answer.remark.title %><br/>
                   <%# end %>
-                  <%#= comment.statement %>
+                  <%#= comment.statement.html_safe %>
                 </div>
               </div>
             </div>
@@ -170,7 +170,7 @@
                   <b>Feedbacks:</b><br/>
                   <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
                     <b><%= comment.user.name %></b>:
-                    <%= comment.statement %><br/>
+                    <%= comment.statement.html_safe %><br/>
                   <% end %><br/>
                 <% end %>
                 <%= form_for (@comment) do |f| %>
