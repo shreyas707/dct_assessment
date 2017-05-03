@@ -1,0 +1,20 @@
+development:
+  cloud_name: shreyas707
+  api_key: '631677215111752'
+  api_secret: F6vy3yd4TTA1n0g8q_wMzFNZcSs
+  enhance_image_tag: true
+  static_image_support: false
+
+production:
+  cloud_name: shreyas707
+  api_key: '631677215111752'
+  api_secret: F6vy3yd4TTA1n0g8q_wMzFNZcSs
+  enhance_image_tag: true
+  static_image_support: true
+
+test:
+  cloud_name: shreyas707
+  api_key: '631677215111752'
+  api_secret: F6vy3yd4TTA1n0g8q_wMzFNZcSs
+  enhance_image_tag: true
+  static_image_support: false

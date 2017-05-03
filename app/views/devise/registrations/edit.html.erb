@@ -12,6 +12,17 @@
     <%= f.label :email %><br />
     <div class="ui input"><%= f.email_field :email, autofocus: true %></div>
   </div>
+  <br/>
+
+  <div class="field">
+    <% if @current_user.avatar.nil? %>
+      <label>Add Avatar</label><br/>
+    <% else %>
+      <label>Change Avatar</label><br/>
+    <% end %>
+    <%#= f.file_field :avatar %>
+  </div>
+  <br/>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>

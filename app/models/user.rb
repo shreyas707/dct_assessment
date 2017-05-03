@@ -9,9 +9,7 @@ class User < ActiveRecord::Base
   has_many :answers  #, dependent: :destroy
   has_many :comments  #, dependent: :destroy
 
-  validates_presence_of :email, :password
-
-  
+  # mount_uploader :avatar, AvatarUploader
 
   def is_admin?
     return true if self.role == "admin"

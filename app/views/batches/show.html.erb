@@ -1,5 +1,9 @@
 <p id="notice"><%= notice %></p>
 
+<%= render 'calendar' %>
+
+<div id='calendar'></div>
+
 <div class="ui segment">
   <p>
     <strong>Title:</strong>
@@ -40,18 +44,51 @@
       <% end %>
     </p>
 
-    <p>
-      <strong>Students yet to submit:</strong>
-      <%# if @batch.batch_sets.where('due_date < ?', Date.today).exists? %>
-        <%# @batch.batch_sets.where('due_date < ?', Date.today).each do |batch_set| %>
-          <%# @batch_set.batch.students.where('batch_set_id = ?', batch_set.id).each do || %>
-          <br/><%#= batch_set.title %>:
-          <%# end %>
-        <%# end %>
-      <%# else %>
-        <%#= "All students have submitted all assignments." %>
-      <%# end %>
-    </p>
+    <div class="ui card">
+      <div class="content">
+        <div class="header">Students yet to submit:</div>
+        <!-- <div class="meta">2 days ago</div> -->
+        <div class="description">
+          <p>
+            <% if @batch.batch_sets.where('due_date < ?', Date.today).exists? %>
+              <% @batch.batch_sets.where('due_date < ?', Date.today).each do |batch_set| %>
+                <br/><b><%= batch_set.title %>:</b>
+                <% @batch.students.each do |student| %>
+                  <% if !student.user.answers.where('batch_set_id = ?', batch_set.id).exists? %>
+                    <%= student.name %>,
+                  <% end %>
+                <% end %><br/>
+              <% end %>
+            <% else %>
+              <%= "All students have submitted all assignments." %>
+            <% end %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui card">
+      <div class="content">
+        <div class="header">Students already submitted:</div>
+        <!-- <div class="meta">2 days ago</div> -->
+        <div class="description">
+          <p>
+            <% if @batch.batch_sets.where('due_date < ?', Date.today).exists? %>
+              <% @batch.batch_sets.where('due_date < ?', Date.today).each do |batch_set| %>
+                <br/><b><%= batch_set.title %>:</b>
+                <% @batch.students.each do |student| %>
+                  <% if student.user.answers.where('batch_set_id = ?', batch_set.id).exists? %>
+                    <%= student.name %>,
+                  <% end %>
+                <% end %><br/>
+              <% end %>
+            <% else %>
+              <%= "All students have submitted all assignments." %>
+            <% end %>
+          </p>
+        </div>
+      </div>
+    </div>
 
   <% end %>
 
