@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'users/upload_avatar'
   resources :remarks
   resources :comments
   devise_for :users, skip: [:registrations]

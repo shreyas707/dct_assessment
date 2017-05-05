@@ -1,0 +1,24 @@
+<h1>Editing User</h1>
+
+<%= form_for @user do |f| %>
+  <% if @user.errors.any? %>
+    <h4>These errors prohitibted the form from being saved: </h4>
+    <ul style = "color:red;">
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <%= f.hidden_field :email, value: @user.email %>
+
+  <div class = "field">
+    <%= f.file_field :avatar %>
+    <br/><br/>
+  </div>
+
+  <%= f.submit 'Submit', class: "ui primary button" %><br/><br/>
+<% end %>
+
+<%= link_to 'Show', @user, class: "ui button" %>
+<%= link_to 'Back', users_path, class: "ui black button" %>

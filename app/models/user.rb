@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   has_many :answers  #, dependent: :destroy
   has_many :comments  #, dependent: :destroy
 
-  # mount_uploader :avatar, AvatarUploader
+  mount_uploader :avatar, AvatarUploader
 
   def is_admin?
     return true if self.role == "admin"
