@@ -29,7 +29,7 @@ class UsersController < ApplicationController
 
 	def update
 		if @user.update_attributes(user_parameters)
-			redirect_to edit_user_registration_path, notice: "Successfully updated"
+			redirect_to current_user.is_admin? ? user_path(@user.id) : edit_user_registration_path, notice: "Successfully updated"
 		else
 			render action: "edit"
 		end
