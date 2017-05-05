@@ -29,7 +29,7 @@ class UsersController < ApplicationController
 
 	def update
 		if @user.update_attributes(user_parameters)
-			redirect_to user_path(@user.id), notice: "Successfully updated"
+			redirect_to current_user.is_admin? ? user_path(@user.id) : edit_user_registration_path, notice: "Successfully updated"
 		else
 			render action: "edit"
 		end
@@ -39,6 +39,10 @@ class UsersController < ApplicationController
 		@user.destroy
 		redirect_to users_path
 	end 
+
+	def upload_avatar
+		@user = User.find(params[:user])
+	end
 
 	private
 

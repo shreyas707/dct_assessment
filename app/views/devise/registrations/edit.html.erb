@@ -4,6 +4,12 @@
   <%= devise_error_messages! %>
 
   <div class="field">
+    <strong>Avatar:</strong>
+    <%= link_to current_user.avatar.present? ? "Change Avatar" : "Add Avatar", users_upload_avatar_path(user: current_user.id) %><br/>
+    <%= image_tag @user.avatar_url(:standard) %><br/>
+  </div>
+
+  <div class="field">
     <%= f.label :name %><br />
     <div class="ui input"><%= f.text_field :name, autofocus: true %></div>
   </div>
@@ -14,34 +20,23 @@
   </div>
   <br/>
 
-  <div class="field">
-    <% if @current_user.avatar.nil? %>
-      <label>Add Avatar</label><br/>
-    <% else %>
-      <label>Change Avatar</label><br/>
-    <% end %>
-    <%#= f.file_field :avatar %>
-  </div>
-  <br/>
-
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
 
   <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+    <label>New Password</label> <i>(<%= @minimum_password_length %> characters minimum. Leave blank if you don't want to change it)</i><br />
     <div class="ui input"><%= f.password_field :password, autocomplete: "off" %></div>
     <% if @minimum_password_length %>
       <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
     <% end %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation %><br />
+    <label>New Password Confirmation</label><br />
     <div class="ui input"><%= f.password_field :password_confirmation, autocomplete: "off" %></div>
   </div>
-
+  <br/>
   <div class="field">
     <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
     <div class="ui input"><%= f.password_field :current_password, autocomplete: "off" %></div>
@@ -57,3 +52,4 @@
 <p><b>Unhappy?</b> <%#= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "ui red button" %></p>
  -->
 <%= link_to "Back", :back, class: "ui black button" %>
+<br/><br/>

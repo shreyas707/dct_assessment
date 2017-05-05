@@ -2,8 +2,10 @@
 
 <p>
 	<strong>Avatar:</strong>
-	<% unless @user.avatar_url.nil? %>
-		<%#= image_tag @user.avatar_url(:standard) %><br/>
+	<% if @user.avatar.present? %>
+		<br/><%= image_tag @user.avatar_url(:standard) %><br/>
+	<% else %>
+		<%= "This user has not uploaded an avatar yet." %>
 	<% end %>
 </p>
 
@@ -25,13 +27,13 @@
 <% if @user.role == "student" %>
 	<p>
 		<strong>Batches:</strong>
-		<%# @user.student.batches.each do |batch| %>
-			<%#= batch.title %><br/>
+		<% @user.student.batches.each do |batch| %>
+			<%= batch.title %><br/><br/>
 			<strong>Start Date</strong>
-			<%#= batch.start_date %><br/>
+			<%= batch.start_date %><br/><br/>
 			<strong>End Date</strong>
-			<%#= batch.end_date %>
-		<%# end %>
+			<%= batch.end_date %>
+		<% end %>
 	</p>
 <% end %>
 

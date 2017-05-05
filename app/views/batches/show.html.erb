@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<%= render 'calendar' %>
+<%#= render 'calendar' %>
 
 <div id='calendar'></div>
 
@@ -38,9 +38,9 @@
     </p>
 
     <p>
-      <strong>List of students in this batch: </strong>
+      <strong>List of students in this batch: </strong><br/>
       <% @batch.students.each do |student| %>
-        <%= link_to student.name, batches_student_path(:batch => @batch.id, :student => student.id) %>,
+        <%= link_to student.user.avatar_url.present? ? image_tag(student.user.avatar_url(:thumbnail)) : student.name, batches_student_path(:batch => @batch.id, :student => student.id) %>,
       <% end %>
     </p>
 
@@ -108,8 +108,10 @@
   <% end %>
   <br/><br/>
 
-  <%= link_to 'Back', batches_path, class: "ui black button" %><br/><br/> 
-  <%= link_to 'Delete Batch', @batch, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
+  <%= link_to 'Back', batches_path, class: "ui black button" %><br/><br/>
+  <% if current_user.is_admin? %>
+    <%= link_to 'Delete Batch', @batch, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
+  <% end %>
 
 </div>
 
