@@ -1,5 +1,5 @@
-      <script>
-        $(document).ready(function() {
+<script>
+  $(document).ready(function() {
 
         // page is now ready, initialize the calendar...
   $('#calendar').fullCalendar({
@@ -16,18 +16,17 @@
       <% @batch.batch_sets.where('kind = ? AND due_date >= ?', "assignment", Date.today).each do |batch_set| %>
         {
           title: '<%= batch_set.title %>',
-          start: '<%= batch_set.due_date.strftime("%Y-%b-%d")%>',
+          start: '<%= batch_set.due_date.strftime("%Y-%b-%d") %>',
           url: 'http://google.com',
           color: 'red',
           editable: false
         },
       <% end %>
-      /*
       {
         title: 'Holiday',
-        start: '2017-05-19',
-        end: '2017-05-23'
-      } */
+        start: '<%= @holiday_start_date.strftime("%Y-%b-%d") %>',
+        end: '<%= @holiday_end_date.strftime("%Y-%b-%d") %>'
+      } 
       ]
     });
     

@@ -1,0 +1,32 @@
+<%= form_for(@holiday) do |f| %>
+  <% if @holiday.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@holiday.errors.count, "error") %> prohibited this holiday from being saved:</h2>
+
+      <ul>
+      <% @holiday.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :start_date %><br>
+    <%= f.date_select :start_date %>
+  </div><br/>
+
+  <div class="field">
+    <%= f.label :end_date %><br>
+    <%= f.date_select :end_date %>
+  </div><br/>
+
+  <div class="field">
+    <label>Select Batches</label>
+    <%= f.collection_select :batch_ids, Batch.all, :id, :title, {prompt: "Select Batches"}, {class: "ui fluid search dropdown", multiple: ""} %>
+  </div><br/>
+
+  <div class="actions">
+    <%= f.submit class: "ui primary button" %>
+  </div>
+<% end %>

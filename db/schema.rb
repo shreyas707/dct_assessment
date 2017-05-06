@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170503054217) do
+ActiveRecord::Schema.define(version: 20170506182923) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "statement"
@@ -97,6 +97,20 @@ ActiveRecord::Schema.define(version: 20170503054217) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "holiday_batches", force: :cascade do |t|
+    t.integer  "holiday_id"
+    t.integer  "batch_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "holidays", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.date     "start_date"
+    t.date     "end_date"
   end
 
   create_table "options", force: :cascade do |t|

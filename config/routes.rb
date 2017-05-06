@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :holidays
   get 'users/upload_avatar'
   resources :remarks
   resources :comments
