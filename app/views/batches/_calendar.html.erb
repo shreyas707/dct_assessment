@@ -3,7 +3,7 @@
 
         // page is now ready, initialize the calendar...
   $('#calendar').fullCalendar({
-      header: {
+    /*  header: {
         left: 'prev,next today',
         center: 'title',
         right: 'month,basicWeek,basicDay'
@@ -11,22 +11,25 @@
       defaultDate: '2017-05-12',
       navLinks: true, // can click day/week names to navigate views
       editable: true,
-      eventLimit: true, // allow "more" link when too many events
+      eventLimit: true, // allow "more" link when too many events */
       events: [
-      <% @batch.batch_sets.where('kind = ? AND due_date >= ?', "assignment", Date.today).each do |batch_set| %>
-        {
-          title: '<%= batch_set.title %>',
-          start: '<%= batch_set.due_date.strftime("%Y-%b-%d") %>',
-          url: 'http://google.com',
-          color: 'red',
-          editable: false
-        },
-      <% end %>
-      {
-        title: 'Holiday',
-        start: '<%= @holiday_start_date.strftime("%Y-%b-%d") %>',
-        end: '<%= @holiday_end_date.strftime("%Y-%b-%d") %>'
-      } 
+        <% @batch.batch_sets.where('kind = ? AND due_date >= ?', "assignment", Date.today).each do |batch_set| %>
+          {
+            title: '<%= batch_set.title %>',
+            start: '<%= batch_set.due_date.strftime("%Y-%b-%d") %>',
+            //url: 'http://google.com',
+            color: 'red',
+            editable: false
+          },
+        <% end %>
+        <% @batch.holidays.each do |holiday| %>
+          {
+            title: 'Holiday',
+            start: '<%= holiday.start_date %>',
+            end: '<%= holiday.end_date.strftime("%Y-%b-%d") %> ',
+            editable: false
+          } 
+        <% end %>
       ]
     });
     

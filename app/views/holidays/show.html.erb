@@ -1,14 +1,19 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Start date:</strong>
-  <%= @holiday.start_date %>
-</p>
+<div class="ui segment">
 
-<p>
-  <strong>End date:</strong>
-  <%= @holiday.end_date %>
-</p>
+	<p>
+	  <strong>Start date:</strong>
+	  <%= @holiday.start_date %>
+	</p>
 
-<%= link_to 'Edit', edit_holiday_path(@holiday) %> |
-<%= link_to 'Back', holidays_path %>
+	<p>
+	  <strong>End date:</strong>
+	  <%= @holiday.end_date %>
+	</p>
+
+	<%= link_to 'Edit', edit_holiday_path(@holiday), class: "ui button" %>
+	<%= link_to 'Back', holidays_path, class: "ui black button" %><br/><br/>
+	<%= link_to 'Destroy', @holiday, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
+
+</div>
