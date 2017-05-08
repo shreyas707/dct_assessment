@@ -18,10 +18,6 @@ class BatchesController < ApplicationController
   # GET /batches/1.json
   def show
     @batch_sets = BatchSet.where('batch_id = ?', @batch.id)
-    @holiday_start_date = HolidayBatch.where(batch_id: @batch.id).each do |holiday_batch|
-                            holiday_batch.holiday.start_date
-                          end
-    @holiday_end_date = HolidayBatch.find_by(batch_id: @batch.id).holiday.end_date
   end
 
   def student
