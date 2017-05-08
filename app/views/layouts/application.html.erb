@@ -51,9 +51,9 @@
 
         <div class="right menu">
           <% if user_signed_in? %>
-            <%# if !current_user.avatar.present? %>
-              <%#= link_to("Upload Avatar", users_upload_avatar_path(user: current_user.id), class: controller.controller_name == "registrations" ? "active ui item" : "ui item") %>
-            <%# end %> 
+            <% if !current_user.avatar.present? %>
+              <%= link_to("Upload Avatar", users_upload_avatar_path(user: current_user.id), class: controller.controller_name == "registrations" ? "active ui item" : "ui item") %>
+            <% end %> 
             <%= link_to("Edit Account", edit_user_registration_path, class: controller.controller_name == "registrations" ? "active ui item" : "ui item") %>
           	<%= link_to("Logout", destroy_user_session_path, method: :delete, class: "ui item") %>
           <% else %>
