@@ -39,11 +39,9 @@
 
     <p>
       <strong>List of students in this batch: </strong><br/>
-      <div class="thum-img">
-        <% @batch.students.each do |student| %>
-          <%= link_to student.user.avatar_url.present? ? image_tag(student.user.avatar_url) : student.name, batches_student_path(:batch => @batch.id, :student => student.id) ,class:"avatar" %>
-        <% end %>
-      </div>
+      <% @batch.students.each do |student| %>
+        <%= link_to student.user.avatar_url.present? ? image_tag(student.user.avatar_url, {class: "ui avatar image"}, data:{title: "Shreyas"}) : student.name, batches_student_path(:batch => @batch.id, :student => student.id) ,class:"avatar" %>
+      <% end %>
       <br>
     </p>
 
