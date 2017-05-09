@@ -1,9 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  holiday_id: 1
-  batch_id: 1
+  name: MyString
 
 two:
-  holiday_id: 1
-  batch_id: 1
+  name: MyString

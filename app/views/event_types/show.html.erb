@@ -1,0 +1,12 @@
+<p id="notice"><%= notice %></p>
+
+<div class="ui segment">
+	<p>
+	  <strong>Name:</strong>
+	  <%= @event_type.name %>
+	</p>
+
+	<%= link_to 'Edit', edit_event_type_path(@event_type), class: "ui button" %>
+	<%= link_to 'Back', event_types_path, class: "ui black button" %><br/><br/>
+	<%= link_to 'Destroy', @event_type, method: :delete, data: {confirm: 'Are you sure?'} , class: "ui red button" %></div>
+</div>

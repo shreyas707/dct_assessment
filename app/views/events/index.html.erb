@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Events</h1>
+
+<table class="ui celled padded table">
+  <thead>
+    <tr>
+      <th>Event type</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Show</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @events.each do |event| %>
+      <tr>
+        <td><%= event.event_type_id %></td>
+        <td><%= event.start_date %></td>
+        <td><%= event.end_date %></td>
+        <td><%= link_to 'Show', event %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Event', new_event_path, class: "ui primary button" %><br/><br/>

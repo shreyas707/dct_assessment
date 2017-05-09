@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170506182923) do
+ActiveRecord::Schema.define(version: 20170509052305) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "statement"
@@ -21,6 +21,13 @@ ActiveRecord::Schema.define(version: 20170506182923) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "remark_id"
+  end
+
+  create_table "batch_events", force: :cascade do |t|
+    t.integer  "batch_id"
+    t.integer  "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "batch_set_chapter_topics", force: :cascade do |t|
@@ -99,18 +106,18 @@ ActiveRecord::Schema.define(version: 20170506182923) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "holiday_batches", force: :cascade do |t|
-    t.integer  "holiday_id"
-    t.integer  "batch_id"
+  create_table "event_types", force: :cascade do |t|
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "holidays", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.date     "start_date"
-    t.date     "end_date"
+  create_table "events", force: :cascade do |t|
+    t.integer  "event_type_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.datetime "start_date"
+    t.datetime "end_date"
   end
 
   create_table "options", force: :cascade do |t|

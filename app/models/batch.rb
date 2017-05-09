@@ -8,8 +8,8 @@ class Batch < ActiveRecord::Base
 	has_many :batch_students  #, dependent: :destroy
 	has_many :students, through: :batch_students
 
-	has_many :holiday_batches
-	has_many :holidays, through: :holiday_batches
+	has_many :batch_events
+	has_many :events, through: :batch_events
 
 	validates_presence_of :title, :start_date, :end_date, :course_id
 

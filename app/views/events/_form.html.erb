@@ -1,0 +1,37 @@
+<%= form_for(@event) do |f| %>
+  <% if @event.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+      <ul>
+      <% @event.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <label>Event Type</label><br>
+    <%= f.collection_select :event_type_id, EventType.all, :id, :name, {prompt: "Select Event"}, {class: "ui search dropdown"} %>
+  </div><br/>
+
+  <div class="field">
+    <label>Start Date</label><br/>
+    <%= f.datetime_select :start_date %>
+  </div><br/>
+
+  <div class="field">
+    <label>End Date</label><br/>
+    <%= f.datetime_select :end_date %>
+  </div><br/>
+
+  <div class="field">
+    <label>Batches</label>
+    <%= f.collection_select :batch_ids, Batch.all, :id, :title, {prompt: "Select Batches"}, {class: "ui fluid search dropdown", multiple: ""} %>
+  </div><br/>
+
+  <div class="actions">
+    <%= f.submit class: "ui primary button" %><br/><br/>
+  </div>
+<% end %>

@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  holiday_date: 2017-05-06
+  event_type_id: 1
 
 two:
-  holiday_date: 2017-05-06
+  event_type_id: 1

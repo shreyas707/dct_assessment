@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
-  resources :holidays
+  resources :event_types
+  resources :events
   get 'users/upload_avatar'
   resources :remarks
   resources :comments
