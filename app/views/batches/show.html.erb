@@ -46,10 +46,16 @@
       <% end %>
       <br>
     </p>
+
     <p>
       <strong>Students yet to submit:</strong>
-      <% if @batch.batch_sets.where('due_date < ?', Date.today).exists? %>
-        <% @batch.batch_sets.order('due_date DESC').where('due_date < ?', Date.today).each do |batch_set| %>
+      
+      <div class="ui tabular menu">
+        <div class="item" data-tab="tab-name">Latest 10 batch sets</div>
+        <div class="item" data-tab="tab-name2">Rest of the batch sets</div>
+      </div>
+      <div class="ui tab" data-tab="tab-name">
+        <% @batch.batch_sets.order('due_date DESC').where('due_date < ?', Date.today).first(10).each do |batch_set| %>
           <div class="ui card">
             <div class="content">
               <div class="header"><b><%= batch_set.title %></b></div>
@@ -68,6 +74,33 @@
             </div>
           </div>
         <% end %>
+      </div>
+      <div class="ui tab" data-tab="tab-name2">
+        <% rest_of_the_batch = @batch.batch_sets.order('due_date DESC').where('due_date < ?', Date.today) - @batch.batch_sets.order('due_date DESC').where('due_date < ?', Date.today).first(10) %>
+        <% rest_of_the_batch.each do |batch_set| %>
+          <div class="ui card">
+            <div class="content">
+              <div class="header"><b><%= batch_set.title %></b></div>
+              <!-- <div class="meta">2 days ago</div> -->
+              <div class="description">
+                <p>
+                  <b>Due On: </b><%= batch_set.due_date.strftime("%d %b %Y, %I:%M %p") %><br/>
+                  <b>Students: </b>
+                  <% @batch.students.each do |student| %>
+                    <% if !student.user.answers.where('batch_set_id = ?', batch_set.id).exists? %>
+                      <%= student.name %>,
+                    <% end %>
+                  <% end %>
+                </p>
+              </div>
+            </div>
+          </div>
+        <% end %>    
+        <!--<div class="six wide column">-->
+      </div>
+
+      <% if @batch.batch_sets.where('due_date < ?', Date.today).exists? %>
+
       <% else %>
         <%= "All students have submitted all assignments." %>
       <% end %>
