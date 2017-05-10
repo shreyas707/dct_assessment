@@ -1,11 +1,12 @@
 <p id="notice"><%= notice %></p>
 
-<%= render 'calendar' %>
-
-<div id='calendar'></div>
 
 <div class="ui segment">
+  
+  <div class="ui grid">
 
+
+  <div class="ten wide column">
   <p>
     <strong>Title:</strong>
     <%= @batch.title %>
@@ -45,52 +46,32 @@
       <% end %>
       <br>
     </p>
-
-    <div class="ui card">
-      <div class="content">
-        <div class="header">Students yet to submit:</div>
-        <!-- <div class="meta">2 days ago</div> -->
-        <div class="description">
-          <p>
-            <% if @batch.batch_sets.where('due_date < ?', Date.today).exists? %>
-              <% @batch.batch_sets.where('due_date < ?', Date.today).each do |batch_set| %>
-                <br/><b><%= batch_set.title %>:</b>
-                <% @batch.students.each do |student| %>
-                  <% if !student.user.answers.where('batch_set_id = ?', batch_set.id).exists? %>
-                    <%= student.name %>,
+    <p>
+      <strong>Students yet to submit:</strong>
+      <% if @batch.batch_sets.where('due_date < ?', Date.today).exists? %>
+        <% @batch.batch_sets.order('due_date DESC').where('due_date < ?', Date.today).each do |batch_set| %>
+          <div class="ui card">
+            <div class="content">
+              <div class="header"><b><%= batch_set.title %></b></div>
+              <!-- <div class="meta">2 days ago</div> -->
+              <div class="description">
+                <p>
+                  <b>Due On: </b><%= batch_set.due_date.strftime("%d %b %Y, %I:%M %p") %><br/>
+                  <b>Students: </b>
+                  <% @batch.students.each do |student| %>
+                    <% if !student.user.answers.where('batch_set_id = ?', batch_set.id).exists? %>
+                      <%= student.name %>,
+                    <% end %>
                   <% end %>
-                <% end %><br/>
-              <% end %>
-            <% else %>
-              <%= "All students have submitted all assignments." %>
-            <% end %>
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="ui card">
-      <div class="content">
-        <div class="header">Students already submitted:</div>
-        <!-- <div class="meta">2 days ago</div> -->
-        <div class="description">
-          <p>
-            <% if @batch.batch_sets.where('due_date < ?', Date.today).exists? %>
-              <% @batch.batch_sets.where('due_date < ?', Date.today).each do |batch_set| %>
-                <br/><b><%= batch_set.title %>:</b>
-                <% @batch.students.each do |student| %>
-                  <% if student.user.answers.where('batch_set_id = ?', batch_set.id).exists? %>
-                    <%= student.name %>,
-                  <% end %>
-                <% end %><br/>
-              <% end %>
-            <% else %>
-              <%= "All students have submitted all assignments." %>
-            <% end %>
-          </p>
-        </div>
-      </div>
-    </div>
+                </p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <%= "All students have submitted all assignments." %>
+      <% end %>
+    </p>
 
   <% end %>
 
@@ -114,5 +95,11 @@
   <% if current_user.is_admin? %>
     <%= link_to 'Delete Batch', @batch, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
   <% end %>
+
+  </div>
+    <div class="six wide column">
+      <div id='calendar'><%= render 'calendar' %></div><br/>
+    </div>
+  </div>
 
 </div>
