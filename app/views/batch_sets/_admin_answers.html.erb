@@ -73,7 +73,7 @@
                 <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
                   <div class="comment">
                     <a class="avatar">
-                      <%= image_tag comment.user.avatar_url %>
+                      <%#= image_tag comment.user.avatar_url %>
                     </a>
                     <div class="content">
                       <a class="author"><%= comment.user.try(:name) %></a>
