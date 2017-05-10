@@ -36,7 +36,8 @@
         <% end %>
         <% unanswered_students = all_students - answered_students %>
         <% unanswered_students.uniq.each do |student| %>
-          <%= student.user.avatar.present? ? image_tag(student.user.avatar_url, {class: "ui avatar image"}) : student.name %>,
+          <%#= student.user.avatar.present? ? image_tag(student.user.avatar_url, {class: "ui avatar image"}) : student.name %>
+          <%= student.name %>,
         <% end %>
       <% else %>
         <%= "Nobody has answered the questions yet." %>
