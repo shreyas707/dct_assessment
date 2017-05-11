@@ -30,6 +30,11 @@
   </div>
 
   <div class="field">
+    <%= f.label :title %><br>
+    <div class="ui input"><%= f.text_field :title %></div>
+  </div>
+
+  <div class="field">
     <%= f.label :question_type_id %><br>
     <%= f.collection_select :question_type_id, QuestionType.all, :id, :name, {prompt: "Select question type"}, {class: "ui search dropdown"} %>
   </div>
@@ -48,6 +53,17 @@
   <%= f.link_to_add "Add option", :options %><br/>
 
   <br/><br/>
+
+  <%= f.fields_for :videos do |video_form| %>
+  <%= video_form.text_field :youtube_url%>
+  <%= video_form.link_to_remove "Remove" %>
+<% end %>
+<p><%= f.link_to_add "Add video", :videos %></p>
+
+
+
+
+
   <div class="actions">
     <%= f.submit class: "ui primary button" %><br/><br/>
   </div>

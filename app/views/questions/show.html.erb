@@ -34,6 +34,15 @@
     </p>
   <% end %>
 
+  <p>
+    <strong> Video Links </strong>
+    <% @question.videos.each do |video| %>
+    <iframe id="player" type="text/html" width="640" height="390"
+  src= <%= video.youtube_url %>
+  frameborder="0"></iframe>
+    <%end%>
+    </p>
+
   <%= link_to 'Edit', edit_question_path(@question), class: "ui button" %>
   <%= link_to 'Back', questions_path, class: "ui black button" %><br/><br/>
   <%= link_to 'Destroy', @question, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>

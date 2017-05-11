@@ -10,6 +10,9 @@ class Question < ActiveRecord::Base
 
 	has_many :batch_set_questions  #, dependent: :destroy
 	has_many :batch_sets  #, through: :batch_set_questions
+	has_many :videos
+
+	accepts_nested_attributes_for :videos, :allow_destroy => true
 
 	validates_presence_of :statement, :chapter_id, :topic_id, :question_type_id, :kind
 	

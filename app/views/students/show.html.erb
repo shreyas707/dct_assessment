@@ -15,6 +15,16 @@
 	  <%= @student.mobile %>
 	</p>
 
+	<p>
+	  <strong>Gender:</strong>
+	  <%= @student.gender %>
+	</p>
+
+	<p>
+	  <strong>DOB:</strong>
+	  <%= @student.dob %>
+	</p>
+
 	<%= link_to 'Edit', edit_student_path(@student), class: "ui button" %>
 	<%= link_to 'Back', students_path, class: "ui black button" %><br/><br/>
 	<%= link_to 'Destroy', @student, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
