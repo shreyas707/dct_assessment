@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170509052305) do
+ActiveRecord::Schema.define(version: 20170511054135) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "statement"
@@ -144,6 +144,7 @@ ActiveRecord::Schema.define(version: 20170509052305) do
     t.integer  "chapter_id"
     t.string   "kind"
     t.string   "code"
+    t.string   "title"
   end
 
   create_table "remarks", force: :cascade do |t|
@@ -158,6 +159,8 @@ ActiveRecord::Schema.define(version: 20170509052305) do
     t.string   "mobile"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "gender"
+    t.date     "dob"
   end
 
   create_table "topics", force: :cascade do |t|
@@ -184,9 +187,18 @@ ActiveRecord::Schema.define(version: 20170509052305) do
     t.boolean  "is_active",              default: true
     t.string   "name"
     t.string   "avatar"
+    t.string   "gender"
+    t.date     "dob"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+
+  create_table "videos", force: :cascade do |t|
+    t.integer  "question_id"
+    t.string   "youtube_url"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
 end

@@ -24,6 +24,17 @@
 	<%= @user.student.try(:mobile) %>
 </p>
 
+
+<p>
+	  <strong>Gender:</strong>
+	  <%= @user.gender %>
+	</p>
+
+	<p>
+	  <strong>DOB:</strong>
+	  <%= @user.dob %>
+	</p>
+
 <% if @user.role == "student" %>
 	<p>
 		<strong>Batches:</strong>
