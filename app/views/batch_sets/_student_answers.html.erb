@@ -1,21 +1,21 @@
 <%= form_for([@batch, @batch_set]) do |f| %>
   
 <!-- DISPLAYING QUESTIONS ONLY BECAUSE DUE DATE IS ALREADY OVER. -->
-  <% @batch_set.batch_set_questions.each do |bsq| %>
-    <% if @batch_set.due_date < Time.now && !(bsq.question.answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, bsq.question.id, @batch_set.id)).exists? %>
-      <%= "This assignment was due on #{@batch_set.date_field}, before #{@batch_set.time_field}" %><br/><br/>
+  <%# @batch_set.batch_set_questions.each do |bsq| %>
+    <%# if @batch_set.due_date < Time.now && !(bsq.question.answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, bsq.question.id, @batch_set.id)).exists? %>
+      <%#= "This assignment was due on #{@batch_set.date_field}, before #{@batch_set.time_field}" %><br/><br/>
       <p><b>Questions:</b></p>
-      <% break %>
-    <% end %>
-  <% end %>
-  <% @batch_set.batch_set_questions.each do |bsq| %>
-    <% if @batch_set.due_date < Time.now && !(bsq.question.answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, bsq.question.id, @batch_set.id)).exists? %>
-      <%= bsq.question.statement.html_safe %>
-    <% end %>
-  <% end %>
+      <%# break %>
+    <%# end %>
+  <%# end %>
+  <%# @batch_set.batch_set_questions.each do |bsq| %>
+    <%# if @batch_set.due_date < Time.now && !(bsq.question.answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, bsq.question.id, @batch_set.id)).exists? %>
+      <%#= bsq.question.statement.html_safe %>
+    <%# end %>
+  <%# end %>
 
 <!-- DISPLAYING QUESTIONS AND LETTING USERS ANSWER THEM. -->
-  <% if @batch_set.due_date > Time.now %>
+  <%# if @batch_set.due_date > Time.now %>
     <% @batch_set.batch_set_questions.each do |bsq| %>
       <%= f.hidden_field :batch_id, value: @batch.id %>
       <% if !(bsq.question.answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, bsq.question.id, @batch_set.id)).exists? %>
@@ -46,7 +46,7 @@
         <% end %>
       <% end %>
     </div>
-  <% end %>
+  <%# end %>
 <% end %>
 
 

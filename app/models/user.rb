@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
@@ -26,5 +27,15 @@ class User < ActiveRecord::Base
   def inactive_message
     "You are not allowed to log in."
   end
+  
+  # before_save :update_student
+
+  # private
+  # def update_student
+  #   student = Student.find_by(email: self.email)
+  #   student.name = self.name
+  #   student.email = self.email
+  #   student.save
+  # end
 
 end

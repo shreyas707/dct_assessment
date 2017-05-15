@@ -6,13 +6,7 @@
 
   <p><strong>Batch:</strong>
   <%= @batch_set.batch.title %></p>
-
-  <p><strong>Due Date:</strong>
-  <%= @batch_set.date_field %></p>
-
-  <p><strong>Due Time:</strong>
-  <%= @batch_set.time_field %></p>
-
+  
   <% if current_user.is_admin? %>
     <p><strong>Set Date:</strong>
     <%= @batch_set.set_date.strftime("%d-%b-%Y") %></p>

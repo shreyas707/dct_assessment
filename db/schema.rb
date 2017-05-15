@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170509052305) do
+ActiveRecord::Schema.define(version: 20170512111342) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "answers", force: :cascade do |t|
     t.text     "statement"
@@ -21,6 +24,13 @@ ActiveRecord::Schema.define(version: 20170509052305) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "remark_id"
+  end
+
+  create_table "appreciations", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "answer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "batch_events", force: :cascade do |t|
@@ -52,7 +62,6 @@ ActiveRecord::Schema.define(version: 20170509052305) do
     t.datetime "updated_at", null: false
     t.string   "title"
     t.string   "kind"
-    t.datetime "due_date"
   end
 
   create_table "batch_students", force: :cascade do |t|
@@ -104,6 +113,14 @@ ActiveRecord::Schema.define(version: 20170509052305) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "due_date_lists", force: :cascade do |t|
+    t.integer  "batch_set_id"
+    t.jsonb    "user_ids",      default: [],              array: true
+    t.datetime "due_date_time"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "event_types", force: :cascade do |t|
@@ -186,7 +203,7 @@ ActiveRecord::Schema.define(version: 20170509052305) do
     t.string   "avatar"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end

@@ -24,18 +24,19 @@
 	<%= @user.student.try(:mobile) %>
 </p>
 
-<% if @user.role == "student" %>
+<%# if @user.role == "student" %>
 	<p>
-		<strong>Batches:</strong>
+		<strong>Batches:</strong><br/>
 		<% @user.student.batches.each do |batch| %>
-			<%= batch.title %><br/><br/>
-			<strong>Start Date</strong>
-			<%= batch.start_date %><br/><br/>
-			<strong>End Date</strong>
-			<%= batch.end_date %>
+			<b>Batch Name</b>
+			<%= batch.title %><br/>
+			<b>Start Date:</b>
+			<%= batch.start_date %><br/>
+			<b>End Date:</b>
+			<%= batch.end_date %><br/><br/>
 		<% end %>
 	</p>
-<% end %>
+<%# end %>
 
 <%= link_to 'Edit', edit_user_path(@user), class: "ui button" %>
 <%= link_to 'Back', users_path, class: "ui black button" %><br/><br/>
