@@ -5,8 +5,11 @@
 
   <div class="field">
     <b>Avatar:</b><br/>
-    <%= @user.avatar %>
-    <%= image_tag @user.avatar_url(:standard) %><br/>
+    <% if @user.avatar.present? %>
+      <%= image_tag @user.avatar_url, class: "ui medium rounded image" %>
+    <% else %>
+      <img src="/pic.jpg " class="ui medium rounded image" ><br/>
+    <% end %>
   </div>
   <div class="field">
     <b>Change Avatar:</b> 

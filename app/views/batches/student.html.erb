@@ -1,7 +1,10 @@
 <h3><%= @batch.title %></h3>
 <h3><%= @student.name %></h3>
-<%= image_tag(@student.user.avatar_url(:standard)) %>
-
+<% if @student.user.avatar.present? %>
+  <%= image_tag @student.user.avatar_url, class: "ui medium rounded image" %>
+<% else %>
+  <img src="/pic.jpg " class="ui medium rounded image" ><br/>
+<% end %>
 <h4>Assessments</h4>
 
 <div class="ui styled accordion">

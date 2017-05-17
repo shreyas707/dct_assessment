@@ -5,7 +5,6 @@
   
   <div class="ui grid">
 
-
   <div class="ten wide column">
   <p>
     <strong>Title:</strong>
@@ -42,19 +41,26 @@
     <p>
       <strong>List of students in this batch: </strong><br/>
       <% @batch.students.each do |student| %>
-        <%= link_to student.name, batches_student_path(:batch => @batch.id, :student => student.id) ,class:"avatar" %>
+        <% if student.user.avatar.present? %>
+          <%= link_to image_tag(student.user.avatar_url, {class: "ui avatar image"}), batches_student_path(:batch => @batch.id, :student => student.id) %>
+        <% else %>
+          <div class="ui avatar image">
+            <a href="<%= batches_student_path(:batch => @batch.id, :student => student.id) %>"><img src="/pic.jpg"></a>
+            <%#= student.name %>
+          </div>
+        <% end %>
       <% end %>
       <br>
     </p>
 
-    <p>
+    <!-- <p>
       <strong>Students yet to submit:</strong>
 
       <div class="ui top attached tabular menu">
         <a class="item active" data-tab="first">Latest 10 batch sets</a>
         <a class="item" data-tab="second">Rest of the batch sets</a>
       </div>
-      <!-- <div class="ui bottom attached tab segment active" data-tab="first">
+      <div class="ui bottom attached tab segment active" data-tab="first">
         <%# @batch.batch_sets.order('due_date DESC').where('due_date < ?', Date.today).first(10).each do |batch_set| %>
           <div class="ui card">
             <div class="content">
@@ -97,14 +103,14 @@
             </div>
           </div>
         <%# end %>
-      </div> -->
+      </div>
 
       <%# if @batch.batch_sets.where('due_date < ?', Date.today).exists? %>
 
       <%# else %>
         <%#= "All students have submitted all assignments." %>
       <%# end %>
-    </p>
+    </p> -->
 
   <% end %>
 
