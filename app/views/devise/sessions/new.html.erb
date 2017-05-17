@@ -12,15 +12,38 @@
   </div><br/>
 
   <% if devise_mapping.rememberable? -%>
-    <div class="field">
-      <%= f.check_box :remember_me, class: "ui checkbox" %>
+    <div class="ui checkbox">
+      <input type="checkbox" name="example">
       <%= f.label :remember_me %>
     </div>
-  <% end -%><br/>
+  <% end -%><br/><br/>
 
   <div class="actions">
-    <%= f.submit "Log in", class: "ui primary button" %>
+    <%= f.submit "Log in", class: "ui primary button", id: "submit" %>
   </div>
 <% end %>
 
 <%= render "devise/shared/links" %>
+
+<!-- <script type="text/javascript">
+  var submitHandle = document.getElementById('submit');
+  var emailHandle = document.getElementById('user_email');
+  var passwordHandle = document.getElementById('user_password');
+
+  submitHandle.disabled = true;
+
+  emailHandle.onblur = function(){
+    if(emailHandle.value == ""){
+      emailHandle.insertAdjacentHTML('afterend', " can't be blank");
+    } else {
+      submitHandle.disabled = false;
+    }
+  }
+
+  passwordHandle.onblur = function(){
+    if(passwordHandle.value == "" || passwordHandle.value <= 4){
+      passwordHandle.insertAdjacentHTML('afterend', " can't be less than 5 characters.")
+    }
+  }
+
+</script> -->

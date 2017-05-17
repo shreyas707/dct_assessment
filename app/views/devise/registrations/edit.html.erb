@@ -4,18 +4,25 @@
   <%= devise_error_messages! %>
 
   <div class="field">
-    <strong>Avatar:</strong>
-    <%= link_to current_user.avatar.present? ? "Change Avatar" : "Add Avatar", users_upload_avatar_path(user: current_user.id) %><br/>
-    <%= image_tag @user.avatar_url(:standard) %><br/>
+    <b>Avatar:</b><br/>
+    <% if @user.avatar.present? %>
+      <%= image_tag @user.avatar_url, class: "ui medium rounded image" %>
+    <% else %>
+      <img src="/pic.jpg " class="ui medium rounded image" ><br/>
+    <% end %>
+  </div>
+  <div class="field">
+    <b>Change Avatar:</b> 
+    <%= f.file_field :avatar %><br/><br/>
   </div>
 
   <div class="field">
-    <%= f.label :name %><br />
+    <b><%= f.label :name %></b><br />
     <div class="ui input"><%= f.text_field :name, autofocus: true %></div>
   </div>
 
   <div class="field">
-    <%= f.label :email %><br />
+    <b><%= f.label :email %></b><br />
     <div class="ui input"><%= f.email_field :email, autofocus: true %></div>
   </div>
   <br/>
@@ -25,7 +32,7 @@
   <% end %>
 
   <div class="field">
-    <label>New Password</label> <i>(<%= @minimum_password_length %> characters minimum. Leave blank if you don't want to change it)</i><br />
+    <b><label>New Password</label></b> <i>(<%= @minimum_password_length %> characters minimum. Leave blank if you don't want to change it)</i><br />
     <div class="ui input"><%= f.password_field :password, autocomplete: "off" %></div>
     <% if @minimum_password_length %>
       <br />
@@ -33,12 +40,12 @@
   </div>
 
   <div class="field">
-    <label>New Password Confirmation</label><br />
+    <b><label>New Password Confirmation</label></b><br />
     <div class="ui input"><%= f.password_field :password_confirmation, autocomplete: "off" %></div>
   </div>
   <br/>
   <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+    <b><%= f.label :current_password %></b> <i>(we need your current password to confirm your changes)</i><br />
     <div class="ui input"><%= f.password_field :current_password, autocomplete: "off" %></div>
   </div><br/>
 

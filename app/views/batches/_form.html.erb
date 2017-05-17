@@ -37,8 +37,11 @@
   </div>
 
   <div class="field">
-    <label>Completed?</label>
-    <%= f.check_box :complete, class: "ui checkbox" %><br/><br/>
+    <div class="ui checkbox">
+      <input type="checkbox" name="example">
+      <label>Completed?</label>
+      <% f.check_box :complete %><br/><br/>
+    </div>
   </div>
 
   <div class="actions">

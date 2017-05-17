@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-
+<% if current_user.is_admin? %>
 <h1>Listing Users</h1>
 
 <table class="ui celled padded table">
@@ -29,3 +29,6 @@
 <br>
 
 <%= link_to 'New User', new_user_path, class: "ui primary button" %><br/><br/>
+<% else %>
+You think you're too smart? Think again.
+<% end %>

@@ -1,6 +1,7 @@
 class Student < ActiveRecord::Base
 
 	after_create :create_user
+	after_update :update_user
 	
 	has_one :user
 
@@ -19,8 +20,15 @@ class Student < ActiveRecord::Base
 		user.dob = self.dob
 		user.gender = self.gender
 		user.password = "password"
-		user.avatar = "image/upload/v1494394329/psqitd4es83x1qrhy1si.jpg"
+		user.avatar = "image/upload/v1494836967/default_pic_pbc6pg.jpg"
 		user.save 
+	end
+
+	def update_user
+		user = User.find_by(student_id: self.id)
+		user.name = self.name
+		user.email = self.email
+		user.save
 	end
 
 end

@@ -16,15 +16,14 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'pg'
 
 group :development, :test do
   gem 'web-console', '~> 2.0'
   gem 'byebug'
-  gem 'sqlite3'
   gem 'faker', git: 'https://github.com/stympy/faker.git'
 end
 
 group :production do
-  gem 'pg'
   gem 'rails_12factor'
 end

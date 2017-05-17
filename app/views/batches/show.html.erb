@@ -5,7 +5,6 @@
   
   <div class="ui grid">
 
-
   <div class="ten wide column">
   <p>
     <strong>Title:</strong>
@@ -42,36 +41,76 @@
     <p>
       <strong>List of students in this batch: </strong><br/>
       <% @batch.students.each do |student| %>
-        <%= link_to student.user.avatar_url.present? ? image_tag(student.user.avatar_url, {class: "ui avatar image ui.popup"}, data:{title: "Shreyas"}) : student.name, batches_student_path(:batch => @batch.id, :student => student.id) ,class:"avatar" %>
+        <% if student.user.avatar.present? %>
+          <%= link_to image_tag(student.user.avatar_url, {class: "ui avatar image"}), batches_student_path(:batch => @batch.id, :student => student.id) %>
+        <% else %>
+          <div class="ui avatar image">
+            <a href="<%= batches_student_path(:batch => @batch.id, :student => student.id) %>"><img src="/pic.jpg"></a>
+            <%#= student.name %>
+          </div>
+        <% end %>
       <% end %>
       <br>
     </p>
-    <p>
+
+    <!-- <p>
       <strong>Students yet to submit:</strong>
-      <% if @batch.batch_sets.where('due_date < ?', Date.today).exists? %>
-        <% @batch.batch_sets.order('due_date DESC').where('due_date < ?', Date.today).each do |batch_set| %>
+
+      <div class="ui top attached tabular menu">
+        <a class="item active" data-tab="first">Latest 10 batch sets</a>
+        <a class="item" data-tab="second">Rest of the batch sets</a>
+      </div>
+      <div class="ui bottom attached tab segment active" data-tab="first">
+        <%# @batch.batch_sets.order('due_date DESC').where('due_date < ?', Date.today).first(10).each do |batch_set| %>
           <div class="ui card">
             <div class="content">
-              <div class="header"><b><%= batch_set.title %></b></div>
-              <!-- <div class="meta">2 days ago</div> -->
+              <div class="header"><b><%#= batch_set.title %></b></div>
+                <div class="meta">2 days ago</div>
               <div class="description">
                 <p>
-                  <b>Due On: </b><%= batch_set.due_date.strftime("%d %b %Y, %I:%M %p") %><br/>
+                  <b>Due On: </b><%#= batch_set.due_date.strftime("%d %b %Y, %I:%M %p") %><br/>
                   <b>Students: </b>
-                  <% @batch.students.each do |student| %>
-                    <% if !student.user.answers.where('batch_set_id = ?', batch_set.id).exists? %>
-                      <%= student.name %>,
-                    <% end %>
-                  <% end %>
+                  <%# @batch.students.each do |student| %>
+                    <%# if !student.user.answers.where('batch_set_id = ?', batch_set.id).exists? %>
+                      <%#= student.name %>,
+                    <%# end %>
+                  <%# end %>
                 </p>
               </div>
             </div>
           </div>
-        <% end %>
-      <% else %>
-        <%= "All students have submitted all assignments." %>
-      <% end %>
-    </p>
+        <%# end %>
+      </div> 
+      <div class="ui bottom attached tab segment" data-tab="second">
+        <%# rest_of_the_batch = @batch.batch_sets.order('due_date DESC').where('due_date < ?', Date.today) - @batch.batch_sets.order('due_date DESC').where('due_date < ?', Date.today).first(10) %>
+        <%# rest_of_the_batch.each do |batch_set| %>
+
+          <div class="ui card">
+            <div class="content">
+              <div class="header"><b><%#= batch_set.title %></b></div>
+              <div class="meta">2 days ago</div>
+              <div class="description">
+                <p>
+                  <b>Due On: </b><%#= batch_set.due_date.strftime("%d %b %Y, %I:%M %p") %><br/>
+                  <b>Students: </b>
+                  <%# @batch.students.each do |student| %>
+                    <%# if !student.user.answers.where('batch_set_id = ?', batch_set.id).exists? %>
+                      <%#= student.name %>,
+                    <%# end %>
+                  <%# end %>
+                </p>
+              </div>
+            </div>
+          </div>
+        <%# end %>
+      </div>
+
+      <%# if @batch.batch_sets.where('due_date < ?', Date.today).exists? %>
+
+      <%# else %>
+        <%#= "All students have submitted all assignments." %>
+      <%# end %>
+    </p> -->
 
   <% end %>
 
