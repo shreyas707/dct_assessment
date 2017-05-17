@@ -17,6 +17,8 @@ class Student < ActiveRecord::Base
 		user.name = self.name
 		user.student_id = self.id
 		user.email = self.email
+		user.dob = self.dob
+		user.gender = self.gender
 		user.password = "password"
 		user.avatar = "image/upload/v1494836967/default_pic_pbc6pg.jpg"
 		user.save 

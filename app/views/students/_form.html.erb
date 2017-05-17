@@ -25,9 +25,25 @@
   </div>
 
   <div class="field">
-    <label>Select Batches</label>
-    <%= f.collection_select :batch_ids, Batch.all, :id, :title, {prompt: "Select Batches"}, {class: "ui fluid search dropdown", multiple: ""} %>
-  </div><br/>
+    <%= f.label :gender %><br>
+     <%= f.radio_button :gender, "Male" %>Male<br/>
+    <%= f.radio_button :gender, "Female" %>Female<br/>
+  </div>
+
+  <div class="field">
+    <%= f.label :dob %><br>
+    <div class="ui input"><%= f.date_select :dob, options = {start_year: Date.today.year-100} %></div>
+  </div>
+
+
+
+
+  <%= f.fields_for :batch_students, @batch_student do |b| %>
+    <label>Select Batch</label><br/>
+    <%= b.collection_select :batch_id, Batch.all, :id, :title, {prompt: "Select"}, {class: "ui dropdown"} %><br/>
+    <%= b.link_to_remove "Delete the batch" %><br/><br/>
+  <% end %>
+  <%= f.link_to_add "Add a batch", :batch_students %><br/><br/>
 
   <div class="actions">
     <%= f.submit class: "ui primary button" %><br/><br/>

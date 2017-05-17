@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170516061518) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20170511054135) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "statement"
@@ -24,13 +21,6 @@ ActiveRecord::Schema.define(version: 20170516061518) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "remark_id"
-  end
-
-  create_table "appreciations", force: :cascade do |t|
-    t.string   "title"
-    t.integer  "answer_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "batch_events", force: :cascade do |t|
@@ -62,6 +52,7 @@ ActiveRecord::Schema.define(version: 20170516061518) do
     t.datetime "updated_at", null: false
     t.string   "title"
     t.string   "kind"
+    t.datetime "due_date"
   end
 
   create_table "batch_students", force: :cascade do |t|
@@ -115,14 +106,6 @@ ActiveRecord::Schema.define(version: 20170516061518) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "due_date_lists", force: :cascade do |t|
-    t.integer  "batch_set_id"
-    t.jsonb    "user_ids",      default: [],              array: true
-    t.datetime "due_date_time"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-  end
-
   create_table "event_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -161,6 +144,7 @@ ActiveRecord::Schema.define(version: 20170516061518) do
     t.integer  "chapter_id"
     t.string   "kind"
     t.string   "code"
+    t.string   "title"
   end
 
   create_table "remarks", force: :cascade do |t|
@@ -175,6 +159,8 @@ ActiveRecord::Schema.define(version: 20170516061518) do
     t.string   "mobile"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "gender"
+    t.date     "dob"
   end
 
   create_table "topics", force: :cascade do |t|
@@ -201,9 +187,19 @@ ActiveRecord::Schema.define(version: 20170516061518) do
     t.boolean  "is_active",              default: true
     t.string   "name"
     t.string   "avatar"
+    t.string   "gender"
+    t.date     "dob"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+
+  create_table "videos", force: :cascade do |t|
+    t.integer  "question_id"
+    t.string   "youtube_url"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
 end
+>>>>>>> 0832e15d802cf886aef3f007eea0af9df5eb8eec
