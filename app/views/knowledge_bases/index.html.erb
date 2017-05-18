@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Knowledge Bases</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Body</th>
+      <th>Is private</th>
+      <th>Chapter</th>
+      <th>Topic</th>
+      <th>Published</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @knowledge_bases.each do |knowledge_basis| %>
+      <tr>
+        <td><%= knowledge_basis.title %></td>
+        <td><%= knowledge_basis.body %></td>
+        <td><%= knowledge_basis.is_private %></td>
+        <td><%= knowledge_basis.chapter_id %></td>
+        <td><%= knowledge_basis.topic_id %></td>
+        <td><%= knowledge_basis.published %></td>
+        <td><%= knowledge_basis.user_id %></td>
+        <td><%= link_to 'Show', knowledge_basis %></td>
+        <td><%= link_to 'Edit', edit_knowledge_basis_path(knowledge_basis) %></td>
+        <td><%= link_to 'Destroy', knowledge_basis, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Knowledge base', new_knowledge_basis_path %>

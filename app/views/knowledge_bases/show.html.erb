@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @knowledge_basis.title %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @knowledge_basis.body %>
+</p>
+
+<p>
+  <strong>Is private:</strong>
+  <%= @knowledge_basis.is_private %>
+</p>
+
+<p>
+  <strong>Chapter:</strong>
+  <%= @knowledge_basis.chapter_id %>
+</p>
+
+<p>
+  <strong>Topic:</strong>
+  <%= @knowledge_basis.topic_id %>
+</p>
+
+<p>
+  <strong>Published:</strong>
+  <%= @knowledge_basis.published %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @knowledge_basis.user_id %>
+</p>
+
+<%= link_to 'Edit', edit_knowledge_basis_path(@knowledge_basis) %> |
+<%= link_to 'Back', knowledge_bases_path %>

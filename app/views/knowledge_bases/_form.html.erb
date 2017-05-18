@@ -1,0 +1,56 @@
+<%= form_for(@knowledge_basis) do |f| %>
+  <% if @knowledge_basis.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@knowledge_basis.errors.count, "error") %> prohibited this knowledge_basis from being saved:</h2>
+
+      <ul>
+      <% @knowledge_basis.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :body %><br>
+    <%= f.text_area :body %>
+  </div>
+
+   <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.number_field :user_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :chapter_id %><br>
+    <%= f.number_field :chapter_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :topic_id %><br>
+    <%= f.number_field :topic_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :links %><br>
+    <%= f.text_field :links %>
+  </div>
+
+  <div class="field">
+    <%= f.label :published %><br>
+    <%= f.check_box :published %>
+  </div>
+
+   <div class="field">
+    <%= f.label :is_private %><br>
+    <%= f.check_box :is_private %>
+  </div>
+ 
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

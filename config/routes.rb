@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :knowledge_bases
   resources :event_types
   resources :events
   get 'users/upload_avatar'
