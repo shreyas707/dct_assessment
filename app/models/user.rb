@@ -5,11 +5,15 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  # THIS IS FOR USERS TO UPDATE ACCOUNT INFO (EXCEPT NEW PASSWORD) WITHOUT PROVIDING PASSWORD
+  attr_accessor :current_password
+
   belongs_to :student  #, dependent: :destroy
 
   has_many :answers  #, dependent: :destroy
   has_many :comments  #, dependent: :destroy
 
+  # for avatar upload (carrierwave and cloudinary)
   mount_uploader :avatar, AvatarUploader
 
   def is_admin?
@@ -28,14 +32,4 @@ class User < ActiveRecord::Base
     "You are not allowed to log in."
   end
   
-  # before_save :update_student
-
-  # private
-  # def update_student
-  #   student = Student.find_by(email: self.email)
-  #   student.name = self.name
-  #   student.email = self.email
-  #   student.save
-  # end
-
 end

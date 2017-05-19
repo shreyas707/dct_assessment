@@ -2,16 +2,14 @@ Rails.application.routes.draw do
 
   resources :event_types
   resources :events
-  get 'users/upload_avatar'
   resources :remarks
   resources :comments
-  devise_for :users, skip: [:registrations]
-    as :user do
-    get "/sign_in" => "devise/sessions#new" # custom path to login/sign_in
-    get "/sign_up" => "devise/registrations#new", as: "new_user_registration" # custom path to sign_up/registration
-    get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'
-    put 'users' => 'devise/registrations#update', :as => 'user_registration'
-  end
+  
+  # get 'users/upload_avatar'
+  # WITH THIS, USERS CAN UPDATE ALL INFO (EXCEPT PASSWORD) WITHOUT PROVIDING CURRENT PASSWORD
+  # path_names will return error when users try to access sign_up page
+  devise_for :users, :controllers => {:registrations => 'registrations'}, path_names: {sign_up: ''}, :path_prefix => 'my'
+
   resources :users
   resources :questions
   resources :question_types

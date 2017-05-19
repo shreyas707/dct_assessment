@@ -11,7 +11,7 @@
 
 <p>
   <strong>Name:</strong>
-  <%= @user.student.try(:name) %>
+  <%= @user.try(:name) %>
 </p>
 
 <p>
@@ -21,7 +21,7 @@
 
 <p>
 	<strong>Mobile:</strong>
-	<%= @user.student.try(:mobile) %>
+	<%= @user.try(:mobile) %>
 </p>
 
 
@@ -49,6 +49,6 @@
 	</p>
 <% end %>
 
-<%= link_to 'Edit', edit_user_path(@user), class: "ui button" %>
+<%= link_to 'Edit', @user.role == "admin" ? edit_user_path(@user) : edit_student_path(@user.student), class: "ui button" %>
 <%= link_to 'Back', users_path, class: "ui black button" %><br/><br/>
 <%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
