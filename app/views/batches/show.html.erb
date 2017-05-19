@@ -46,7 +46,7 @@
         <% else %>
           <div class="ui avatar image">
             <a href="<%= batches_student_path(:batch => @batch.id, :student => student.id) %>"><img src="/pic.jpg"></a>
-            <%#= student.name %>
+            <%= student.name.split(" ")[0] %>
           </div>
         <% end %>
       <% end %>

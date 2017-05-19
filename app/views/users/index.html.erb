@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 <% if current_user.is_admin? %>
 <h1>Listing Users</h1>
-
+<h3>Total number of users: <%= User.count %></h3>
 <table class="ui celled padded table">
   <thead>
     <tr>

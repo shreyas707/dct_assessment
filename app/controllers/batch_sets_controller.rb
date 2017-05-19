@@ -41,11 +41,11 @@ class BatchSetsController < ApplicationController
   # POST /batch_sets
   # POST /batch_sets.json
   def create
-    @batch_set = BatchSet.new(batch_set_params)
+    # @batch_set = BatchSet.new(batch_set_params)
     @batch = Batch.find(params[:batch_id])
     respond_to do |format|
       if @batch_set.save
-        @batch_set.create_due_date_list(params[:due_date_list_attributes])
+        # @batch_set.create_due_date_list(params[:due_date_list_attributes])
         format.html { redirect_to edit_batch_batch_set_path(@batch, @batch_set), notice: 'Batch set was successfully created.' }
         format.json { render :show, status: :created, location: @batch_set }
       else
@@ -94,6 +94,6 @@ class BatchSetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def batch_set_params
-      params.require(:batch_set).permit(:title, :kind, :set_date, :batch_id, batch_set_chapter_topics_attributes: [:id, :batch_id, :chapter_id, :topic_id, :_destroy], answers_attributes:[:question_id, :batch_set_id, :user_id, :statement], question_ids: [])
+      params.require(:batch_set).permit(:title, :kind, :set_date, :batch_id, batch_set_chapter_topics_attributes: [:id, :batch_id, :chapter_id, :topic_id, :_destroy], answers_attributes:[:question_id, :batch_set_id, :user_id, :statement], due_date_lists_attributes: [:batch_set_id, :due_date_time, :_destroy, user_ids: []], question_ids: [])
     end
 end

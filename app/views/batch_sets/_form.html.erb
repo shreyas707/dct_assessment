@@ -42,9 +42,13 @@
 
   <%= f.fields_for :due_date_lists, @due_date_list do |a| %>
     Add Due Date<br/>
-    <%= a.collection_select :user_ids, User.all, :id, :name, {prompt: "Select User"}, {class: "ui fluid search dropdown", multiple: ""} %>
     <%= a.hidden_field :batch_set_id, value: @batch_set.id %>
     <%= a.datetime_select :due_date_time %><br/><br/>
+    <label>Add Users</label>
+    <%#= a.collection_select :user_ids, User.all, :id, :name, {prompt: "Select User"}, {class: "ui fluid search dropdown", multiple: ""} %>
+    <%= a.collection_check_boxes :user_ids, User.all, :id, :name do |b| %>
+      <%= b.label %> <%= b.check_box %><br/>
+    <% end %>
     <%= a.link_to_remove "Delete Due Date List" %><br/><br/><br/>
   <% end %>
   <%= f.link_to_add "Add Due Date List", :due_date_lists %>
