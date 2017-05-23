@@ -1,6 +1,6 @@
 class BatchSetsController < ApplicationController
   before_action :set_batch_set, only: [:edit, :update, :destroy]
-  load_and_authorize_resource
+  # load_and_authorize_resource
 
   # GET /batch_sets
   # GET /batch_sets.json
@@ -86,6 +86,11 @@ class BatchSetsController < ApplicationController
     end
   end
 
+  def select_chapters
+    @topic = Topic.find(params[:topic_id])
+    @chapters = @topic.chapters
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_batch_set
@@ -94,6 +99,6 @@ class BatchSetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def batch_set_params
-      params.require(:batch_set).permit(:title, :kind, :set_date, :batch_id, batch_set_chapter_topics_attributes: [:id, :batch_id, :chapter_id, :topic_id, :_destroy], answers_attributes:[:question_id, :batch_set_id, :user_id, :statement], due_date_lists_attributes: [:batch_set_id, :due_date_time, :_destroy, user_ids: []], question_ids: [])
+      params.require(:batch_set).permit(:title, :kind, :set_date, :batch_id, batch_set_chapter_topics_attributes: [:id, :batch_id, :chapter_id, :topic_id, :_destroy], answers_attributes:[:question_id, :batch_set_id, :user_id, :statement], due_date_lists_attributes: [:batch_set_id, :due_date_time, :_destroy, user_ids: []], question_ids: [], user_ids: [])
     end
 end

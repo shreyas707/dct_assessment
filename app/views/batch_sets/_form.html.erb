@@ -45,12 +45,12 @@
     <%= a.hidden_field :batch_set_id, value: @batch_set.id %>
     <%= a.datetime_select :due_date_time %><br/><br/>
     <label>Add Users</label>
-    <%#= a.collection_select :user_ids, User.all, :id, :name, {prompt: "Select User"}, {class: "ui fluid search dropdown", multiple: ""} %>
-    <div id="studentList">
-    <%= a.collection_check_boxes :user_ids, User.all, :id, :name do |b| %>
-      <%= b.label %> <%= b.check_box %><br/>
-    <% end %>
-    </div>
+    <%= a.collection_select :user_ids, User.all, :id, :name, {prompt: "Select User"}, {class: "ui fluid search dropdown", multiple: ""} %>
+<!--     <div id="studentList">
+    <%#= a.collection_check_boxes :user_ids, User.all, :id, :name do |b| %>
+      <%#= b.label %> <%#= b.check_box %><br/>
+    <%# end %>
+    </div> -->
     <%= a.link_to_remove "Delete Due Date List" %><br/><br/><br/>
   <% end %>
   <%= f.link_to_add "Add Due Date List", :due_date_lists %>
@@ -62,8 +62,26 @@
 
 <% end %>
 
-<script>
- var studentListHandle = document.getElementById('studentList');
- console.log(studentListHandle.getElementsByTagName('input'))
+<script type="text/javascript">
+  var topicHandle = document.getElementById('batch_set_batch_set_chapter_topics_attributes_0_topic_id');
+  var chapterHandle = document.getElementById('batch_set_batch_set_chapter_topics_attributes_0_chapter_id');
 
+  topicHandle.onchange = function(){
+    chapterHandle.innerHTML = "";
+    var request = new XMLHttpRequest();
+    request.open('GET', '/batch_sets/select_chapters.json?topic_id=' + topicHandle.value);
+    request.onreadystatechange = function(){
+      if(request.readyState === 4 && request.status === 200){
+        var response = JSON.parse(request.responseText);
+        response.forEach(function(chapter){
+          var newElement = document.createElement('option');
+          newElement.value = chapter.id;
+          var newText = document.createTextNode(chapter.name);
+          newElement.appendChild(newText);
+          chapterHandle.appendChild(newElement);
+        });
+      }
+    }
+    request.send();
+  };
 </script>

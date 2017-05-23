@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  get 'batch_sets/select_chapters'
+  get 'batches/student'
+
   resources :event_types
   resources :events
   resources :remarks
@@ -17,14 +20,12 @@ Rails.application.routes.draw do
   resources :topics
   resources :courses
   resources :roles
-  get 'batches/student'
   resources :batches do 
     resources :batch_sets
   end
   resources :answers
   resources :batch_sets
   resources :students
-
 
   root 'batches#index'
 
