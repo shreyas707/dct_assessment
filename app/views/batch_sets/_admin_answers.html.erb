@@ -43,7 +43,8 @@
               <i class="remove icon"></i>
             <% end %>    
           </td>
-          <td><%= link_to 'Delete Answer', answer, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %></td>
+          <td><%= link_to 'Delete Answer', answer, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
+          </td>
         </tr>
         <% end %>
       </tbody>
@@ -69,36 +70,50 @@
             <td><%= answer.user.student.name %></td>
             <td><%= answer.statement.html_safe %></td>
             <td>
-              <div class="ui comments">
-                <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
-                  <div class="comment">
-                    <a class="avatar">
-                      <%#= image_tag comment.user.avatar_url %>
-                    </a>
-                    <div class="content">
-                      <a class="author"><%= comment.user.try(:name) %></a>
-          <!--             <div class="metadata">
-                        <div class="date">distance</div>
-                        <div class="rating">
-                          <i class="star icon"></i>
-                          <%#= answer.remark.try(:title) %>
+              <!-- <div class="new_comment">
+                <div class="ui comments">
+                  <%# answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
+                    <div class="comment">
+                      <a class="avatar">
+                        <%# if comment.user.avatar.present? %>
+                          <%#= image_tag comment.user.avatar_url, {class: "avatar"} %>
+                        <%# else %>
+                          <div class="ui avatar image">
+                            <img src="/pic.jpg">
+                          </div>
+                        <%# end %>
+                      <div class="content">
+                        <a class="author"><%#= comment.user.try(:name) %></a>
+                         <div class="metadata">
+                          <div class="date">distance</div>
+                          <div class="rating">
+                            <i class="star icon"></i>
+                            <%#= answer.remark.try(:title) %>
+                          </div>
+                        </div> 
+                        <div class="text">
+                          <%#= comment.statement.html_safe %>
                         </div>
-                      </div> -->
-                      <div class="text">
-                        <%= comment.statement.html_safe %>
                       </div>
                     </div>
-                  </div>
-                <% end %>
-              </div>
+                  <%# end %>
+                </div>
+              </div> -->
             </td>
             <td><%= answer.remark.try(:title) %></td>
           </tr>
           <tr>
-            <td></td>
+            <td><%= form_for answer do |ans| %>
+                  <%= ans.radio_button :is_correct, "correct" %>Correct<br/>
+                  <%= ans.radio_button :is_correct, "partial" %>Partially Correct<br/>
+                  <%= ans.radio_button :is_correct, "wrong" %>Wrong<br/>
+                  <%= ans.submit %>
+                <% end %>
+            </td>
             <td><%= link_to 'Delete Answer', answer, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %></td>
             <td>
-              <%= form_for (@comment) do |f| %>
+              <%# link_to "New Comment", new_comment_path(@comment), remote: true %> 
+              <%= form_for (@comment), remote: true do |f| %>
                 <%= f.hidden_field :user_id, value: current_user.id %>
                 <%= f.hidden_field :answer_id, value: answer.id %>
                 <%= f.text_area :statement, class: "textEditor" %>
@@ -212,3 +227,4 @@
 
 
 <% end %>
+

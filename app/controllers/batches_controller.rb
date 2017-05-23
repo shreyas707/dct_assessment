@@ -7,8 +7,8 @@ class BatchesController < ApplicationController
   # GET /batches.json
   def index
     if current_user.is_admin?
-      @on_going_batches = Batch.where("complete = ?", false)
-      @completed_batches = Batch.where("complete = ?", true)
+      @on_going_batches = Batch.where("complete = ?", false).includes(:course)
+      @completed_batches = Batch.where("complete = ?", true).includes(:course)
     elsif current_user.is_student?
       @batches = current_student.batches
     end
@@ -17,6 +17,7 @@ class BatchesController < ApplicationController
   # GET /batches/1
   # GET /batches/1.json
   def show
+    @batch_students = @batch.students.includes(:user)
     @batch_sets = BatchSet.where('batch_id = ?', @batch.id)
   end
 

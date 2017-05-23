@@ -40,7 +40,7 @@
 
     <p>
       <strong>List of students in this batch: </strong><br/>
-      <% @batch.students.each do |student| %>
+      <% @batch_students.each do |student| %>
         <% if student.user.avatar.present? %>
           <%= link_to image_tag(student.user.avatar_url, {class: "ui avatar image"}), batches_student_path(:batch => @batch.id, :student => student.id) %>
         <% else %>

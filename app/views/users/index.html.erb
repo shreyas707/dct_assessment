@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 <% if current_user.is_admin? %>
 <h1>Listing Users</h1>
-<h3>Total number of users: <%= User.count %></h3>
+<h3>Total number of users: <%= @users.count %></h3>
 <table class="ui celled padded table">
   <thead>
     <tr>
@@ -17,7 +17,7 @@
     <% @users.each do |user| %>
       <tr>
         <td><%= user.student.try(:name) %></td>
-        <td><%= user.email %></td>
+        <td><%= user.student.try(:email) %></td>
         <td><%= user.student.try(:mobile) %></td>
         <td><%= user.is_active %></td>
         <td><%= link_to 'Show', user %></td>

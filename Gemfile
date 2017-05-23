@@ -22,6 +22,8 @@ group :development, :test do
   gem 'web-console', '~> 2.0'
   gem 'byebug'
   gem 'faker', git: 'https://github.com/stympy/faker.git'
+  gem 'bullet'
+  gem 'hirb'
 end
 
 group :production do

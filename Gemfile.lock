@@ -57,6 +57,9 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.2.3)
+    bullet (5.5.1)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.10.0)
     byebug (9.0.6)
     cancancan (1.16.0)
     carrierwave (1.0.0)
@@ -89,6 +92,7 @@ GEM
     ffi (1.9.18-x86-mingw32)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
+    hirb (0.7.3)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (0.8.1)
@@ -205,6 +209,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.4)
     unf_ext (0.0.7.4-x86-mingw32)
+    uniform_notifier (1.10.0)
     warden (1.2.7)
       rack (>= 1.0)
     web-console (2.3.0)
@@ -218,6 +223,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  bullet
   byebug
   cancancan (~> 1.10)
   carrierwave
@@ -225,6 +231,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   devise
   faker!
+  hirb
   jbuilder (~> 2.0)
   jquery-rails
   nested_form
