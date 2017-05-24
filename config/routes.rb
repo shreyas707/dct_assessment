@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
-  get 'batch_sets/select_chapters'
   get 'batches/student'
+  get 'batch_sets/select_chapters'
 
   resources :event_types
   resources :events
