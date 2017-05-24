@@ -12,39 +12,55 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :title %><br>
+    <b><%= f.label :title %></b><br>
     <div class="ui input"><%= f.text_field :title %></div>
-  </div>
+  </div><br/>
 
   <div class="field">
-    <%= f.label :set_date %><br>
+    <b><%= f.label :set_date %></b><br>
     <%= f.date_select :set_date %>
-  </div>
+  </div><br/>
 
   <div class="field">
-    <%= f.label :kind %><br>
+    <b><%= f.label :kind %></b><br>
     <%= f.radio_button :kind, "assessment" %>Assessment<br/>
-    <%= f.radio_button :kind, "assignment" %>Assignment<br/>
-  </div>
+    <%= f.radio_button :kind, "assignment" %>Assignment
+  </div><br/>
 
   <%= f.hidden_field :batch_id, value: @batch.id %>
-  <br/>
 
-  <%= f.fields_for :batch_set_chapter_topics, @batch_set_chapter_topic do |b| %>
+<!--   <%#= f.fields_for :batch_set_chapter_topics, @batch_set_chapter_topic do |b| %>
     Select Topic<br/>
-    <%= b.collection_select :topic_id, Topic.all, :id, :name, {prompt: "Select topic"}, {class: "ui search dropdown"} %><br/><br/>
+    <%#= b.collection_select :topic_id, Topic.all, :id, :name, {prompt: "Select topic"}, {class: "ui search dropdown"} %><br/><br/>
     Select Chapter<br/>
-    <%= b.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select Chapter"}, {class: "ui search dropdown"} %><br/>
-    <%= b.link_to_remove "Delete Topic and Chapter" %><br/><br/><br/>
+    <%#= b.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select Chapter"}, {class: "ui search dropdown"} %><br/>
+    <%#= b.link_to_remove "Delete Topic and Chapter" %><br/><br/><br/>
+  <%# end %>
+  <%#= f.link_to_add "Add Topic and Chapter", :batch_set_chapter_topics %>
+  <br/><br/> -->
+
+  <%= f.fields_for :question_sets, @question_set do |qs| %>
+    <h4>Add Question Set</h4>
+    <%= qs.hidden_field :batch_set_id, value: @batch_set.id %>
+    <b>Select Topic</b><br/>
+    <%= qs.collection_select :topic_id, Topic.all, :id, :name, {prompt: "Select Topic"}, {class: "ui search dropdown"} %><br/>
+    <b>Select Chapter</b><br/>
+    <%= qs.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select Chapter"}, {class: "ui search dropdown"} %><br/>
+    <b>Select Questions</b><br/>
+    <%= qs.collection_select :question_ids, Question.all, :id, :formatted_statement, {prompt: "Select Questions"}, {class: "ui fluid search dropdown", multiple: ""} %>
+    <b>Select Users</b><br/>
+    <%= qs.collection_select :user_ids, User.all, :id, :name, {prompt: "Select Users"}, {class: "ui fluid search dropdown", multiple: ""} %><br/>
+    <%= qs.link_to_remove "Delete Question Set" %><br/><br/><br/>
   <% end %>
-  <%= f.link_to_add "Add Topic and Chapter", :batch_set_chapter_topics %>
+  <%= f.link_to_add "Add Question Set", :question_sets %>
   <br/><br/>
 
   <%= f.fields_for :due_date_lists, @due_date_list do |a| %>
-    Add Due Date<br/>
+    <h4>Add Due Date</h4>
     <%= a.hidden_field :batch_set_id, value: @batch_set.id %>
-    <%= a.datetime_select :due_date_time %><br/><br/>
-    <label>Add Users</label>
+    <b>Select Date and Time</b><br/>
+    <%= a.datetime_select :due_date_time %><br/>
+    <b>Add Users</b>
     <%= a.collection_select :user_ids, User.all, :id, :name, {prompt: "Select User"}, {class: "ui fluid search dropdown", multiple: ""} %>
 <!--     <div id="studentList">
     <%#= a.collection_check_boxes :user_ids, User.all, :id, :name do |b| %>
@@ -63,8 +79,8 @@
 <% end %>
 
 <script type="text/javascript">
-  var topicHandle = document.getElementById('batch_set_batch_set_chapter_topics_attributes_0_topic_id');
-  var chapterHandle = document.getElementById('batch_set_batch_set_chapter_topics_attributes_0_chapter_id');
+  var topicHandle = document.getElementById('batch_set_question_sets_attributes_0_topic_id');
+  var chapterHandle = document.getElementById('batch_set_question_sets_attributes_0_chapter_id');
 
   topicHandle.onchange = function(){
     chapterHandle.innerHTML = "";

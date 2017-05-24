@@ -1,0 +1,109 @@
+<%= form_for([@batch, @batch_set]) do |f| %>
+  
+<!-- DISPLAYING QUESTIONS ONLY BECAUSE DUE DATE IS ALREADY OVER. -->
+  <%# @batch_set.batch_set_questions.each do |bsq| %>
+    <%# if @batch_set.due_date < Time.now && !(bsq.question.answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, bsq.question.id, @batch_set.id)).exists? %>
+      <%#= "This assignment was due on #{@batch_set.date_field}, before #{@batch_set.time_field}" %><br/><br/>
+      <p><b>Questions:</b></p>
+      <%# break %>
+    <%# end %>
+  <%# end %>
+  <%# @batch_set.batch_set_questions.each do |bsq| %>
+    <%# if @batch_set.due_date < Time.now && !(bsq.question.answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, bsq.question.id, @batch_set.id)).exists? %>
+      <%#= bsq.question.statement.html_safe %>
+    <%# end %>
+  <%# end %>
+
+<!-- DISPLAYING QUESTIONS AND LETTING USERS ANSWER THEM. -->
+  <%# if @batch_set.due_date > Time.now %>
+    <% @batch_set.batch_set_questions.each do |bsq| %>
+      <%= f.hidden_field :batch_id, value: @batch.id %>
+      <% if !(bsq.question.answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, bsq.question.id, @batch_set.id)).exists? %>
+        <h4><%= bsq.question.statement.html_safe %></h4>
+        <%= f.fields_for :answers, @answer do |ans| %>
+          <%= ans.hidden_field :question_id, value: bsq.question.id %>
+          <%= ans.hidden_field :user_id, value: current_user.id %>
+          <%= ans.hidden_field :batch_set_id, value: @batch_set.id %>
+          <% if bsq.question.question_type_id == 1 %>
+            <% bsq.question.options.each do |option| %>
+              <%= ans.radio_button :statement, option.statement.html_safe, class: "ui radio checkbox" %><%= option.statement.html_safe %><br/>
+            <% end %>
+          <% else %>
+            <div class="ui form">
+              <div class="field">
+                <%= ans.text_area :statement, class: "textEditor" %>
+              </div>    
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %> 
+    <div class="actions">
+      <% @batch_set.batch_set_questions.each do |bsq| %>
+        <% if !(bsq.question.answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, bsq.question.id, @batch_set.id)).exists? %>
+          <br/><br/><%= f.submit 'Submit answer', class: "ui primary button" %><br/><br/>
+          <% break %>
+        <% end %>
+      <% end %>
+    </div>
+  <%# end %>
+<% end %>
+
+
+<!-- DISPLAYING ANSWERS THAT EXIST -->
+<% @batch_set.batch_set_questions.each do |bsq| %>
+  <% if bsq.question.answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, bsq.question.id, @batch_set.id).exists? %>
+    <h3>Your answers</h3>
+    <% break %>
+  <% end %>
+<% end %>
+
+<% @batch_set.batch_set_questions.each do |bsq| %>
+  <% bsq.question.answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, bsq.question.id, @batch_set.id).each do |answer| %>
+    <b><%= bsq.question.statement.html_safe %></b><br/>
+    <%= answer.statement.html_safe %><br/>
+    <% if !answer.remark.nil? %>
+      <b>Remark: </b><%= answer.remark.title %><br/>
+    <% end %><br/>
+    <% if bsq.question.question_type.name == "Text" %>
+      <b>Feedback:</b>
+      <div class="ui comments">
+        <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
+          <div class="comment">
+            <a class="avatar">
+              <%= image_tag comment.user.avatar_url %>
+            </a>
+            <div class="content">
+              <a class="author"><%= comment.user.name %></a>
+  <!--             <div class="metadata">
+                <div class="date">distance</div>
+                <div class="rating">
+                  <i class="star icon"></i>
+                  <%#= answer.remark.try(:title) %>
+                </div>
+              </div> -->
+              <div class="text">
+                <%= comment.statement.html_safe %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <%= form_for (@comment) do |f| %>
+        <%= f.hidden_field :user_id, value: current_user.id %>
+        <%= f.hidden_field :answer_id, value: answer.id %>
+        <%= f.text_area :statement, class: "textEditor" %>
+        <%= f.submit class: "ui primary button" %>
+      <% end %>
+    <% end %>
+    
+    <% if bsq.question.question_type_id == 1 %>
+      <% if bsq.question.options.find_by(is_answer: true).statement.html_safe == answer.statement.html_safe %>
+        <i class="checkmark icon"></i><font color="green"><%= "Correct answer" %></font>
+      <% else %>
+        <i class="remove icon"></i><font color="red"><%= "Wrong answer" %></font><br/>
+        <font color="green"><%= bsq.question.options.find_by(is_answer: true).statement.html_safe %></font><%= " is the correct answer" %>
+      <% end %><br/><br/>
+    <% end %><br/>
+  <% end %>
+<% end %>

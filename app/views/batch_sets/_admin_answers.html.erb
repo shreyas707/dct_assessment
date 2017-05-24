@@ -105,7 +105,7 @@
           <tr>
             <td><%= form_for answer do |ans| %>
                   <%= ans.radio_button :is_correct, "correct" %>Correct<br/>
-                  <%= ans.radio_button :is_correct, "partial" %>Partially Correct<br/>
+                  <%= ans.radio_button :is_correct, "partially_correct" %>Partially Correct<br/>
                   <%= ans.radio_button :is_correct, "wrong" %>Wrong<br/>
                   <%= ans.submit %>
                 <% end %>

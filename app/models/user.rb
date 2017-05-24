@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
 
   has_many :answers  #, dependent: :destroy
   has_many :comments  #, dependent: :destroy
+  has_many :question_sets
 
   # for avatar upload (carrierwave and cloudinary)
   mount_uploader :avatar, AvatarUploader

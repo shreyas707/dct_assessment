@@ -2,11 +2,12 @@
 
 <div class="ui segment">
 
+  <h3><%= @batch_set.title %></h3>
+  
   <div class="ui grid">
 
     <div class="ten wide column">
 
-      <h3><%= @batch_set.title %></h3>
 
       <p><strong>Batch:</strong>
       <%= @batch_set.batch.title %></p>
@@ -17,7 +18,37 @@
 
         <p><strong>Kind:</strong>
         <%= @batch_set.kind %></p>
+
+        <p>
+          <strong>Due Dates:</strong><br/>
+          <% @batch_set.due_date_lists.each do |due_date_list| %>
+            <strong>Due Date:</strong>
+            <%= due_date_list.due_date_time_field %><br/>
+            <strong>Students:</strong>
+            <% due_date_list.user_ids.each do |user| %>
+              <%= User.find_by(id: user).try(:name) %>
+            <% end %><br/><br/>
+          <% end %>
+        </p>
       
+        <p>
+          <strong>Question Sets:</strong><br/>
+          <% @batch_set.question_sets.each do |question_set| %>
+            <strong>Topic:</strong>
+            <%= question_set.topic.name %><br/>
+            <strong>Chapter:</strong>
+            <%= question_set.chapter.name %><br/>
+            <strong>Questions:</strong>
+            <% question_set.question_ids.each do |question| %>
+              <%= Question.find_by(id: question).try(:formatted_statement) %><br/>
+            <% end %>
+            <strong>Students:</strong>
+            <% question_set.user_ids.each do |user| %>
+              <%= User.find_by(id: user).try(:name) %>,
+            <% end %><br/><br/>
+          <% end %>
+        </p>
+
         <p>
           <strong>Students who haven't submitted the answers: </strong><br/>
           <% if @batch_set_answers.exists? %>
@@ -63,44 +94,48 @@
 
         <%= render "admin_answers" %>
 
-      <% end %>
-
     </div>
 
-    <div class="six wide column">
-      <table class="ui very basic collapsing celled table">
-        <thead>
-          <tr><th>Student</th>
-          <th>Correct Answers</th>
-          <th>Wrong Answers</th>
-        </tr></thead>
-        <tbody>
-          <% @batch.students.each do |student| %>
-          <tr>
-            <td>
-              <h4 class="ui image header">
-                <% if student.user.avatar.present? %>
-                  <%= image_tag student.user.avatar_url, class: "ui mini rounded image" %>
-                <% else %>
-                  <img src="/pic.jpg" class="ui mini rounded image">
-                <% end %>
-                <div class="content">
-                  <%= student.name.split(" ")[0] %>
-                  <!-- <div class="sub header">Human Resources
-                </div> -->
-              </div>
-            </h4></td>
-            <td>
-              22
-            </td>
-            <td>
-              10
-            </td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+      <div class="six wide column">
+        <table class="ui very basic collapsing celled table">
+          <thead>
+            <tr><th>Student</th>
+            <th>Correct</th>
+            <th>Partially Correct</th>
+            <th>Wrong</th>
+          </tr></thead>
+          <tbody>
+            <% @batch.students.each do |student| %>
+            <tr>
+              <td>
+                <h4 class="ui image header">
+                  <% if student.user.avatar.present? %>
+                    <%= image_tag student.user.avatar_url, class: "ui mini rounded image" %>
+                  <% else %>
+                    <img src="/pic.jpg" class="ui mini rounded image">
+                  <% end %>
+                  <div class="content">
+                    <%= student.name.split(" ")[0] %>
+                    <!-- <div class="sub header">Human Resources
+                  </div> -->
+                </div>
+              </h4></td>
+              <td>
+                <%= student.user.answers.where("is_correct = ?", "correct").count %>
+              </td>
+              <td>
+                <%= student.user.answers.where("is_correct = ?", "partially_correct").count %>
+              </td>
+              <td>
+                <%= student.user.answers.where("is_correct = ?", "wrong").count %>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    
+    <% end %>
 
   </div>
 </div>

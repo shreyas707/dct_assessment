@@ -6,8 +6,9 @@ class Question < ActiveRecord::Base
 
 	has_many :options  #, dependent: :destroy
 	accepts_nested_attributes_for :options, :allow_destroy => true
+	
+	has_many :question_sets
 	has_many :answers  #, dependent: :destroy
-
 	has_many :batch_set_questions  #, dependent: :destroy
 	has_many :batch_sets  #, through: :batch_set_questions
 	has_many :videos
