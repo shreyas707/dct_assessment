@@ -126,6 +126,8 @@ GEM
       slop (~> 3.4)
     pry-rails (0.3.6)
       pry (>= 0.10.4)
+    rabl (0.13.1)
+      activesupport (>= 2.3.14)
     rack (1.6.5)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -230,6 +232,7 @@ DEPENDENCIES
   nested_form
   pg
   pry-rails (~> 0.3.4)
+  rabl
   rails (= 4.2.5.1)
   rails_12factor
   sass-rails (~> 5.0)

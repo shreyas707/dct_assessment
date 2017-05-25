@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+  get 'knowledge_bases/select_chapter'
   resources :knowledge_bases
   resources :event_types
   resources :events

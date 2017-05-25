@@ -26,31 +26,54 @@
   </div>
 
   <div class="field">
-    <%= f.label :chapter_id %><br>
-    <%= f.number_field :chapter_id %>
+    <%= f.label :topic_id %><br>
+    <%= f.collection_select :topic_id,Topic.all,:id,:name, prompt: "select topic" %>
   </div>
 
   <div class="field">
-    <%= f.label :topic_id %><br>
-    <%= f.number_field :topic_id %>
+    <%= f.label :chapter_id %><br>
+    <%= f.collection_select :chapter_id,Chapter.all,:id,:name, prompt: "select chapter" %>
   </div>
+
+  
 
   <div class="field">
     <%= f.label :links %><br>
     <%= f.text_field :links %>
   </div>
 
-  <div class="field">
-    <%= f.label :published %><br>
-    <%= f.check_box :published %>
-  </div>
-
-   <div class="field">
-    <%= f.label :is_private %><br>
-    <%= f.check_box :is_private %>
   </div>
  
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+
+<script>
+  var topicHandle = document.getElementById('knowledge_base_topic_id');
+  var chapterHandle = document.getElementById('knowledge_base_chapter_id');
+
+  topicHandle.onchange = function(){
+    chapterHandle.innerHTML = "";
+    var request = new XMLHttpRequest();
+    request.open('get','/knowledge_bases/select_chapter.json?topic_id=' + topicHandle.value);
+
+    request.onreadystatechange = function(){
+      if(request.readyState === 4 && request.status === 200){
+        var response = JSON.parse(request.responseText);
+        response.forEach(function(chapter){
+          var newElement = document.createElement('option');
+          newElement.value = chapter.id;
+          var newText = document.createTextNode(chapter.name);
+          newElement.appendChild(newText);
+          chapterHandle.appendChild(newElement);
+
+        })
+      }
+    }
+    request.send();
+  }
+
+
+
+</script> 

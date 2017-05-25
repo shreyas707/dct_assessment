@@ -9,7 +9,7 @@ class Ability
         can :create, [Answer]
         can :read, [Answer, Batch, BatchSet]
         can :update, [BatchSet]
-        can :manage, [User]
+        can :manage, [KnowledgeBase]
     end
     # Define abilities for the passed in user here. For example:
     #

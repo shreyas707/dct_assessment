@@ -5,6 +5,8 @@ class KnowledgeBasesController < ApplicationController
   # GET /knowledge_bases.json
   def index
     @knowledge_bases = KnowledgeBase.all
+    @knowledge_published =KnowledgeBase.where('published = ?', true)
+    @knowledge_unpublished =KnowledgeBase.where('published = ?', false)
   end
 
   # GET /knowledge_bases/1
@@ -37,6 +39,7 @@ class KnowledgeBasesController < ApplicationController
     end
   end
 
+ 
   # PATCH/PUT /knowledge_bases/1
   # PATCH/PUT /knowledge_bases/1.json
   def update
@@ -61,6 +64,15 @@ class KnowledgeBasesController < ApplicationController
     end
   end
 
+  def select_chapter
+  @topic = Topic.find(params[:topic_id])
+  @chapter = @topic.chapters
+ end
+
+ 
+
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_knowledge_basis
@@ -69,6 +81,6 @@ class KnowledgeBasesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def knowledge_basis_params
-      params.require(:knowledge_basis).permit(:title, :body, :is_private, :chapter_id, :topic_id, :published, :user_id)
+      params.require(:knowledge_base).permit(:title, :body, :is_private, :chapter_id, :topic_id, :published,:links, :user_id)
     end
 end
