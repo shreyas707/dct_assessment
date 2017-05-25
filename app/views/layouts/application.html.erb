@@ -7,6 +7,10 @@
       <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
       <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
       <%= csrf_meta_tags %>
+      
+      <script type="text/javascript">
+        $('.ui.checkbox').checkbox('setting', 'onchange', function() {});
+      </script>
 
       <!-- DATA TABLES -->
       <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
@@ -17,7 +21,6 @@
           //$('#dataTableTable') == document.getElementById('dataTableTable');
         });
       </script>
-
       
       <!-- CALENDER -->
       <script src = "https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js">

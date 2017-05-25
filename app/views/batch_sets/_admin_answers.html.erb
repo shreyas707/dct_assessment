@@ -34,7 +34,7 @@
           <% else %>
             <tr class="positive">
           <% end %>
-          <td><%= answer.user.student.name %></td>
+          <td><%= answer.user.try(:name) %></td>
           <td><%= answer.statement.html_safe %></td>
           <td>
             <% if bsq.options.find_by(is_answer: true).statement.html_safe == answer.statement.html_safe %>
@@ -67,7 +67,7 @@
       <tbody>
         <% bsq.answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
           <tr>
-            <td><%= answer.user.student.name %></td>
+            <td><%= answer.user.try(:name) %></td>
             <td><%= answer.statement.html_safe %></td>
             <td>
               <!-- <div class="new_comment">
