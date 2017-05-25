@@ -4,7 +4,7 @@
 <%= link_to 'New Student', new_student_path, class: "ui primary button" %>
 <h3>Students count: <%= @students.count %></h3>
 
-<table class="ui celled padded table">
+<table class="ui celled padded table" id="dataTable">
   <thead>
     <tr>
       <th>Name</th>

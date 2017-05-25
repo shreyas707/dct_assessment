@@ -38,10 +38,6 @@
             <%= question_set.topic.name %><br/>
             <strong>Chapter:</strong>
             <%= question_set.chapter.name %><br/>
-            <strong>Questions:</strong>
-            <% question_set.question_ids.each do |question| %>
-              <%= Question.find_by(id: question).try(:formatted_statement) %><br/>
-            <% end %>
             <strong>Students:</strong>
             <% question_set.user_ids.each do |user| %>
               <%= User.find_by(id: user).try(:name) %>,

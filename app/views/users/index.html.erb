@@ -2,7 +2,7 @@
 <% if current_user.is_admin? %>
 <h1>Listing Users</h1>
 <h3>Total number of users: <%= @users.count %></h3>
-<table class="ui celled padded table">
+<table class="ui celled padded table" id="dataTable">
   <thead>
     <tr>
       <th>Name</th>
