@@ -36,7 +36,7 @@
   </div>
 
   <div class="field">
-    <%= f.collection_select, :batch_id, Batch.all, :id, :name, prompt: "Select Student", {class: "ui fluid search dropdown", multiple: ""} %>
+    <%= f.collection_select :batch_ids, Batch.all, :id, :title, {prompt: "Select Student"}, {class: "ui fluid search dropdown", multiple: ""} %>
   </div>
 
   <div class="actions">

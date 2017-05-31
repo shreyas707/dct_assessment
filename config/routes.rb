@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   get 'knowledge_bases/select_chapter'
-  resources :knowledge_bases
+  resources :knowledge_bases do 
+  member do
+    put "like", to: "knowledge_bases#upvote"
+    put "dislike", to: "knowledge_bases#downvote"
+  end
+end
   resources :event_types
   resources :events
   get 'users/upload_avatar'

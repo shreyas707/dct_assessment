@@ -1,5 +1,5 @@
 
-<h2> listing published Knowledge</h2>
+<h2> Published Knowledge</h2>
 
 <script>
   $(document).ready(function(){
@@ -9,8 +9,101 @@
 </script>
 
 
-
+<% if current_user.is_admin? %>
 <% if @knowledge_published.empty? %>
+  <p>no knowledges found </p>
+  <%= link_to "ADD knowledge", new_knowledge_basis_path %>
+  <% else %>
+   <table id = "knowledgebasesTable">
+    <thead>
+      <tr>
+     <th> sl no</th>
+     <th>title</th>
+     <th>body</th>
+     <th> topic</th>
+     <th> chapter</th>
+     <th> link</th>
+     <% if current_user.is_admin?%>
+     <th> </th>
+     <%end%>
+   </tr>
+  </thead>
+
+   <tbody>
+  <% @knowledge_published.each_with_index do |knowledge, index| %>
+  <tr>
+      <td> <%= index + 1 %></td>
+      <td> <%= link_to knowledge.title,knowledge_basis_path(knowledge) %></td>
+      <td> <%= knowledge.body %></td>
+      <td> <%= knowledge.topic.name %> </td>
+      <td> <%= knowledge.chapter.name %> </td>
+      <td> <%= link_to "#{knowledge.title}", "https://#{knowledge.links}", {target: "_blank"} %> </td>
+      <%if current_user.is_admin? %>
+      <td> <%= form_for knowledge do |f| %>
+          <%= f.hidden_field :published, value: false %>
+          <%= f.submit "unpublish" %>
+          <%end%> </td> 
+          <%end%>
+     </tr>
+    <%end %>
+   </tbody>
+  </table>
+  <%= link_to "Add Knowledge", new_knowledge_basis_path %>
+<% end %>
+
+<h2> Unpublished Knowledge </h2>
+
+<script>
+  $(document).ready(function(){
+    $('#knowledgebasesTable1').DataTable();
+});
+
+</script>
+
+<% if @knowledge_unpublished.empty? %>
+  <p>no knowledges found </p>
+  <%= link_to "ADD knowledge", new_knowledge_basis_path %>
+  <% else %>
+
+<table id = "knowledgebasesTable1">
+    <thead>
+      <tr>
+     <th> sl no</th>
+     <th>title</th>
+     <th>body</th>
+     <th> topic</th>
+     <th> chapter</th>
+     <th> link</th>
+     <th> publish</th>  
+   </tr>
+  </thead>
+
+   <tbody>
+
+  <% @knowledge_unpublished.each_with_index do |knowledge, index| %>
+  <tr>
+      <td> <%= index + 1 %></td>
+      <td> <%= link_to knowledge.title,knowledge_basis_path(knowledge) %></td>
+      <td> <%= knowledge.body %></td>
+      <td> <%= knowledge.topic.name %> </td>
+      <td> <%= knowledge.chapter.name %> </td>
+      <td> <%= link_to "#{knowledge.title}", "https://#{knowledge.links}", {target: "_blank"}%> </td>
+      <td> <%= form_for knowledge do |f| %>
+          <%= f.hidden_field :published, value: true %>
+          <%= f.submit "publish" %>
+          <%end%> </td>
+
+     </tr>
+    <%end %>
+   </tbody>
+  </table>
+<% end %>
+<%end%>
+
+<% if current_user.role == "student" %>
+
+
+<% if @user_knowledge.empty? %>
   <p>no knowledges found </p>
   <%= link_to "ADD knowledge", new_knowledge_basis_path %>
   <% else %>
@@ -27,67 +120,22 @@
   </thead>
 
    <tbody>
-  <% @knowledge_published.each_with_index do |knowledge, index| %>
+  <% @user_knowledge.each_with_index do |knowledge, index| %>
   <tr>
       <td> <%= index + 1 %></td>
-      <td> <%= knowledge.title %></td>
-      <td> <%= knowledge.body %></td>
+      <td> <%= link_to knowledge.title,knowledge_basis_path(knowledge) %></td>
+      <td> <%= knowledge.body.html_safe %></td>
       <td> <%= knowledge.topic.name %> </td>
       <td> <%= knowledge.chapter.name %> </td>
-      <td> <%= link_to "#{knowledge.title}", knowledge.links, {target: "_blank"} %> </td>
+      <td> <%= link_to "#{knowledge.title}", "https://#{knowledge.links}", {target: "_blank"} %> </td>
+      
      </tr>
     <%end %>
    </tbody>
   </table>
   <%= link_to "Add Knowledge", new_knowledge_basis_path %>
 <% end %>
-
-<% if current_user.is_admin? %>
-
-<h2> listing unpublished Knowledge </h2>
-
-<script>
-  $(document).ready(function(){
-    $('#knowledgebasesTable1').DataTable();
-});
-
-</script>
-
-<% if @knowledge_published.empty? %>
-  <p>no knowledges found </p>
-  <%= link_to "ADD knowledge", new_knowledge_basis_path %>
-  <% else %>
-
-<table id = "knowledgebasesTable1">
-    <thead>
-      <tr>
-     <th> sl no</th>
-     <th>title</th>
-     <th>body</th>
-     <th> topic</th>
-     <th> chapter</th>
-     <th> link</th>
-   </tr>
-  </thead>
-
-   <tbody>
-  <% @knowledge_unpublished.each_with_index do |knowledge, index| %>
-  <tr>
-      <td> <%= index + 1 %></td>
-      <td> <%= knowledge.title %></td>
-      <td> <%= knowledge.body %></td>
-      <td> <%= knowledge.topic.name %> </td>
-      <td> <%= knowledge.chapter.name %> </td>
-      <td> <%= link_to "#{knowledge.title}",knowledge.links%> </td>
-     </tr>
-    <%end %>
-   </tbody>
-  </table>
-<% end %>
 <%end%>
-
-
-
 
 
 

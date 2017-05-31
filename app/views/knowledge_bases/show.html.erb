@@ -17,12 +17,12 @@
 
 <p>
   <strong>Chapter:</strong>
-  <%= @knowledge_basis.chapter_id %>
+  <%= @knowledge_basis.chapter.name %>
 </p>
 
 <p>
   <strong>Topic:</strong>
-  <%= @knowledge_basis.topic_id %>
+  <%= @knowledge_basis.topic.name %>
 </p>
 
 <p>
@@ -32,8 +32,35 @@
 
 <p>
   <strong>User:</strong>
-  <%= @knowledge_basis.user_id %>
+  <%= @knowledge_basis.user.name %>
 </p>
 
+
+<%= link_to like_knowledge_basis_path(@knowledge_basis), method: :put do %>
+  Like
+  <%= @knowledge_basis.get_upvotes.size %>
+
+<% end %>
+
+
+<%= link_to dislike_knowledge_basis_path(@knowledge_basis), method: :put do %>
+  Dislike
+  <%= @knowledge_basis.get_downvotes.size %>
+<% end %>
+
+<br>
+
+<%= @knowledge_basis.displaylikes %> <br>
+
+<%= @knowledge_basis.displaydislikes %>
+
+
+<br>
+
+<% if current_user.is_admin? %>
+
 <%= link_to 'Edit', edit_knowledge_basis_path(@knowledge_basis) %> |
+<%= link_to 'Destroy', @knowledge_basis, method: :delete, data: { confirm: 'Are you sure?' } %> |
+<%end%>
+
 <%= link_to 'Back', knowledge_bases_path %>

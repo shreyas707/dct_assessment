@@ -17,12 +17,12 @@
   </div>
   <div class="field">
     <%= f.label :body %><br>
-    <%= f.text_area :body %>
+    <%= f.text_area :body, class: "textEditor" %>
   </div>
 
    <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.number_field :user_id %>
+   
+    <%= f.hidden_field :user_id, value: current_user.id %>
   </div>
 
   <div class="field">
@@ -43,6 +43,9 @@
   </div>
 
   </div>
+  <% if current_user.is_admin? %>
+  <% f.hidden_field :published,value: true %>
+  <%end%>
  
   <div class="actions">
     <%= f.submit %>
@@ -53,8 +56,13 @@
   var topicHandle = document.getElementById('knowledge_base_topic_id');
   var chapterHandle = document.getElementById('knowledge_base_chapter_id');
 
+
+
+  
   topicHandle.onchange = function(){
     chapterHandle.innerHTML = "";
+
+
     var request = new XMLHttpRequest();
     request.open('get','/knowledge_bases/select_chapter.json?topic_id=' + topicHandle.value);
 

@@ -5,9 +5,20 @@ class KnowledgeBasesController < ApplicationController
   # GET /knowledge_bases.json
   def index
     @knowledge_bases = KnowledgeBase.all
-    @knowledge_published =KnowledgeBase.where('published = ?', true)
+    @knowledge_published =KnowledgeBase.where('published = ?',true,)
     @knowledge_unpublished =KnowledgeBase.where('published = ?', false)
+    if current_user.role == "student" 
+    @user_knowledge = []
+    # current_user.student.batches.each do |batch|
+    #   batch.course.topics.each do |topic|
+    #     @user_knowledge.push(KnowledgeBase.find_by(published: true, topic_id: topic.id))
+    #   end
+    # end
+    current_user.student.batches.each do |batch|
+      @user_knowledge += KnowledgeBase.where(published: true, topic_id: batch.course.topics.pluck(:id))
+    end
   end
+end
 
   # GET /knowledge_bases/1
   # GET /knowledge_bases/1.json
@@ -70,7 +81,17 @@ class KnowledgeBasesController < ApplicationController
  end
 
  
+def upvote 
+  @knowledge = KnowledgeBase.find(params[:id])
+  @knowledge.upvote_by current_user
+  redirect_to :back
+end  
 
+def downvote
+  @knowledge = KnowledgeBase.find(params[:id])
+  @knowledge.downvote_by current_user
+  redirect_to :back
+end
 
 
   private

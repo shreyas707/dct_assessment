@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   belongs_to :student  #, dependent: :destroy
-
+  acts_as_votable
   has_many :answers  #, dependent: :destroy
   has_many :comments  #, dependent: :destroy
 

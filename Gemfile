@@ -6,6 +6,8 @@ gem 'semantic-ui-sass', git: 'https://github.com/doabit/semantic-ui-sass.git'
 gem 'cancancan', '~> 1.10'
 gem 'devise'
 gem 'rabl'
+gem 'acts_as_votable', '~> 0.10.0'
+gem 'pry'
 
 gem 'nested_form'
 gem 'pry-rails', '~> 0.3.4'
