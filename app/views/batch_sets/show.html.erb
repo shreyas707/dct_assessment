@@ -19,25 +19,31 @@
         <p><strong>Kind:</strong>
         <%= @batch_set.kind %></p>
 
-        <p>
-          <strong>Due Dates:</strong><br/>
-          <% @batch_set.due_date_lists.each do |due_date_list| %>
-            <strong>Due Date:</strong>
-            <%= due_date_list.due_date_time_field %><br/>
-            <strong>Students:</strong>
-            <% due_date_list.user_ids.each do |user| %>
-              <%= User.find_by(id: user).try(:name) %>
-            <% end %><br/><br/>
-          <% end %>
-        </p>
+        <% if @batch_set.due_date_lists.exists? %>
+          <p>
+            <strong>Due Dates:</strong><br/>
+            <% @batch_set.due_date_lists.each do |due_date_list| %>
+              <strong>Due Date:</strong>
+              <%= due_date_list.due_date_time_field %><br/>
+              <strong>Students:</strong>
+              <% due_date_list.user_ids.each do |user| %>
+                <%= User.find_by(id: user).try(:name) %>
+              <% end %><br/><br/>
+            <% end %>
+          </p>
+        <% end %>
       
         <p>
           <strong>Question Sets:</strong><br/>
           <% @batch_set.question_sets.each do |question_set| %>
             <strong>Topic:</strong>
-            <%= question_set.topic.name %><br/>
+            <% QuestionSetChapterTopic.where('question_set_id = ?', question_set).each do |question_set_chapter_topic| %>
+              <%= question_set_chapter_topic.topic.name %>,
+            <% end %><br/>
             <strong>Chapter:</strong>
-            <%= question_set.chapter.name %><br/>
+            <% QuestionSetChapterTopic.where('question_set_id = ?', question_set).each do |question_set_chapter_topic| %>
+              <%= question_set_chapter_topic.chapter.name %>,
+            <% end %><br/>
             <strong>Students:</strong>
             <% question_set.user_ids.each do |user| %>
               <%= User.find_by(id: user).try(:name) %>,
@@ -120,10 +126,10 @@
                 <%= student.user.answers.where("is_correct = ? AND batch_set_id = ?", "correct", @batch_set.id).count %>
               </td>
               <td>
-                <%= student.user.answers.where("is_correct = ?", "partially_correct").count %>
+                <%= student.user.answers.where("is_correct = ? AND batch_set_id = ?", "partially_correct", @batch_set.id).count %>
               </td>
               <td>
-                <%= student.user.answers.where("is_correct = ?", "wrong").count %>
+                <%= student.user.answers.where("is_correct = ? AND batch_set_id = ?", "wrong", @batch_set.id).count %>
               </td>
             </tr>
             <% end %>

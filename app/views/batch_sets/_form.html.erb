@@ -18,38 +18,8 @@
 
   <div class="field">
     <b><%= f.label :set_date %></b><br>
-    <%= f.date_select :set_date %>
+    <div class="ui input"><%= f.text_field :set_date, class: "date" %></div>
   </div><br/>
-
-<!-- <div class="ui form">
-  <div class="inline fields">
-    <label>How often do you use checkboxes?</label>
-    <div class="field">
-      <div class="ui radio checkbox">
-        <input type="radio" name="frequency" tabindex="0" class="hidden">
-        <label>Once a week</label>
-      </div>
-    </div>
-    <div class="field">
-      <div class="ui radio checkbox">
-        <input type="radio" name="frequency" tabindex="0" class="hidden">
-        <label>2-3 times a week</label>
-      </div>
-    </div>
-    <div class="field">
-      <div class="ui radio checkbox">
-        <input type="radio" name="frequency" tabindex="0" class="hidden">
-        <label>Once a day</label>
-      </div>
-    </div>
-    <div class="field">
-      <div class="ui radio checkbox">
-        <input type="radio" name="frequency" tabindex="0" class="hidden">
-        <label>Twice a day</label>
-      </div>
-    </div>
-  </div>
-</div> -->
 
   <div class="field">
     <b><%= f.label :kind %></b><br>
@@ -69,38 +39,45 @@
   <%#= f.link_to_add "Add Topic and Chapter", :batch_set_chapter_topics %>
   <br/><br/> -->
 
-  <%= f.fields_for :question_sets, @question_set do |qs| %>
-    <h4>Add Question Set</h4>
-    <%= qs.hidden_field :batch_set_id, value: @batch_set.id %>
-    <b>Select Topic</b><br/>
-    <%= qs.collection_select :topic_id, Topic.all, :id, :name, {prompt: "Select Topic"}, {class: "ui search dropdown"} %><br/>
-    <b>Select Chapter</b><br/>
-    <%= qs.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select Chapter"}, {class: "ui search dropdown"} %><br/>
-    <b>Select Questions</b><br/>
-    <%= qs.collection_select :question_ids, Question.all, :id, :formatted_statement, {prompt: "Select Questions"}, {class: "ui fluid search dropdown", multiple: ""} %>
+  <%= f.fields_for :question_sets, @question_set do |question_set| %>
+  <div class="ui divider"></div>
+    <h3>New Question Set</h3>
+    <div class="topicChapter">
+    <%= question_set.fields_for :question_set_chapter_topics, @question_set_chapter_topic do |question_set_chapter_topic| %>
+
+    <h4>Select Topic and Chapter</h4>
+      <%#= question_set_chapter_topic.hidden_field :question_set_id, value: @question_set.id %>
+      <b>Select Topic</b><br/>
+      <%= question_set_chapter_topic.collection_select :topic_id, Topic.all, :id, :name, {prompt: "Select Topic"}, {class: "ui search dropdown"} %><br/>
+      <b>Select Chapter</b><br/>
+      <%= question_set_chapter_topic.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select Chapter"}, {class: "ui search dropdown"} %><br/>
+      <%= question_set_chapter_topic.link_to_remove "Delete Chapter Topic" %><br/><br/>
+    <% end %>
+    <%= question_set.link_to_add "Add Chapter Topic", :question_set_chapter_topics %>
+
+    </div>
+    
+    <h4>Select Questions and Users</h4>
+    <!-- <b>Select Questions</b><br/> -->
+    <%#= question_set.collection_select :question_ids, Question.all, :id, :formatted_statement, {prompt: "Select Questions"}, {class: "ui fluid search dropdown", multiple: ""} %>
     <b>Select Users</b><br/>
-    <%= qs.collection_select :user_ids, User.all, :id, :name, {prompt: "Select Users"}, {class: "ui fluid search dropdown", multiple: ""} %><br/>
-    <%= qs.link_to_remove "Delete Question Set" %><br/><br/><br/>
+    <%= question_set.collection_select :user_ids, User.all, :id, :name, {prompt: "Select Users"}, {class: "ui fluid search dropdown", multiple: ""} %><br/>
+    <%= question_set.link_to_remove "Delete Question Set" %><br/><br/>
   <% end %>
   <%= f.link_to_add "Add Question Set", :question_sets %>
-  <br/><br/>
 
-  <%= f.fields_for :due_date_lists, @due_date_list do |a| %>
-    <h4>Add Due Date</h4>
-    <%= a.hidden_field :batch_set_id, value: @batch_set.id %>
+  <div class="ui divider"></div>
+  <h4>Select Due Dates and Users</h4>
+  <%= f.fields_for :due_date_lists, @due_date_list do |due_date_list| %>
+    <%= due_date_list.hidden_field :batch_set_id, value: @batch_set.id %>
     <b>Select Date and Time</b><br/>
-    <%= a.datetime_select :due_date_time %><br/>
+    <%= due_date_list.datetime_select :due_date_time %><br/>
     <b>Add Users</b>
-    <%= a.collection_select :user_ids, User.all, :id, :name, {prompt: "Select User"}, {class: "ui fluid search dropdown", multiple: ""} %>
-<!--     <div id="studentList">
-    <%#= a.collection_check_boxes :user_ids, User.all, :id, :name do |b| %>
-      <%#= b.label %> <%#= b.check_box %><br/>
-    <%# end %>
-    </div> -->
-    <%= a.link_to_remove "Delete Due Date List" %><br/><br/><br/>
+    <%= due_date_list.collection_select :user_ids, User.all, :id, :name, {prompt: "Select User"}, {class: "ui fluid search dropdown", multiple: ""} %>
+    <%= due_date_list.link_to_remove "Delete Due Date List" %><br/><br/>
   <% end %>
   <%= f.link_to_add "Add Due Date List", :due_date_lists %>
-  <br/><br/>
+  <br/><br/><br/>
 
   <div class="actions">
     <%= f.submit class: "ui primary button" %><br/><br/>
@@ -109,8 +86,14 @@
 <% end %>
 
 <script type="text/javascript">
-  var topicHandle = document.getElementById('batch_set_question_sets_attributes_0_topic_id');
-  var chapterHandle = document.getElementById('batch_set_question_sets_attributes_0_chapter_id');
+
+    $(".add_nested_fields").click(function(){
+      //alert("Hello");
+      //$('.ui.dropdown').dropdown();
+  });
+
+  var topicHandle = document.getElementById('batch_set_question_sets_attributes_0_question_set_chapter_topics_attributes_0_topic_id');
+  var chapterHandle = document.getElementById('batch_set_question_sets_attributes_0_question_set_chapter_topics_attributes_0_chapter_id');
 
   topicHandle.onchange = function(){
     chapterHandle.innerHTML = "";
@@ -130,4 +113,5 @@
     }
     request.send();
   };
+
 </script>

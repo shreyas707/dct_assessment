@@ -9,6 +9,8 @@
       <th>Email</th>
       <th>Mobile</th>
       <th>Active</th>
+      <th>Sign in Count</th>
+      <th>Last Sign in</th>
       <th>Show</th>
     </tr>
   </thead>
@@ -20,6 +22,8 @@
         <td><%= user.email %></td>
         <td><%= user.mobile %></td>
         <td><%= user.is_active %></td>
+        <td><%= user.sign_in_count %></td>
+        <td><%= user.last_sign_in_at.nil? ? "Not Logged in" : distance_of_time_in_words(Time.now, user.last_sign_in_at) + " ago"  %></td>
         <td><%= link_to 'Show', user %></td>
       </tr>
     <% end %>

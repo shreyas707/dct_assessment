@@ -19,6 +19,15 @@ class BatchesController < ApplicationController
   def show
     @batch_students = @batch.students.includes(:user)
     @batch_sets = BatchSet.where('batch_id = ?', @batch.id)
+
+    if current_user.is_admin?
+      @assessments = @batch_sets.where('kind = ?', "assessment")
+      @assignments = @batch_sets.where('kind = ?', "assignment")
+    else
+      @assessments = @batch_sets.where('kind = ? AND set_date <= ?', "assessment", Date.today) 
+      @assignments = @batch_sets.where('kind = ? AND set_date <= ?', "assignment", Date.today)
+    end
+
   end
 
   def student

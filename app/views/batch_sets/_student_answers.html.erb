@@ -1,56 +1,126 @@
 <%= form_for([@batch, @batch_set]) do |f| %>
-  
-  <% @batch_set.question_sets.each do |question_set| %>
-    <% @batch_set.due_date_lists.each do |due_date_list| %>
-      <% due_date_list.user_ids.each do |user_id| %>
-        <% if user_id == current_user.id %>
-          
-          <% if due_date_list.due_date_time < Time.now %>
-          <!-- DISPLAYING QUESTIONS ONLY BECAUSE DUE DATE IS ALREADY OVER. -->
-            <%= "This assignment was due on #{due_date_list.due_date_time_field}" %><br/><br/>
-            <p>
-              <b>Questions:</b><br/>
-              <% @batch_set.question_sets.where('batch_set_id = ?', @batch_set.id).each do |question_set| %>
-                <% question_set.user_ids.each do |user_id| %>
-                  <% if user_id == current_user.id %>
-                    <% question_set.question_ids.each do |question_id| %>
-                      <% if Question.where('id = ?', question_id).exists? %>
-                        <%= Question.find(question_id).try(:formatted_statement) %>
-                      <% end %>
-                    <% end %>
-                  <% end %>
-                <% end %>
-              <% end %>
-            </p>
-          
-          <% elsif due_date_list.due_date_time > Time.now %>
-          <!-- DISPLAYING QUESTIONS AND LETTING USERS ANSWER THEM. -->          
-           <p>
-              <b>Questions:</b><br/>
-              <% @batch_set.question_sets.where('batch_set_id = ?', @batch_set.id).each do |question_set| %>
-                <% question_set.user_ids.each do |user_id| %>
-                  <% if user_id == current_user.id %>
-                    <% question_set.question_ids.each do |question_id| %>
-                      <% if !Question.find_by(id: question_id).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id).exists? %>
-                          <% "hi" %>
-                          <%= Question.find(question_id).try(:formatted_statement) %>
-                      <% end %>
-                    <% end %>
-                  <% end %>
-                <% end %>
-              <% end %>
-            </p>
 
+  <% @batch_set.question_sets.each do |question_set| %>
+    <% if question_set.user_ids.include?(current_user.id) %>
+      <% @batch_set.due_date_lists.each do |due_date_list| %>
+        <% if due_date_list.user_ids.include?(current_user.id) %>
+          <% q = question_set.question_ids.sample %>
+          <% if due_date_list.due_date_time < Time.now && !Question.find(q).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, q, @batch_set.id).exists? %>
+                <h4><%= "This assignment was due on #{due_date_list.due_date_time_field}" %></h4>
+          <% end %>
+          <h3>Questions:</h3>
+          <!-- IF ASSIGNMENT IS PAST DUE DATE -->
+          <% if due_date_list.due_date_time < Time.now %>
+            <% question_set.question_ids.each do |question_id| %>
+              <!-- IF ANSWERS DON'T EXIST -->
+              <% if !Question.find(question_id).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id).exists? %>
+                <%= Question.find(question_id).try(:formatted_statement) %>
+              <!-- DISPLAYING ANSWERS IF THEY EXIST -->
+              <% else %>
+                <%= Question.find(question_id).try(:formatted_statement) %>
+                <% answer = Question.find(question_id).answers.find_by('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id) %>
+                <%= answer.formatted_statement %>
+                <b>Feedback:</b>
+                <div class="ui comments">
+                  <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
+                    <div class="comment">
+                      <a class="avatar">
+                        <%= image_tag comment.user.avatar_url %>
+                      </a>
+                      <div class="content">
+                        <a class="author"><%= comment.user.name %></a>
+                <!--             <div class="metadata">
+                          <div class="date">distance</div>
+                          <div class="rating">
+                            <i class="star icon"></i>
+                            <%#= answer.remark.try(:title) %>
+                          </div>
+                        </div> -->
+                        <div class="text">
+                          <%= comment.statement.html_safe %>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+                <%= form_for (@comment) do |f| %>
+                  <%= f.hidden_field :user_id, value: current_user.id %>
+                  <%= f.hidden_field :answer_id, value: answer.id %>
+                  <%= f.text_area :statement, class: "textEditor" %>
+                  <%= f.submit class: "ui primary button" %>
+                <% end %>
+                <%#= render "comment" %>
+              <% end %>
+            <% end %>
+          <!-- IF ASSIGNMENT IS WITHIN DUE DATE -->
+          <% elsif due_date_list.due_date_time > Time.now %>
+            <p>
+              <% question_set.question_ids.each do |question_id| %>
+                <h4><%= Question.find(question_id).try(:formatted_statement) %></h4>
+                <!-- IF ANSWERS DON'T EXIST -->
+                <% if !Question.find(question_id).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id).exists? %>
+                  <%= f.fields_for :answers, @answer do |ans| %>
+                    <%= ans.hidden_field :question_id, value: question_id %>
+                    <%= ans.hidden_field :user_id, value: current_user.id %>
+                    <%= ans.hidden_field :batch_set_id, value: @batch_set.id %>
+                    <% if Question.find(question_id).question_type.name == "MCQ" %>
+                      <% Question.find(question_id).options.each do |option| %>
+                        <%= ans.radio_button :statement, option.statement.html_safe, class: "ui radio checkbox" %><%= option.statement.html_safe %><br/>
+                      <% end %>
+                    <% else %>
+                      <div class="ui form">
+                        <div class="field">
+                          <%= ans.text_area :statement, class: "textEditor" %>
+                        </div>    
+                      </div>
+                    <% end %>
+                  <% end %>
+                <!-- DISPLAYING ANSWERS IF THEY EXIST -->
+                <% elsif Question.find(question_id).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id).exists? %>
+                  <% answer = Question.find(question_id).answers.find_by('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id) %>
+                  <%= answer.formatted_statement %>
+                  <p><b>Feedback:</b>
+                  <div class="ui comments">
+                    <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
+                      <div class="comment">
+                        <a class="avatar">
+                          <%= image_tag comment.user.avatar_url %>
+                        </a>
+                        <div class="content">
+                          <a class="author"><%= comment.user.name %></a>
+                  <!--             <div class="metadata">
+                            <div class="date">distance</div>
+                            <div class="rating">
+                              <i class="star icon"></i>
+                              <%#= answer.remark.try(:title) %>
+                            </div>
+                          </div> -->
+                          <div class="text">
+                            <%= comment.statement.html_safe %>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                  <%= form_for @comment do |comment| %>
+                    <%= comment.hidden_field :user_id, value: current_user.id %>
+                    <%= comment.hidden_field :answer_id, value: answer.id %>
+                    <%= comment.text_area :statement, class: "textEditor" %>
+                    <%= comment.submit class: "ui primary button" %>
+                  <% end %>
+                  </p>
+                  <%#= render "comment" %>
+                <% end %>
+              <% end %>
+            </p>
+            <% question_set.question_ids.each do |question_id| %>
+              <%= f.submit 'Submit Answer', {class: "ui primary button"} if !Question.find(question_id).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id).exists? %>
+              <% break %>
+            <% end %>
           <% end %>
         <% end %>
       <% end %>
     <% end %>
   <% end %>
-
-
-<!-- DISPLAYING QUESTIONS AND LETTING USERS ANSWER THEM. -->
-
-
-<!-- DISPLAYING ANSWERS THAT EXIST -->
 
 <% end %>

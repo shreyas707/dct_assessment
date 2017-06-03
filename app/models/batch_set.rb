@@ -1,6 +1,6 @@
 class BatchSet < ActiveRecord::Base
 
-	# validate :check_date
+	before_save :fix_jsonb
 
 	belongs_to :batch
 
@@ -36,10 +36,14 @@ class BatchSet < ActiveRecord::Base
 		return questions
 	end
 
-	# def check_date
-	# 	if self.due_date < self.set_date
-	# 		errors.add(:due_date, "Due date cannot be lesser than set date.")
-	# 	end
-	# end
+	def fix_jsonb
+		self.question_sets.each do |question_set|
+			question_set.question_ids = question_set.question_ids.compact
+			question_set.user_ids = question_set.user_ids.compact
+		end
+		self.due_date_lists.each do |due_date_list|
+			due_date_list.user_ids = due_date_list.user_ids.compact
+		end
+	end
 
 end

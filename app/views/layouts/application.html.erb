@@ -1,53 +1,64 @@
 <!DOCTYPE html>
 <html>
-  <div class="ui container">
-    <head>
+  <head>
 
-      <title>DctAssessment</title>
-      <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
-      <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-      <%= csrf_meta_tags %>
-      
-      <script type="text/javascript">
-        $('.ui.checkbox').checkbox('setting', 'onchange', function() {});
-      </script>
+    <title>DctAssessment</title>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 
-      <!-- DATA TABLES -->
-      <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-      <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
-      <script>
-        $(document).ready(function(){
-          $('#dataTable').DataTable();
-          //$('#dataTableTable') == document.getElementById('dataTableTable');
+    <!-- DATA TABLES -->
+    <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script>
+      $(document).ready(function(){
+        $('#dataTable').DataTable();
+        //$('#dataTableTable') == document.getElementById('dataTableTable');
+      });
+    </script>
+    
+    <!-- DATE PICKER -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $(".date").datepicker({
+          dateFormat: 'yy-mm-dd',
+          changeMonth: true,
+          changeYear: true,
+          minDate: 0
         });
-      </script>
-      
-      <!-- CALENDER -->
-      <script src = "https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js">
-      </script>
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet"> 
-
-      <!-- for ckeditor -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.6.2/ckeditor.js"></script>
-      <script>
-      $(document).ready(function(){
-          CKEDITOR.replaceAll( 'textEditor' );
       });
-      </script>
+    </script>
 
-      <!-- semantic ui -->
-      <script>
-      $(document).ready(function(){
-        $('.ui.accordion').accordion();
-        $('.ui.dropdown').dropdown();
-        $('.ui.popup').popup();
-        $('.tabular.menu .item').tab();
-      });
-      </script>
+    <!-- CALENDER -->
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js">
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet"> 
 
-    </head>
+    <!-- CKEDITOR -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.6.2/ckeditor.js"></script>
+    <script>
+    $(document).ready(function(){
+        CKEDITOR.replaceAll( 'textEditor' );
+    });
+    </script>
+
+    <!-- semantic ui -->
+    <script>
+    $(document).ready(function(){
+      $('.ui.accordion').accordion();
+      $('.ui.dropdown').dropdown();
+      $('.ui.popup').popup();
+      $('.tabular.menu .item').tab();
+    });
+    </script>
+
+  </head>
+    
+  <div class="ui container">
     <body>
-      
+
       <div class="ui secondary pointing menu">
         <% if current_user.try(:is_admin?) %>
           <%= link_to("Users", users_path, class: controller.controller_name == "users" ? "active item" : "item") %>

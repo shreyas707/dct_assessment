@@ -1,1 +1,3 @@
-$('#new_comment').append('<%= j render(@comment) %>');
+var commentHandle = $('.new_comment');
+console.log("<%= @comment.statement %>");
+commentHandle.appendChild('<%= @comment.statement %>');

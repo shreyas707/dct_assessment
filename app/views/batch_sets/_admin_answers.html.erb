@@ -70,35 +70,35 @@
             <td><%= answer.user.try(:name) %></td>
             <td><%= answer.statement.html_safe %></td>
             <td>
-              <!-- <div class="new_comment">
+              <div class="new_comment">
                 <div class="ui comments">
-                  <%# answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
+                  <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
                     <div class="comment">
                       <a class="avatar">
-                        <%# if comment.user.avatar.present? %>
-                          <%#= image_tag comment.user.avatar_url, {class: "avatar"} %>
-                        <%# else %>
+                        <% if comment.user.avatar.present? %>
+                          <%= image_tag comment.user.avatar_url, {class: "avatar"} %>
+                        <% else %>
                           <div class="ui avatar image">
                             <img src="/pic.jpg">
                           </div>
-                        <%# end %>
+                        <% end %>
                       <div class="content">
-                        <a class="author"><%#= comment.user.try(:name) %></a>
-                         <div class="metadata">
+                        <a class="author"><%= comment.user.try(:name) %></a>
+                         <!-- <div class="metadata">
                           <div class="date">distance</div>
                           <div class="rating">
-                            <i class="star icon"></i>
-                            <%#= answer.remark.try(:title) %>
+                            <i class="star icon"></i> 
+                            <%= answer.remark.try(:title) %>
                           </div>
-                        </div> 
+                        </div> -->
                         <div class="text">
-                          <%#= comment.statement.html_safe %>
+                          <%= comment.statement.html_safe %>
                         </div>
                       </div>
                     </div>
-                  <%# end %>
+                  <% end %>
                 </div>
-              </div> -->
+              </div>
             </td>
             <td><%= answer.remark.try(:title) %></td>
           </tr>

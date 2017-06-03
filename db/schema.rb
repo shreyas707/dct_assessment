@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170524065907) do
+ActiveRecord::Schema.define(version: 20170528093841) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,13 +25,6 @@ ActiveRecord::Schema.define(version: 20170524065907) do
     t.datetime "updated_at",   null: false
     t.integer  "remark_id"
     t.string   "is_correct"
-  end
-
-  create_table "appreciations", force: :cascade do |t|
-    t.string   "title"
-    t.integer  "answer_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "batch_events", force: :cascade do |t|
@@ -146,9 +139,15 @@ ActiveRecord::Schema.define(version: 20170524065907) do
     t.datetime "updated_at",                  null: false
   end
 
-  create_table "question_sets", force: :cascade do |t|
-    t.integer  "topic_id"
+  create_table "question_set_chapter_topics", force: :cascade do |t|
+    t.integer  "question_set_id"
     t.integer  "chapter_id"
+    t.integer  "topic_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "question_sets", force: :cascade do |t|
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.integer  "batch_set_id"
