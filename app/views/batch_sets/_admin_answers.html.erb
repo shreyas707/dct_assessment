@@ -1,229 +1,254 @@
-<h2>Student's Answers</h2>
 
-<!-- PRACTICE THIS. DISPLAY THE TABLE BELOW USING arrange_questions METHOD. -->
-<%# @batch_set.arrange_questions.each do |key, questions| %>
-  <%# questions.each do |question| %>
-    <%# question.statement.html_safe %>
-  <%# end %>
-<%# end %>
+<h2>Student's Answers</h2>
 
 <% if @batch_set.kind == "assessment" %>
   <h3>MCQ</h3>
-  <% @batch_set.questions.where("question_type_id = ? AND kind = ?", QuestionType.find_by(name: "MCQ"), "assessment").each do |bsq| %>
-    <h4><%= bsq.statement.html_safe %></h4>
-    <%= "Options:" %>
-    <% bsq.options.each do |option| %>
-      <%= option.statement.html_safe %>,
-    <% end %><br/>
-    <%= "Correct Answer:" %>
-    <%= bsq.options.find_by(is_answer: true).statement.html_safe %> 
-    <table class="ui celled padded table">
-      <thead>
-        <tr>
-          <th>Students</th>
-          <th>Answers</th>  
-          <th>Correct?</th>
-          <th>Delete</th>
-        </tr>
-      </thead>
+  <% @batch_set.question_sets.each do |question_set| %>
+    <% question_set.question_ids.each do |question_id| %>
+      <% if Question.where(id: question_id).exists? %>
+        <% question = Question.find(question_id) %>
+        <% if question.question_type.name == "MCQ" %>
+          <h4><%= question.formatted_statement %></h4>
+          <%= "Options:" %>
+          <% question.options.each do |option| %>
+            <%= option.statement.html_safe %>,
+          <% end %><br/>
+          <%= "Correct Answer:" %>
+          <%= question.options.find_by(is_answer: true).statement.html_safe %>
+          <table class="ui celled padded table">
+            <thead>
+              <tr>
+                <th>Students</th>
+                <th>Answers</th>  
+                <th>Correct?</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
 
-      <tbody>
-        <% bsq.answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
-          <% if bsq.options.find_by(is_answer: true).statement.html_safe != answer.statement.html_safe %>
-            <tr class="negative">
-          <% else %>
-            <tr class="positive">
-          <% end %>
-          <td><%= answer.user.try(:name) %></td>
-          <td><%= answer.statement.html_safe %></td>
-          <td>
-            <% if bsq.options.find_by(is_answer: true).statement.html_safe == answer.statement.html_safe %>
-              <i class="checkmark icon"></i>
-            <% else %>
-              <i class="remove icon"></i>
-            <% end %>    
-          </td>
-          <td><%= link_to 'Delete Answer', answer, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
-          </td>
-        </tr>
+            <tbody>
+              <% question.answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
+                <% if answer.is_correct == "wrong" %>
+                  <tr class="negative">
+                <% elsif answer.is_correct == "correct" %>
+                  <tr class="positive">
+                <% end %>
+                <td><%= answer.user.try(:name) %></td>
+                <td><%= answer.formatted_statement %></td>
+                <td>
+                  <% if answer.is_correct == "correct" %>
+                    <i class="checkmark icon"></i>
+                  <% elsif answer.is_correct == "wrong" %>
+                    <i class="remove icon"></i>
+                  <% end %>    
+                </td>
+                <td><%= link_to 'Delete Answer', answer, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
+                </td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
         <% end %>
-      </tbody>
-    </table>
+      <% end %>
+    <% end %>
   <% end %>
 
   <h3>Text Based Questions</h3>
-  <% @batch_set.questions.where('question_type_id = ? AND kind = ?', QuestionType.find_by(name: "Text"), "assessment").each do |bsq| %>
-    <h4><%= bsq.statement.html_safe %></h4>
-    <table class="ui celled padded table">
-      <thead>
-        <tr>
-          <th>Students</th>
-          <th>Answers</th>
-          <th>Feedbacks</th>
-          <th>Remarks</th>
-        </tr>
-      </thead>
+  <% @batch_set.question_sets.each do |question_set| %>
+    <% question_set.question_ids.each do |question_id| %>
+      <% if Question.where(id: question_set.question_ids.first).exists? %>
+        <% question = Question.find(question_id) %>
+        <% if question.question_type.name == "Text" %>
+          <h4><%= question.formatted_statement %></h4>
+          <table class="ui celled padded table">
+            <thead>
+              <tr>
+                <th>Students</th>
+                <th>Answers</th>
+                <th>Feedbacks</th>
+                <th>Remarks</th>
+              </tr>
+            </thead>
 
-      <tbody>
-        <% bsq.answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
-          <tr>
-            <td><%= answer.user.try(:name) %></td>
-            <td><%= answer.statement.html_safe %></td>
-            <td>
-              <div class="new_comment">
-                <div class="ui comments">
-                  <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
-                    <div class="comment">
-                      <a class="avatar">
-                        <% if comment.user.avatar.present? %>
-                          <%= image_tag comment.user.avatar_url, {class: "avatar"} %>
-                        <% else %>
-                          <div class="ui avatar image">
-                            <img src="/pic.jpg">
+            <tbody>
+              <% question.answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
+                <% if answer.is_correct == "wrong" %>
+                  <tr class="negative">
+                <% elsif answer.is_correct == "correct" %>
+                  <tr class="positive">
+                <% else %>
+                  <tr>
+                <% end %>
+                  <td><%= answer.user.try(:name) %></td>
+                  <td>
+                    <%= answer.formatted_statement %>
+                    <%= form_for answer do |ans| %>
+                      <%= ans.radio_button :is_correct, "correct" %>Correct<br/>
+                      <%= ans.radio_button :is_correct, "partially_correct" %>Partially Correct<br/>
+                      <%= ans.radio_button :is_correct, "wrong" %>Wrong<br/>
+                      <%= ans.submit %>
+                    <% end %><br/>
+                    <%= link_to 'Delete Answer', answer, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
+                  </td>
+                  <td>
+                  
+                    <div class="new_comment">
+                      <div class="ui comments">
+                        <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
+                          <div class="comment">
+                            <a class="avatar">
+                              <% if comment.user.avatar.present? %>
+                                <%= image_tag comment.user.avatar_url, {class: "avatar"} %>
+                              <% else %>
+                                <div class="ui avatar image">
+                                  <img src="/pic.jpg">
+                                </div>
+                              <% end %>
+                            <div class="content">
+                              <a class="author"><%= comment.user.try(:name) %></a>
+                               <!-- <div class="metadata">
+                                <div class="date">distance</div>
+                                <div class="rating">
+                                  <i class="star icon"></i> 
+                                  <%#= answer.remark.try(:title) %>
+                                </div>
+                              </div> -->
+                              <div class="text">
+                                <%= comment.statement.html_safe %>
+                              </div>
+                            </div>
                           </div>
                         <% end %>
-                      <div class="content">
-                        <a class="author"><%= comment.user.try(:name) %></a>
-                         <!-- <div class="metadata">
-                          <div class="date">distance</div>
-                          <div class="rating">
-                            <i class="star icon"></i> 
-                            <%= answer.remark.try(:title) %>
-                          </div>
-                        </div> -->
-                        <div class="text">
-                          <%= comment.statement.html_safe %>
-                        </div>
                       </div>
                     </div>
-                  <% end %>
-                </div>
-              </div>
-            </td>
-            <td><%= answer.remark.try(:title) %></td>
-          </tr>
-          <tr>
-            <td><%= form_for answer do |ans| %>
-                  <%= ans.radio_button :is_correct, "correct" %>Correct<br/>
-                  <%= ans.radio_button :is_correct, "partially_correct" %>Partially Correct<br/>
-                  <%= ans.radio_button :is_correct, "wrong" %>Wrong<br/>
-                  <%= ans.submit %>
-                <% end %>
-            </td>
-            <td><%= link_to 'Delete Answer', answer, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %></td>
-            <td>
-              <%# link_to "New Comment", new_comment_path(@comment), remote: true %> 
-              <%= form_for (@comment), remote: true do |f| %>
-                <%= f.hidden_field :user_id, value: current_user.id %>
-                <%= f.hidden_field :answer_id, value: answer.id %>
-                <%= f.text_area :statement, class: "textEditor" %>
-                <%= f.submit %>
+
+
+
+                    <a class="add_comment">Add Comment</a>
+
+                    <div class="showComment">
+                      <%= form_for (@comment), remote: true do |f| %>
+                        <%= f.hidden_field :user_id, value: current_user.id %>
+                        <%= f.hidden_field :answer_id, value: answer.id %>
+                        <%= f.text_area :statement, class: "textEditor" %>
+                        <%= f.submit %>
+                      <% end %>
+                    </div>
+                  </td>
+
+
+                  <td>
+                    <%= answer.remark.try(:title) %>
+                    <%= form_for (answer) do |f| %>
+                      <%= f.collection_select :remark_id, Remark.all, :id, :title, prompt: "Select a remark" %>
+                      <%= f.submit %>
+                    <% end %>
+                  </td>
+                </tr>
               <% end %>
-            </td>
-            <td>
-            <%= form_for (answer) do |f| %>
-              <%= f.collection_select :remark_id, Remark.all, :id, :title, prompt: "Select a remark" %>
-              <%= f.submit %>
-            <% end %>
-            </td>
-          </tr>
+            </tbody>
+          </table>
         <% end %>
-      </tbody>
-    </table>
+      <% end %>
+    <% end %>
   <% end %>
 
+<%# end %>
 <% elsif @batch_set.kind == "assignment" %>
 
-<!--   <h3>Assignment:</h3>
-  <%# @batch_set.questions.where("kind = ?", "assignment").each do |question| %>
-    <h4><%#= question.statement.html_safe %></h4>
-    <%# question.answers.where("batch_set_id = ?", @batch_set.id).each do |answer| %>
-      <b><%#= answer.user.student.name %><br/></b>
-      <%#= answer.statement.html_safe %>
-      <%# if answer.comments.exists? %>
-        <div class="ui comments">
-          <%# answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
-            <div class="comment">
-              <a class="avatar">
-                <img src="/images/avatar/small/stevie.jpg">
-              </a>
-              <div class="content">
-                <a class="author"><%#= comment.user.name %></a>
-                <div class="metadata">
-                  <div class="date">distance</div>
-                  <div class="rating">
-                    <i class="star icon"></i>
-                    <%#= answer.remark.try(:title) %>
-                  </div>
-                </div>
-                <div class="text">
-                  <%# if comment.user.role == "admin" && !answer.remark.nil? %>
-                    <%#= "Remark: " %><%#= answer.remark.title %><br/>
-                  <%# end %>
-                  <%#= comment.statement.html_safe %>
-                </div>
-              </div>
-            </div>
-          <%# end %>
+<div class="ui styled accordion">
+  <div class="title">
+    <i class="dropdown icon"></i>
+    Level 1
+  </div>
+  <div class="content">
+    Welcome to level 1
+    <div class="accordion transition hidden">
+      <div class="active title">
+          <i class="dropdown icon"></i>
+          Level 1A
+      </div>
+      <div class="active content">
+        <p>Level 1A Contents</p>
+        <div class="accordion">
+          <div class="title">
+              <i class="dropdown icon"></i>
+              Level 1A-A
+          </div>
+          <div class="content">
+              Level 1A-A Contents
+          </div>
+          <div class="title">
+              <i class="dropdown icon"></i>
+              Level 1A-B
+          </div>
+          <div class="content">
+              Level 1A-B Contents
+          </div>
         </div>
-        <%#= form_for (@comment) do |f| %>
-          <%#= f.hidden_field :user_id, value: current_user.id %>
-          <%#= f.hidden_field :answer_id, value: answer.id %>
-          <div class="ui input"><%#= f.text_field :statement %></div>
-          <%#= f.submit class: "ui primary button" %>
-        <%# end %>
-      <%# end %>
-    <%# end %>
-  <%# end %> -->
-
-
-  <div class="ui styled accordion">
-    <% i = 1 %>
-    <% @batch_set.questions.where("kind = ?", "assignment").each do |question| %>
+      </div>
       <div class="title">
-        <i class="dropdown icon"></i>
-        Question <%= i %> 
+          <i class="dropdown icon"></i>
+          Level 1B
       </div>
       <div class="content">
-        <%= question.statement.html_safe %>
-        <div class="accordion transition hidden">
-          <% question.answers.where("batch_set_id = ?", @batch_set.id).each do |answer| %>
-            <div class="title">
+          Level 1B Contents
+      </div>
+      <div class="title">
+          <i class="dropdown icon"></i>
+          Level 1C
+      </div>
+      <div class="content">
+          Level 1C Contents
+      </div>
+    </div>
+  </div>
+  <div class="title">
+    <i class="dropdown icon"></i>
+    Level 2
+  </div>
+  <div class="content">
+    <p>Welcome to level 2</p>
+    <div class="accordion">
+      <div class="active title">
+        <i class="dropdown icon"></i>
+        Level 2A
+      </div>
+      <div class="active content">
+        <p>Level 2A Contents</p>
+        <div class="accordion">
+          <div class="title">
               <i class="dropdown icon"></i>
-              <%= answer.user.student.name %><br/>
-            </div>
-            <div class="content">
-              <p class="transition hidden">
-                <%= answer.statement.html_safe %>
-                <% if !answer.remark.nil? %>
-                  <b>Remark:</b>
-                  <%= answer.remark.title %>
-                <% end %><br/><br/>
-                <% if answer.comments.exists? %>
-                  <b>Feedbacks:</b><br/>
-                  <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
-                    <b><%= comment.user.name %></b>:
-                    <%= comment.statement.html_safe %><br/>
-                  <% end %><br/>
-                <% end %>
-                <%= form_for (@comment) do |f| %>
-                  <%= f.hidden_field :user_id, value: current_user.id %>
-                  <%= f.hidden_field :answer_id, value: answer.id %>
-                  <%= f.text_area :statement, class: "textEditor" %>
-                  <%= f.submit class: "ui primary button" %>
-                <% end %><br/>
-                <%= form_for (answer) do |f| %>
-                  <%= f.collection_select :remark_id, Remark.all, :id, :title, prompt: "Select a remark" %>
-                  <%= f.submit 'Add Remark', class: "ui primary button" %>
-                <% end %>
-              </p>
-            </div>
-          <% end %>
+              Level 2A-A
+          </div>
+          <div class="content">
+              Level 2A-A Contents
+          </div>
+          <div class="title">
+              <i class="dropdown icon"></i>
+              Level 2A-B
+          </div>
+          <div class="content">
+              Level 2A-B Contents
+          </div>
         </div>
       </div>
-      <% i = i + 1 %>
-    <% end %>
+      <div class="title">
+          <i class="dropdown icon"></i>
+          Level 2B
+      </div>
+      <div class="content">
+          Level 2B Contents
+      </div>
+      <div class="title">
+          <i class="dropdown icon"></i>
+          Level 2C
+      </div>
+      <div class="content">
+          Level 2C Contents
+      </div>
+    </div>
   </div>
+</div>
 
 
 <% end %>

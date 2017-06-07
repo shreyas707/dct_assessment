@@ -12,14 +12,19 @@
   <% end %>
 
   <div class="field">
+  </div>
+  <div class="field">
     <%= f.label :title %><br>
     <div class="ui input"><%= f.text_field :title %></div>
   </div>
-
   <div class="field">
     <%= f.label :statement %><br>
     <%= f.text_area :statement, class: "textEditor" %>
-  </div>
+  </div><br/>
+  <div class="field">
+    <%= f.label :difficulty_level %><br>
+    <%= f.select :difficulty_level, Question.difficulty, {prompt: "Select Difficulty"}, {class: "ui search dropdown"} %><br/>
+  </div><br/>
   <div class="field">
     <label>Select Topic:</label><br>
     <%= f.collection_select :topic_id, Topic.all, :id, :name, {prompt: "Select topic"}, {class: "ui search dropdown"} %>
@@ -28,10 +33,26 @@
     <label>Select Chapter:</label><br>
     <%= f.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select chapter"}, {class: "ui search dropdown"}%>
   </div>
+
+  
+  <label>Select Kind:</label><br>
   <div class="field">
-    <%= f.label :kind %><br>
-    <%= f.radio_button :kind, "assessment" %>Assessment<br/>
-    <%= f.radio_button :kind, "assignment" %>Assignment<br/>
+    <div class="ui radio checkbox">
+      <%= f.radio_button :kind, "assessment", class: "hidden" %>
+      <label for="question_kind_assessment">Assessment</label>
+    </div><br/>
+    <div class="ui radio checkbox">
+      <%= f.radio_button :kind, "assignment", class: "hidden" %>
+      <label for="question_kind_assignment">Assignment</label>
+    </div><br/>
+<!--     <div class="ui radio checkbox">
+      <%#= f.radio_button :kind, "homework", class: "hidden" %>
+      <label for="question_kind_homework">Homework</label>
+    </div><br/> -->
+<!--     <div class="ui radio checkbox">
+      <%#= f.radio_button :kind, "test", class: "hidden" %>
+      <label for="question_kind_test">Test</label>
+    </div> -->
   </div>
 
   <div class="field">
@@ -55,7 +76,7 @@
   <br/><br/>
 
   <%= f.fields_for :videos do |video_form| %>
-    <%= video_form.text_field :youtube_url%>
+    <div class="ui input"><%= video_form.text_field :youtube_url %></div>
     <%= video_form.link_to_remove "Remove" %>
   <% end %>
   <p><%= f.link_to_add "Add video", :videos %></p>

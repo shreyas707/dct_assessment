@@ -21,11 +21,25 @@
     <div class="ui input"><%= f.text_field :set_date, class: "date" %></div>
   </div><br/>
 
+  <label>Select Kind</label>
   <div class="field">
-    <b><%= f.label :kind %></b><br>
-    <%= f.radio_button :kind, "assessment" %>Assessment<br/>
-    <%= f.radio_button :kind, "assignment" %>Assignment
-  </div><br/>
+    <div class="ui radio checkbox">
+      <%= f.radio_button :kind, "assessment", class: "hidden" %>
+      <label for="batch_set_kind_assessment">Assessment</label>
+    </div><br/>
+    <div class="ui radio checkbox">
+      <%= f.radio_button :kind, "assignment", class: "hidden" %>
+      <label for="batch_set_kind_assignment">Assignment</label>
+    </div><br/>
+<!--     <div class="ui radio checkbox">
+      <%#= f.radio_button :kind, "homework", class: "hidden" %>
+      <label for="batch_set_kind_homework">Homework</label>
+    </div><br/> -->
+<!--     <div class="ui radio checkbox">
+      <%#= f.radio_button :kind, "test", class: "hidden" %>
+      <label for="batch_set_kind_test">Test</label>
+    </div> -->
+  </div>
 
   <%= f.hidden_field :batch_id, value: @batch.id %>
 
@@ -61,7 +75,7 @@
     <!-- <b>Select Questions</b><br/> -->
     <%#= question_set.collection_select :question_ids, Question.all, :id, :formatted_statement, {prompt: "Select Questions"}, {class: "ui fluid search dropdown", multiple: ""} %>
     <b>Select Users</b><br/>
-    <%= question_set.collection_select :user_ids, User.all, :id, :name, {prompt: "Select Users"}, {class: "ui fluid search dropdown", multiple: ""} %><br/>
+    <%= question_set.collection_select :user_ids, @batch_users, :id, :name, {prompt: "Select Users"}, {class: "ui fluid search dropdown", multiple: ""} %><br/>
     <%= question_set.link_to_remove "Delete Question Set" %><br/><br/>
   <% end %>
   <%= f.link_to_add "Add Question Set", :question_sets %>
@@ -73,7 +87,7 @@
     <b>Select Date and Time</b><br/>
     <%= due_date_list.datetime_select :due_date_time %><br/>
     <b>Add Users</b>
-    <%= due_date_list.collection_select :user_ids, User.all, :id, :name, {prompt: "Select User"}, {class: "ui fluid search dropdown", multiple: ""} %>
+    <%= due_date_list.collection_select :user_ids, @batch_users, :id, :name, {prompt: "Select User"}, {class: "ui fluid search dropdown", multiple: ""} %>
     <%= due_date_list.link_to_remove "Delete Due Date List" %><br/><br/>
   <% end %>
   <%= f.link_to_add "Add Due Date List", :due_date_lists %>

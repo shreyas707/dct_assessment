@@ -12,12 +12,13 @@
           <!-- IF ASSIGNMENT IS PAST DUE DATE -->
           <% if due_date_list.due_date_time < Time.now %>
             <% question_set.question_ids.each do |question_id| %>
+              <% question = Question.find(question_id) %>
               <!-- IF ANSWERS DON'T EXIST -->
               <% if !Question.find(question_id).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id).exists? %>
-                <%= Question.find(question_id).try(:formatted_statement) %>
+                <%= question.formatted_statement %>
               <!-- DISPLAYING ANSWERS IF THEY EXIST -->
               <% else %>
-                <%= Question.find(question_id).try(:formatted_statement) %>
+                <%= question.formatted_statement %>
                 <% answer = Question.find(question_id).answers.find_by('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id) %>
                 <%= answer.formatted_statement %>
                 <b>Feedback:</b>
@@ -49,6 +50,7 @@
                   <%= f.text_area :statement, class: "textEditor" %>
                   <%= f.submit class: "ui primary button" %>
                 <% end %>
+
                 <%#= render "comment" %>
               <% end %>
             <% end %>
@@ -56,7 +58,8 @@
           <% elsif due_date_list.due_date_time > Time.now %>
             <p>
               <% question_set.question_ids.each do |question_id| %>
-                <h4><%= Question.find(question_id).try(:formatted_statement) %></h4>
+                <% question = Question.find(question_id) %>
+                <h4><%= question.formatted_statement %></h4>
                 <!-- IF ANSWERS DON'T EXIST -->
                 <% if !Question.find(question_id).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id).exists? %>
                   <%= f.fields_for :answers, @answer do |ans| %>
@@ -79,38 +82,57 @@
                 <% elsif Question.find(question_id).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id).exists? %>
                   <% answer = Question.find(question_id).answers.find_by('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id) %>
                   <%= answer.formatted_statement %>
+                  <% if answer.question.question_type.name == "MCQ" %>
+                    <% if answer.is_correct == "correct" %>
+                      <i class="checkmark icon"></i><font color="green"><%= "Correct answer" %></font>
+                    <% else %>
+                      <i class="remove icon"></i><font color="red"><%= "Wrong answer" %></font><br/>
+                      <font color="green"><%= answer.question.options.find_by(is_answer: true).statement.html_safe %></font><%= " is the correct answer" %>
+                    <% end %>
+                  <% end %><br/><br/>
                   <p><b>Feedback:</b>
-                  <div class="ui comments">
-                    <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
-                      <div class="comment">
-                        <a class="avatar">
-                          <%= image_tag comment.user.avatar_url %>
-                        </a>
-                        <div class="content">
-                          <a class="author"><%= comment.user.name %></a>
-                  <!--             <div class="metadata">
-                            <div class="date">distance</div>
-                            <div class="rating">
-                              <i class="star icon"></i>
-                              <%#= answer.remark.try(:title) %>
+                    <div class="ui comments">
+                      <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
+                        <div class="comment">
+                          <a class="avatar">
+                            <%= image_tag comment.user.avatar_url %>
+                          </a>
+                          <div class="content">
+                            <a class="author"><%= comment.user.name %></a>
+                    <!--             <div class="metadata">
+                              <div class="date">distance</div>
+                              <div class="rating">
+                                <i class="star icon"></i>
+                                <%#= answer.remark.try(:title) %>
+                              </div>
+                            </div> -->
+                            <div class="text">
+                              <%= comment.statement.html_safe %>
                             </div>
-                          </div> -->
-                          <div class="text">
-                            <%= comment.statement.html_safe %>
                           </div>
                         </div>
-                      </div>
+                      <% end %>
+                    </div>
+                    <%= form_for @comment do |comment| %>
+                      <%= comment.hidden_field :user_id, value: current_user.id %>
+                      <%= comment.hidden_field :answer_id, value: answer.id %>
+                      <%= comment.text_area :statement, class: "textEditor" %>
+                      <%= comment.submit class: "ui primary button" %>
                     <% end %>
-                  </div>
-                  <%= form_for @comment do |comment| %>
-                    <%= comment.hidden_field :user_id, value: current_user.id %>
-                    <%= comment.hidden_field :answer_id, value: answer.id %>
-                    <%= comment.text_area :statement, class: "textEditor" %>
-                    <%= comment.submit class: "ui primary button" %>
-                  <% end %>
                   </p>
+                  <% if question.videos.exists? %>
+                    <strong> Solution Video: </strong><br/><br/>
+                    <div class="ui grid">
+                      <% question.videos.each do |video| %>
+                        <div class="eight wide column">
+                          <iframe allowfullscreen="allowfullscreen" id="player" type="text/html" width="320" height="180" src= <%= video.youtube_url %> frameborder="0"></iframe>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
                   <%#= render "comment" %>
                 <% end %>
+                <div class="ui divider"></div>
               <% end %>
             </p>
             <% question_set.question_ids.each do |question_id| %>

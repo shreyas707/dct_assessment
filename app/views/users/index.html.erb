@@ -1,38 +1,41 @@
-  <p id="notice"><%= notice %></p>
+<p id="notice"><%= notice %></p>
+
 <% if current_user.is_admin? %>
-<h1>Listing Users</h1>
-<h3>Total number of users: <%= @users.count %></h3>
-<table class="ui celled padded table" id="dataTable">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Mobile</th>
-      <th>Active</th>
-      <th>Sign in Count</th>
-      <th>Last Sign in</th>
-      <th>Show</th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @users.each do |user| %>
+  <h1>Listing Users</h1>
+  <h3>Total number of users: <%= @users.count %></h3>
+  <%= link_to 'New User', new_user_path, class: "ui primary button" %><br/><br/>
+  <table class="ui celled padded table" id="dataTable">
+    <thead>
       <tr>
-        <td><%= user.name %></td>
-        <td><%= user.email %></td>
-        <td><%= user.mobile %></td>
-        <td><%= user.is_active %></td>
-        <td><%= user.sign_in_count %></td>
-        <td><%= user.last_sign_in_at.nil? ? "Not Logged in" : distance_of_time_in_words(Time.now, user.last_sign_in_at) + " ago"  %></td>
-        <td><%= link_to 'Show', user %></td>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Mobile</th>
+        <th>Active</th>
+        <th>Sign in Count</th>
+        <th>Last Sign in</th>
+        <th>Show</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.mobile %></td>
+          <td><%= user.is_active %></td>
+          <td><%= user.sign_in_count %></td>
+          <td><%= user.last_sign_in_at.nil? ? "Not Logged in" : distance_of_time_in_words(Time.now, user.last_sign_in_at) + " ago"  %></td>
+          <td><%= link_to 'Show', user %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <br/><br/>
 
-<%= link_to 'New User', new_user_path, class: "ui primary button" %><br/><br/>
 <% else %>
-You think you're too smart? Think again.
+
+  You think you're too smart? Think again.
+
 <% end %>

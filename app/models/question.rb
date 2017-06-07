@@ -19,6 +19,11 @@ class Question < ActiveRecord::Base
 	
 	after_create :correct_answer_option
 
+
+	def self.difficulty 
+		["easy","easy-medium","medium", "medium-hard", "hard"]
+	end
+
 	def formatted_statement
 		self.statement.html_safe
 	end
@@ -34,7 +39,14 @@ class Question < ActiveRecord::Base
 	end
 
 	# def question_code
-	# 	self.code = "DCT" + self.
+	# 	number = 0
+	# 	questions = Question.where(topic_id: self.topic.id, chapter_id: self.chapter.id, difficulty_level: self.difficulty_level)
+	# 	if questions.exists?
+	# 		questions.each do |question|
+	# 			number = question.code.split("").last(1).join.to_i + 1
+	# 		end
+	# 	end	
+	# 	self.code = "DCT" + self.topic.short_name + self.chapter.short_name + self.difficulty_level[0].capitalize + 
 	# end 
 
 end

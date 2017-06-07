@@ -1,46 +1,23 @@
+task :setup_data1 => :environment do 
 
- task :setup_data1 => :environment do 
+	batch_sets = BatchSet.all
 
+	batch_sets.each do |batch_set|
+		if batch_set.due_date_lists.empty?
+		due_date_list = DueDateList.new
+		due_date_list.batch_set_id = batch_set.id
+		due_date_list.due_date_time = batch_set.due_date
+		due_date_list.user_ids = User.where(student_id: batch_set.batch.students.pluck(:id)).ids
+		due_date_list.save
+		end
 
-50.times do
- 		student = Student.new
- 		student.name = Faker::Name.unique.name
-		student.email = Faker::Internet.unique.email
- 		student.mobile = "1234567890"
- 		student.gender = ["male","female"].sample
- 		student.dob = Faker::Date.birthday
-
-		student.save
-end
-
-5.times do 
-	course = Course.new
-	course.name = Faker::Educator.course
-	course.save
-end
-
-10.times do 
-	topic = Topic.new
-	topic.name = Faker::GameOfThrones.house
-	topic.save
-end
-
-3.times do 
-	batch = Batch.new
-	batch.title = ["frontend","webdevelopment"].sample
-	batch.start_date = Faker::Date.between(50.days.ago, Date.today)
-	batch.end_date = Faker::Date.between(100.days.from_now, 150.days.from_now)
-	batch.course_id = Course.all.pluck(:id).sample
-	batch.complete = false
-	batch.save
-end
-
-50.times do 
-	bs = BatchStudent.new
-	bs.batch_id = Batch.all.pluck(:id).sample
-	bs.student_id = Student.all.pluck(:id).sample
-	bs.save
-end
-
+		if batch_set.question_sets.empty?
+		question_set = QuestionSet.new
+		question_set.batch_set_id = batch_set.id
+		question_set.question_ids = batch_set.questions.ids
+		question_set.user_ids = User.where(student_id: batch_set.batch.students.pluck(:id)).ids
+		question_set.save
+		end
+	end
 
 end

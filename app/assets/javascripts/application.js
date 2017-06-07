@@ -18,3 +18,12 @@
 //= require semantic-ui/modal
 //= require semantic-ui/dropdown
 //= require_tree .
+
+$(document).ready(function(){
+	 $('.add_comment').css('cursor', 'pointer');
+ 	 $('.showComment').css('display', 'none');
+ 	 $('.add_comment').on('click', function(){
+ 		$('.showComment').toggle();
+ 	 });
+});
+

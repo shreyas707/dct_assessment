@@ -71,6 +71,6 @@ class TopicsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def topic_params
-      params.require(:topic).permit(:name, course_ids: [])
+      params.require(:topic).permit(:name,:short_name, course_ids: [])
     end
 end

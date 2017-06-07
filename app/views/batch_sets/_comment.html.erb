@@ -1,12 +1,9 @@
-<b>Feedback:</b>
-<div class="ui comments">
-  <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
     <div class="comment">
       <a class="avatar">
-        <%= image_tag comment.user.avatar_url %>
+        <%= image_tag @comment.user.avatar_url %>
       </a>
       <div class="content">
-        <a class="author"><%= comment.user.name %></a>
+        <a class="author"><%= @comment.user.name %></a>
 <!--             <div class="metadata">
           <div class="date">distance</div>
           <div class="rating">
@@ -15,15 +12,7 @@
           </div>
         </div> -->
         <div class="text">
-          <%= comment.statement.html_safe %>
+          <%= @comment.statement.html_safe %>
         </div>
       </div>
     </div>
-  <% end %>
-</div>
-<%= form_for (@comment) do |f| %>
-  <%= f.hidden_field :user_id, value: current_user.id %>
-  <%= f.hidden_field :answer_id, value: answer.id %>
-  <%= f.text_area :statement, class: "textEditor" %>
-  <%= f.submit class: "ui primary button" %>
-<% end %>

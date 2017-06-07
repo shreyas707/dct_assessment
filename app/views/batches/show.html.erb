@@ -1,143 +1,184 @@
 <p id="notice"><%= notice %></p>
 
-
 <div class="ui segment">
   
   <div class="ui grid">
 
-    <div class="ten wide column">
-    <p>
-      <strong>Title:</strong>
-      <%= @batch.title %>
-    </p>
-
-    <p>
-      <strong>Start date:</strong>
-      <%= @batch.start_date.strftime("%d-%b-%Y") %>
-    </p>
-
-    <p>
-      <strong>End date:</strong>
-      <%= @batch.end_date.strftime("%d-%b-%Y") %>
-    </p>
-
-    <p>
-      <strong>Course:</strong>
-      <%= @batch.course.name %>
-    </p>
-
-    <% if current_user.is_admin? %>
-
+    <div class="eleven wide column">
       <p>
-        <strong>Total number of students: </strong>
-        <%= @batch.students.count %>
+        <strong>Title:</strong>
+        <%= @batch.title %>
       </p>
 
       <p>
-        <strong>Completed? </strong>
-        <%= @batch.complete %>
+        <strong>Start date:</strong>
+        <%= @batch.start_date.strftime("%d-%b-%Y") %>
       </p>
 
       <p>
-        <strong>List of students in this batch: </strong><br/>
-        <% @batch_students.each do |student| %>
-          <% if student.user.avatar.present? %>
-            <%= link_to image_tag(student.user.avatar_url, {class: "ui avatar image"}), batches_student_path(:batch => @batch.id, :student => student.id) %>
-          <% else %>
-            <div class="ui avatar image">
-              <a href="<%= batches_student_path(:batch => @batch.id, :student => student.id) %>"><img src="/pic.jpg"></a>
-              <%= student.name.split(" ")[0] %>
-            </div>
+        <strong>End date:</strong>
+        <%= @batch.end_date.strftime("%d-%b-%Y") %>
+      </p>
+
+      <p>
+        <strong>Course:</strong>
+        <%= @batch.course.name %>
+      </p>
+
+      <% if current_user.is_admin? %>
+
+        <p>
+          <strong>Total number of students: </strong>
+          <%= @batch.students.count %>
+        </p>
+
+        <p>
+          <strong>Completed? </strong>
+          <%= @batch.complete %>
+        </p>
+
+        <p>
+          <strong>List of students in this batch: </strong><br/>
+          <% @batch_students.each do |student| %>
+            <% if student.user.avatar.present? %>
+              <%= link_to image_tag(student.user.avatar_url, {class: "ui avatar image"}), batches_student_path(:batch => @batch.id, :student => student.id) %>
+            <% else %>
+              <div class="ui avatar image">
+                <a href="<%= batches_student_path(:batch => @batch.id, :student => student.id) %>"><img src="/pic.jpg"></a>
+                <%= student.name.split(" ")[0] %>
+              </div>
+            <% end %>
           <% end %>
-        <% end %>
-        <br>
-      </p>
+          <br>
+        </p>
+        <br/>
 
-      <!-- <p>
-        <strong>Students yet to submit:</strong>
+        <p>
+          <strong>Students yet to submit:</strong>
 
-        <div class="ui top attached tabular menu">
-          <a class="item active" data-tab="first">Latest 10 batch sets</a>
-          <a class="item" data-tab="second">Rest of the batch sets</a>
-        </div>
-        <div class="ui bottom attached tab segment active" data-tab="first">
-          <%# @batch.batch_sets.order('due_date DESC').where('due_date < ?', Date.today).first(10).each do |batch_set| %>
-            <div class="ui card">
-              <div class="content">
-                <div class="header"><b><%#= batch_set.title %></b></div>
-                  <div class="meta">2 days ago</div>
-                <div class="description">
-                  <p>
-                    <b>Due On: </b><%#= batch_set.due_date.strftime("%d %b %Y, %I:%M %p") %><br/>
-                    <b>Students: </b>
-                    <%# @batch.students.each do |student| %>
-                      <%# if !student.user.answers.where('batch_set_id = ?', batch_set.id).exists? %>
-                        <%#= student.name %>,
-                      <%# end %>
-                    <%# end %>
-                  </p>
+          <div class="ui top attached tabular menu">
+            <a class="item" data-tab="first">Latest 10 batch sets</a>
+            <a class="item" data-tab="second">Rest of the batch sets</a>
+          </div>
+          <%# @batch.batch_sets.each do |batch_set| %>
+            <%# batch_set.due_date_lists.each do |due_date_list| %>
+              <%# if !Answer.where(batch_set_id: due_date_list.batch_set.id, user_id: due_date_list.user_ids.pluck(:id)).exists? %>
+          <div class="ui bottom attached tab segment" data-tab="first">
+            <div class="ui grid">
+              <% @first_ten_batch_sets.each do |batch_set| %>
+                <div class="eight wide column">
+                  <div class="ui card">
+                    <div class="content">
+                      <div class="header"><%= batch_set.title %></div>
+                      <% batch_set.due_date_lists.each do |due_date_list| %>
+                        <div class="description">
+                          <p>
+                            <b>Due On: </b><%= due_date_list.due_date_time.strftime("%d %b %Y, %I:%M %p") %></br>
+                            <b>Students: </b>
+                            <% due_date_list.user_ids.compact.each do |user_id| %>
+                              <% if User.where(id: user_id).exists? && !User.find(user_id).answers.where(batch_set_id: batch_set.id).exists? %>
+                                <%= User.find(user_id).try(:name) %>,
+                              <% end %>
+                            <% end %>
+                          </p><br/>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              <% end %>
             </div>
-          <%# end %>
-        </div> 
-        <div class="ui bottom attached tab segment" data-tab="second">
-          <%# rest_of_the_batch = @batch.batch_sets.order('due_date DESC').where('due_date < ?', Date.today) - @batch.batch_sets.order('due_date DESC').where('due_date < ?', Date.today).first(10) %>
-          <%# rest_of_the_batch.each do |batch_set| %>
-
-            <div class="ui card">
-              <div class="content">
-                <div class="header"><b><%#= batch_set.title %></b></div>
-                <div class="meta">2 days ago</div>
-                <div class="description">
-                  <p>
-                    <b>Due On: </b><%#= batch_set.due_date.strftime("%d %b %Y, %I:%M %p") %><br/>
-                    <b>Students: </b>
-                    <%# @batch.students.each do |student| %>
-                      <%# if !student.user.answers.where('batch_set_id = ?', batch_set.id).exists? %>
-                        <%#= student.name %>,
-                      <%# end %>
-                    <%# end %>
-                  </p>
+          </div>
+          <div class="ui bottom attached tab segment" data-tab="second">
+            <div class="ui grid">
+              <% @rest_of_batch_sets.each do |batch_set| %>
+                <div class="eight wide column">
+                  <div class="ui card">
+                    <div class="content">
+                      <div class="header"><%= batch_set.title %></div>
+                      <% batch_set.due_date_lists.each do |due_date_list| %>
+                        <div class="description">
+                          <p>
+                            <b>Due On: </b><%= due_date_list.due_date_time.strftime("%d %b %Y, %I:%M %p") %><br/>
+                            <b>Students: </b>
+                            <% due_date_list.user_ids.compact.each do |user_id| %>
+                              <% if User.where(id: user_id).exists? && !User.find(user_id).answers.where(batch_set_id: batch_set.id).exists? %>
+                                <%= User.find(user_id).try(:name) %>,
+                              <% end %>
+                            <% end %>
+                          </p><br/>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              <% end %>
             </div>
-          <%# end %>
-        </div>
+          </div>
+        </p>
 
-        <%# if @batch.batch_sets.where('due_date < ?', Date.today).exists? %>
+      <% end %>
 
-        <%# else %>
-          <%#= "All students have submitted all assignments." %>
-        <%# end %>
-      </p> -->
+      <h4>Assessments</h4>
+      <div class="ui top attached tabular menu">
+        <a class="item active" data-tab="third">This Week</a>
+        <a class="item" data-tab="fourth">All The Others</a>
+      </div>
+      <div class="ui column bottom attached tab segment active" data-tab="third">
+        <% if @this_week_assessments.empty? %>
+            <%= "There are no assessments for this week." %>
+        <% else %>
+          <div class="ui grid">
+            <% @this_week_assessments.each do |batch_set| %>
+              <%= link_to batch_set.title, batch_batch_set_path(@batch.id, batch_set.id), {class: "ui orange button or-space"} %></div>
+            <% end %>
+          </div>
+        <% end %><br/>
+      </div>
+      <div class="ui  bottom attached tab segment" data-tab="fourth">
+        <% if @rest_of_assessments.empty? %>
+            <%= "There are no assessments." %>
+        <% else %>
+          <% @rest_of_assessments.each do |batch_set| %>
+            <%= link_to batch_set.title, batch_batch_set_path(@batch.id, batch_set.id), {class: "ui orange button or-space"} %>
+          <% end %>
+        <% end %><br/>
+      </div>
 
-      <%= link_to 'Edit', edit_batch_path(@batch), class: "ui button" %>
-
-      <%= link_to "Add Batch Set", new_batch_batch_set_path(@batch), class: "ui primary button" %> 
-
-    <% end %>
-
-    <h4>Assessments</h4>
-    <% @assessments.each do |batch_set| %>
-      <%= link_to batch_set.title, batch_batch_set_path(@batch.id, batch_set.id), class: "ui orange button" %>
-    <% end %><br/>
-
-    <h4>Programming Assignments</h4>
-    <% @assignments.each do |batch_set| %>
-      <%= link_to batch_set.title, batch_batch_set_path(@batch.id, batch_set.id), class: "ui orange button" %>
-    <% end %>
-    <br/><br/>
-
-    <%= link_to 'Back', batches_path, class: "ui black button" %><br/><br/>
-    <% if current_user.is_admin? %>
-      <%= link_to 'Delete Batch', @batch, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
-    <% end %>
+      <h4>Assignments</h4>
+      <div class="ui top attached tabular menu">
+        <a class="item active" data-tab="fifth">This Week</a>
+        <a class="item" data-tab="sixth">All The Others</a>
+      </div>
+      <div class="ui bottom attached tab segment active" data-tab="fifth">
+        <% if @this_week_assignments.empty? %>
+            <%= "There are no assignments for this week." %>
+        <% else %>
+          <% @this_week_assignments.each do |batch_set| %>
+            <%= link_to batch_set.title, batch_batch_set_path(@batch.id, batch_set.id), {class: "ui orange button or-space"} %>
+          <% end %>
+        <% end %><br/>
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="sixth">
+        <% if @rest_of_assignments.empty? %>
+            <%= "There are no assignments." %>
+        <% else %>
+          <% @rest_of_assignments.each do |batch_set| %>
+            <%= link_to batch_set.title, batch_batch_set_path(@batch.id, batch_set.id), {class: "ui orange button or-space"} %>
+          <% end %>
+        <% end %><br/>
+      </div>
 
     </div>
-    <div class="six wide column">
-      <div id='calendar'><%#= render 'calendar' %></div><br/>
+
+    <div class="five wide column">
+      <% if current_user.is_admin? %>
+        <%= link_to 'Edit', edit_batch_path(@batch), class: "ui button" %>
+        <%= link_to "Add Batch Set", new_batch_batch_set_path(@batch), class: "ui primary button" %>
+        <br/><br/>
+      <% end %>
+      <div id='calendar'><%= render 'calendar' %></div><br/>
     </div>
+  
   </div>
-
 </div>

@@ -18,12 +18,12 @@
 
   <div class="field">
     <%= f.label :start_date %><br>
-    <%= f.date_select :start_date %><br/><br/>
+    <div class="ui input"><%= f.text_field :start_date, class: "date" %></div>
+    <br/><br/>
   </div>
   <div class="field">
     <%= f.label :end_date %><br>
-    <%= f.date_select :end_date %>
-    
+    <div class="ui input"><%= f.text_field :end_date, class: "date" %></div>
     <br/><br/>
   </div>
   <div class="field">

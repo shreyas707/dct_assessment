@@ -1,11 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Listing Topics</h1>
+<%= link_to 'New Topic', new_topic_path, class: "ui primary button" %><br/><br/>
 
 <table class="ui celled padded table" id="dataTable">
   <thead>
     <tr>
       <th>Name</th>
+      <th>Short Name</th>
       <th>Show</th>
     </tr>
   </thead>
@@ -14,12 +16,11 @@
     <% @topics.each do |topic| %>
       <tr>
         <td><%= topic.name %></td>
+        <td><%= topic.try(:short_name) %></td>
         <td><%= link_to 'Show', topic %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Topic', new_topic_path, class: "ui primary button" %>
+<br><br>

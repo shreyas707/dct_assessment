@@ -1,6 +1,16 @@
 <p id="notice"><%= notice %></p>
 
 <% if current_user.is_admin? %>
+
+  <div class="ui grid">
+    <div class="two wide column">
+      <%= link_to 'New Batch', new_batch_path, class: "ui primary button" %>
+    </div>
+    <div class="two wide column">
+      <%= link_to 'Add Event', new_event_path, class: "ui primary button" %>
+    </div>
+  </div>
+
   <h3>On Going Batches</h3>
 
   <table class="ui celled padded table" id="dataTable">
@@ -63,10 +73,7 @@
     </tbody>
   </table>
 
-  <br/>
-
-  <%= link_to 'New Batch', new_batch_path, class: "ui primary button" %><br/><br/>
-  <%= link_to 'Add Event', new_event_path, class: "ui primary button" %>
+  <br/><br/>
 
 <% else %>
   

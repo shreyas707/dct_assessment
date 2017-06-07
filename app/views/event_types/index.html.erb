@@ -1,6 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Listing Event Types</h1>
+<%= link_to 'New Event type', new_event_type_path, class: "ui primary button" %><br/><br/>
 
 <table class="ui celled padded table" id="dataTable">
   <thead>
@@ -20,6 +21,4 @@
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Event type', new_event_type_path, class: "ui primary button" %><br/><br/>
+<br><br>

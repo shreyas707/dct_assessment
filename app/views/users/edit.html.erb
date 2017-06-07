@@ -38,7 +38,7 @@
     <br/><br/>
 
     <label>Date of Birth</label><br/>
-    <%= f.date_select :dob %>
+    <div class="ui input"><%= f.text_field :dob, class: "date" %></div>
     <br/><br/>
 
     <label>User Role: </label><%= @user.role %>

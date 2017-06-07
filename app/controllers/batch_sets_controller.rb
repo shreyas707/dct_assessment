@@ -30,6 +30,8 @@ class BatchSetsController < ApplicationController
     @due_date_list = DueDateList.new
     @question_set = QuestionSet.new
     @question_set_chapter_topic = QuestionSetChapterTopic.new
+    @batch_users = User.where(student_id: @batch.students.pluck(:id))
+
   end
 
   # GET /batch_sets/1/edit
@@ -37,6 +39,7 @@ class BatchSetsController < ApplicationController
     @batch = Batch.find(params[:batch_id])
     @answer = Answer.new
     @batch_set_questions = BatchSetQuestion.where('batch_set_id = ?', @batch_set.id)
+    @batch_users = User.where(student_id: @batch.students.pluck(:id))
 
     @questions = {"all_questions" => {}, "asked_questions" => {}, "yet_to_be_asked_questions" => {}}
     @question_sets = @batch_set.question_sets
