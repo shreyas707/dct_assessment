@@ -1,0 +1,10 @@
+<p>
+	Hi, <%= @user.name %>.<br/><br/>
+
+	<b><%= @comment.user.name %></b> has commented on an answer for the batch set <b><%= @comment.answer.batch_set.title %>(<%= @comment.answer.batch_set_id %>)</b>.<br/><br/>
+
+	<b>Answer:</b><%= @comment.answer.statement.html_safe %><br/>
+	
+	<b>Comment:</b> <%= @comment.statement.html_safe %><br/><br/>
+
+</p>

@@ -46,12 +46,13 @@
 
     <!-- semantic ui -->
     <script>
-    $(document).ready(function(){
-      $('.ui.accordion').accordion();
-      $('.ui.dropdown').dropdown();
-      $('.ui.popup').popup();
-      $('.tabular.menu .item').tab();
-    });
+      $(document).ready(function(){
+        $('.ui.dropdown').dropdown();
+        $('.ui.popup').popup();
+        $('.tabular.menu .item').tab();
+        $('#context1 .menu .item').tab({context: $('#context1')});
+        $('.ui.accordion').accordion();
+      });
     </script>
 
   </head>
