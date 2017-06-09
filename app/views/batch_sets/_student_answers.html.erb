@@ -44,11 +44,16 @@
                     </div>
                   <% end %>
                 </div>
-                <%= form_for (@comment) do |f| %>
-                  <%= f.hidden_field :user_id, value: current_user.id %>
-                  <%= f.hidden_field :answer_id, value: answer.id %>
-                  <%= f.text_area :statement, class: "textEditor" %>
-                  <%= f.submit class: "ui primary button" %>
+                <% if question.question_type.name == "Text" %>
+                  <a class="add_comment">Add Comment</a>
+                  <div class="showComment">
+                    <%= form_for (@comment) do |f| %>
+                      <%= f.hidden_field :user_id, value: current_user.id %>
+                      <%= f.hidden_field :answer_id, value: answer.id %>
+                      <%= f.text_area :statement, class: "textEditor" %>
+                      <%= f.submit class: "ui primary button" %>
+                    <% end %>
+                  </div>
                 <% end %>
 
                 <%#= render "comment" %>
@@ -113,11 +118,16 @@
                         </div>
                       <% end %>
                     </div>
-                    <%= form_for @comment do |comment| %>
-                      <%= comment.hidden_field :user_id, value: current_user.id %>
-                      <%= comment.hidden_field :answer_id, value: answer.id %>
-                      <%= comment.text_area :statement, class: "textEditor" %>
-                      <%= comment.submit class: "ui primary button" %>
+                    <% if question.question_type.name == "Text" %>
+                      <a class="add_comment">Add Comment</a>
+                      <div class="showComment">
+                        <%= form_for @comment do |comment| %>
+                          <%= comment.hidden_field :user_id, value: current_user.id %>
+                          <%= comment.hidden_field :answer_id, value: answer.id %>
+                          <%= comment.text_area :statement, class: "textEditor" %>
+                          <%= comment.submit class: "ui primary button" %>
+                        <% end %>
+                      </div>
                     <% end %>
                   </p>
                   <% if question.videos.exists? %>

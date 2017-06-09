@@ -1,4 +1,3 @@
-
 <h2>Student's Answers</h2>
 
 <% if @batch_set.kind == "assessment" %>
@@ -90,8 +89,8 @@
                     <%= link_to 'Delete Answer', answer, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
                   </td>
                   <td>
-                  
-                    <div class="new_comment">
+                    <div id="comments_for_<%= answer.id %>">
+                      <span id="comment_span"></span>
                       <div class="ui comments">
                         <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
                           <div class="comment">
@@ -103,6 +102,7 @@
                                   <img src="/pic.jpg">
                                 </div>
                               <% end %>
+                            </a>
                             <div class="content">
                               <a class="author"><%= comment.user.try(:name) %></a>
                                <!-- <div class="metadata">
@@ -120,12 +120,15 @@
                         <% end %>
                       </div>
                     </div>
-                    <%= form_for (@comment) do |f| %>
-                      <%= f.hidden_field :user_id, value: current_user.id %>
-                      <%= f.hidden_field :answer_id, value: answer.id %>
-                      <%= f.text_area :statement, class: "textEditor" %>
-                      <%= f.submit %>
-                    <% end %>
+                    <a class="add_comment">Add Comment</a>
+                    <div class="showComment">
+                      <%= form_for (@comment), remote: true, html: {id: "new_comment_#{answer.id}"} do |f| %>
+                        <%= f.hidden_field :user_id, value: current_user.id %>
+                        <%= f.hidden_field :answer_id, value: answer.id %>
+                        <%= f.text_area :statement, class: "textEditor" %>
+                        <%= f.submit id: "create_comment" %>
+                      <% end %>
+                    </div>
                   </td>
 
 
