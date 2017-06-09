@@ -70,7 +70,7 @@ before_action :set_question_set, only: [:show, :edit, :update, :destroy]
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def question_set_params
-      params.require(:question_set).permit(question_set_chapter_topics_attributes: [:question_set_id, :chapter_id, :topic_id, :_destroy], :batch_set_id, question_ids: [], user_ids: [])
+      params.require(:question_set).permit(question_set_chapter_topics_attributes: [:id, :question_set_id, :chapter_id, :topic_id, :_destroy], :batch_set_id, question_ids: [], user_ids: [])
     end
 
 end
