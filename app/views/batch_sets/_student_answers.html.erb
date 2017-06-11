@@ -55,7 +55,7 @@
                     <% end %>
                   </div>
                   
-                  <a class="add_comment">Add Comment</a>
+                  <!-- <a class="add_comment">Add Comment</a> -->
                   <div class="showComment">
                     <%= form_for (@comment) do |f| %>
                       <%= f.hidden_field :user_id, value: current_user.id %>
@@ -130,7 +130,7 @@
                         <% end %>
                       </div>
                     
-                      <a class="add_comment">Add Comment</a>
+                      <!-- <a class="add_comment">Add Comment</a> -->
                       <div class="showComment">
                         <%= form_for @comment do |comment| %>
                           <%= comment.hidden_field :user_id, value: current_user.id %>
