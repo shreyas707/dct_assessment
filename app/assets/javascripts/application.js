@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-// require turbolinks
+//= require turbolinks
 //= require jquery_nested_form
 //= require semantic-ui
 //= require semantic-ui/modal

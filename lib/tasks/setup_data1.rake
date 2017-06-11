@@ -22,6 +22,8 @@ task :setup_data1 => :environment do
 			question_set.user_ids = User.where(student_id: batch_set.batch.students.pluck(:id)).ids
 			question_set.save
 		end
+
+
 	end
 
 	Answer.all.each do |answer|
@@ -35,3 +37,8 @@ task :setup_data1 => :environment do
 	end
 
 end
+
+
+# BatchSet.all.each do |batch_set|
+# 	question_set_chapter_topic = QuestionSetChapterTopic.new
+# 		question_set_chapter_topic.question_set_id = QuestionSet.id
