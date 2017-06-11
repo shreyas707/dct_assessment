@@ -15,5 +15,5 @@
 /log/*
 !/log/.keep
 /tmp
-/config/initializers/setup_mailer.rb #because it has id pass
-/config/cloudinary.yml #because it has api key
+setup_mailer.rb #because it has id pass
+cloudinary.yml #because it has api key
