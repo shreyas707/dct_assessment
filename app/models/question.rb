@@ -4,21 +4,21 @@ class Question < ActiveRecord::Base
 	belongs_to :topic
 	belongs_to :question_type
 
-	has_many :options  #, dependent: :destroy
+	has_many :options #, dependent: :destroy
 	accepts_nested_attributes_for :options, :allow_destroy => true
+	has_many :videos #, dependent: :destroy
+	accepts_nested_attributes_for :videos, :allow_destroy => true
 	
 	has_many :question_sets
-	has_many :answers  #, dependent: :destroy
-	has_many :batch_set_questions  #, dependent: :destroy
-	has_many :batch_sets  #, through: :batch_set_questions
-	has_many :videos
+	has_many :answers #, dependent: :destroy
 
-	accepts_nested_attributes_for :videos, :allow_destroy => true
+	# has_many :batch_set_questions #, dependent: :destroy
+	# has_many :batch_sets , through: :batch_set_questions
 
 	validates_presence_of :statement, :chapter_id, :topic_id, :question_type_id, :kind
 	
 	after_create :correct_answer_option
-
+	before_destroy :delete_question_from_qustion_sets
 
 	def self.difficulty 
 		["easy","easy-medium","medium", "medium-hard", "hard"]
@@ -36,6 +36,14 @@ class Question < ActiveRecord::Base
 	  else
 	  	return
 	  end
+	end
+
+	def delete_question_from_qustion_sets
+		QuestionSet.all.each do |question_set|
+			if question_set.question_ids.include?(self.id)
+				question_set.question_ids = question_set.question_ids - [question_set.question_ids.find {|question_id| question_id == self.id}]
+			end
+		end
 	end
 
 	# def question_code

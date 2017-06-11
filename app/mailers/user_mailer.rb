@@ -1,6 +1,6 @@
 class UserMailer < ApplicationMailer
 
-	default from: "hello@shreyas.im"
+	default from: "dctacademyblr@gmail.com"
 
  	def comment_email(user, comment)
     	@user = user

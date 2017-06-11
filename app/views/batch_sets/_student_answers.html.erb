@@ -15,36 +15,46 @@
               <% question = Question.find(question_id) %>
               <!-- IF ANSWERS DON'T EXIST -->
               <% if !Question.find(question_id).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id).exists? %>
-                <%= question.formatted_statement %>
+                <%= question.formatted_statement %><br/>
               <!-- DISPLAYING ANSWERS IF THEY EXIST -->
               <% else %>
-                <%= question.formatted_statement %>
+                <%= question.formatted_statement %><br/>
                 <% answer = Question.find(question_id).answers.find_by('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id) %>
                 <%= answer.formatted_statement %>
-                <b>Feedback:</b>
-                <div class="ui comments">
-                  <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
-                    <div class="comment">
-                      <a class="avatar">
-                        <%= image_tag comment.user.avatar_url %>
-                      </a>
-                      <div class="content">
-                        <a class="author"><%= comment.user.name %></a>
-                <!--             <div class="metadata">
-                          <div class="date">distance</div>
-                          <div class="rating">
-                            <i class="star icon"></i>
-                            <%#= answer.remark.try(:title) %>
+                <% if answer.question.question_type.name == "MCQ" %>
+                  <% if answer.is_correct == "correct" %>
+                    <i class="checkmark icon"></i><font color="green"><%= "Correct answer" %></font>
+                  <% else %>
+                    <i class="remove icon"></i><font color="red"><%= "Wrong answer" %></font><br/>
+                    <font color="green"><%= answer.question.options.find_by(is_answer: true).statement.html_safe %></font><%= " is the correct answer" %>
+                  <% end %>
+                <% end %><br/><br/>
+
+                <% if question.question_type.name == "Text" %>
+                  <b>Feedback:</b>
+                  <div class="ui comments">
+                    <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
+                      <div class="comment">
+                        <a class="avatar">
+                          <%= image_tag comment.user.avatar_url %>
+                        </a>
+                        <div class="content">
+                          <a class="author"><%= comment.user.name %></a>
+                  <!--             <div class="metadata">
+                            <div class="date">distance</div>
+                            <div class="rating">
+                              <i class="star icon"></i>
+                              <%#= answer.remark.try(:title) %>
+                            </div>
+                          </div> -->
+                          <div class="text">
+                            <%= comment.statement.html_safe %>
                           </div>
-                        </div> -->
-                        <div class="text">
-                          <%= comment.statement.html_safe %>
                         </div>
                       </div>
-                    </div>
-                  <% end %>
-                </div>
-                <% if question.question_type.name == "Text" %>
+                    <% end %>
+                  </div>
+                  
                   <a class="add_comment">Add Comment</a>
                   <div class="showComment">
                     <%= form_for (@comment) do |f| %>
@@ -55,7 +65,7 @@
                     <% end %>
                   </div>
                 <% end %>
-
+                <div class="ui divider"></div>
                 <%#= render "comment" %>
               <% end %>
             <% end %>
@@ -95,30 +105,31 @@
                       <font color="green"><%= answer.question.options.find_by(is_answer: true).statement.html_safe %></font><%= " is the correct answer" %>
                     <% end %>
                   <% end %><br/><br/>
-                  <p><b>Feedback:</b>
-                    <div class="ui comments">
-                      <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
-                        <div class="comment">
-                          <a class="avatar">
-                            <%= image_tag comment.user.avatar_url %>
-                          </a>
-                          <div class="content">
-                            <a class="author"><%= comment.user.name %></a>
-                    <!--             <div class="metadata">
-                              <div class="date">distance</div>
-                              <div class="rating">
-                                <i class="star icon"></i>
-                                <%#= answer.remark.try(:title) %>
+                  <% if question.question_type.name == "Text" %>
+                    <p><b>Feedback:</b>
+                      <div class="ui comments">
+                        <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
+                          <div class="comment">
+                            <a class="avatar">
+                              <%= image_tag comment.user.avatar_url %>
+                            </a>
+                            <div class="content">
+                              <a class="author"><%= comment.user.name %></a>
+                      <!--             <div class="metadata">
+                                <div class="date">distance</div>
+                                <div class="rating">
+                                  <i class="star icon"></i>
+                                  <%#= answer.remark.try(:title) %>
+                                </div>
+                              </div> -->
+                              <div class="text">
+                                <%= comment.statement.html_safe %>
                               </div>
-                            </div> -->
-                            <div class="text">
-                              <%= comment.statement.html_safe %>
                             </div>
                           </div>
-                        </div>
-                      <% end %>
-                    </div>
-                    <% if question.question_type.name == "Text" %>
+                        <% end %>
+                      </div>
+                    
                       <a class="add_comment">Add Comment</a>
                       <div class="showComment">
                         <%= form_for @comment do |comment| %>
@@ -128,8 +139,8 @@
                           <%= comment.submit class: "ui primary button" %>
                         <% end %>
                       </div>
-                    <% end %>
-                  </p>
+                    </p>
+                  <% end %>
                   <% if question.videos.exists? %>
                     <strong> Solution Video: </strong><br/><br/>
                     <div class="ui grid">

@@ -4,20 +4,20 @@ class BatchSet < ActiveRecord::Base
 
 	belongs_to :batch
 
-	has_many :answers  #, dependent: :destroy
-	accepts_nested_attributes_for :answers
+	has_many :answers #, dependent: :destroy
+	accepts_nested_attributes_for :answers, :allow_destroy => true
 
-	has_many :batch_set_chapter_topics  #, dependent: :destroy
-	accepts_nested_attributes_for :batch_set_chapter_topics, :allow_destroy => true
+	# has_many :batch_set_chapter_topics #, dependent: :destroy
+	# accepts_nested_attributes_for :batch_set_chapter_topics, :allow_destroy => true
 
-	has_many :question_sets
+	has_many :question_sets #, dependent: :destroy
 	accepts_nested_attributes_for :question_sets, :allow_destroy => true
 
-	has_many :due_date_lists
+	has_many :due_date_lists #, dependent: :destroy
 	accepts_nested_attributes_for :due_date_lists, :allow_destroy => true
 
-	has_many :batch_set_questions  #, dependent: :destroy
-	has_many :questions, through: :batch_set_questions
+	# has_many :batch_set_questions #, dependent: :destroy
+	# has_many :questions, through: :batch_set_questions
 
 	validates_presence_of :title, :set_date, :batch_id
 

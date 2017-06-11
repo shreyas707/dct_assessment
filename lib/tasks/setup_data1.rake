@@ -1,8 +1,12 @@
 task :setup_data1 => :environment do 
 
-	batch_sets = BatchSet.all
+	Student.all.each do |student|
+		user = User.find_by(student_id: student.id)
+		user.name = student.name
+		user.save
+	end
 
-	batch_sets.each do |batch_set|
+	BatchSet.all.each do |batch_set|
 		if batch_set.due_date_lists.empty?
 			due_date_list = DueDateList.new
 			due_date_list.batch_set_id = batch_set.id

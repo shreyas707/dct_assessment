@@ -122,7 +122,7 @@
                     </div>
                     <a class="add_comment">Add Comment</a>
                     <div class="showComment">
-                      <%= form_for (@comment), remote: true, html: {id: "new_comment_#{answer.id}"} do |f| %>
+                      <%= form_for (@comment), html: {id: "new_comment_#{answer.id}"} do |f| %>
                         <%= f.hidden_field :user_id, value: current_user.id %>
                         <%= f.hidden_field :answer_id, value: answer.id %>
                         <%= f.text_area :statement, class: "textEditor" %>

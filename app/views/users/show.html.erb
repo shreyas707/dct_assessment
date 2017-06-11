@@ -38,13 +38,15 @@
 <% if @user.role == "student" %>
 	<p>
 		<strong>Batches:</strong><br/>
-		<% @user.student.batches.each do |batch| %>
-			<b>Batch Name</b>
-			<%= batch.title %><br/>
-			<b>Start Date:</b>
-			<%= batch.start_date %><br/>
-			<b>End Date:</b>
-			<%= batch.end_date %><br/><br/>
+		<% unless @user.student.nil? %>
+			<% @user.student.batches.each do |batch| %>
+				<b>Batch Name</b>
+				<%= batch.title %><br/>
+				<b>Start Date:</b>
+				<%= batch.start_date %><br/>
+				<b>End Date:</b>
+				<%= batch.end_date %><br/><br/>
+			<% end %>
 		<% end %>
 	</p>
 <% end %>

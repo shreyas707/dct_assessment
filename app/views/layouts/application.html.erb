@@ -78,6 +78,19 @@
 
         <div class="right menu">
           <% if user_signed_in? %>
+<!--             <%# if current_user.is_admin? %>
+              <div class="ui text menu">
+                <div class="ui right dropdown item">
+                  More
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                    <div class="item"><%#= link_to("Question Types", question_types_path) %></div>
+                    <div class="item"><%#= link_to("Remarks", remarks_path) %></div>
+                    <div class="item"><%#= link_to("Event Types", event_types_path) %></div>
+                  </div>
+                </div>
+              </div>
+            <%# end %> -->
             <%#= link_to("Upload Avatar", users_upload_avatar_path(user: current_user.id), class: controller.controller_name == "registrations" ? "active ui item" : "ui item") %>
             <%= link_to("Edit Account", edit_user_registration_path, class: controller.controller_name == "registrations" ? "active ui item" : "ui item") %>
           	<%= link_to("Logout", destroy_user_session_path, method: :delete, class: "ui item") %>
@@ -92,5 +105,13 @@
       <%= yield %>
 
     </body>
+
+    <div class="ui grid">
+      <div class = "twelve wide column"></div>
+      <div class="four wide column"><a class="ui basic label" href="mailto:hello@shreyas.im"><font color="grey">Please email the bugs to <u>hello@shreyas.im</u></font></a></div>
+    </div>
+
+
   </div>
+
 </html>

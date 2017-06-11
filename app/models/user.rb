@@ -8,10 +8,13 @@ class User < ActiveRecord::Base
   # THIS IS FOR USERS TO UPDATE ACCOUNT INFO (EXCEPT NEW PASSWORD) WITHOUT PROVIDING PASSWORD
   attr_accessor :current_password
 
-  belongs_to :student  #, dependent: :destroy
+  before_destroy :delete_user_from_qustion_sets, :delete_user_from_due_date_lists
 
-  has_many :answers  #, dependent: :destroy
-  has_many :comments  #, dependent: :destroy
+  belongs_to :student #, dependent: :destroy
+
+  has_many :answers #, dependent: :destroy
+
+  has_many :comments #, dependent: :destroy
   has_many :question_sets
 
   # for avatar upload (carrierwave and cloudinary)
@@ -33,4 +36,20 @@ class User < ActiveRecord::Base
     "You are not allowed to log in."
   end
   
+  def delete_user_from_qustion_sets
+    QuestionSet.all.each do |question_set|
+      if question_set.user_ids.include?(self.id)
+        question_set.user_ids = question_set.user_ids - [question_set.user_ids.find {|user_id| user_id == self.id}]
+      end
+    end
+  end
+
+  def delete_user_from_due_date_lists
+    DueDateList.all.each do |due_date_list|
+      if due_date_list.user_ids.include?(self.id)
+        due_date_list.user_ids = due_date_list.user_ids - [due_date_list.user_ids.find {|user_id| user_id == self.id}]
+      end
+    end
+  end
+
 end
