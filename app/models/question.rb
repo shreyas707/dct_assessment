@@ -12,8 +12,8 @@ class Question < ActiveRecord::Base
 	has_many :question_sets
 	has_many :answers #, dependent: :destroy
 
-	# has_many :batch_set_questions #, dependent: :destroy
-	# has_many :batch_sets , through: :batch_set_questions
+	has_many :batch_set_questions #, dependent: :destroy
+	has_many :batch_sets , through: :batch_set_questions
 
 	validates_presence_of :statement, :chapter_id, :topic_id, :question_type_id, :kind
 	

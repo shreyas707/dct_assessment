@@ -22,8 +22,6 @@ task :setup_data1 => :environment do
 			question_set.user_ids = User.where(student_id: batch_set.batch.students.pluck(:id)).ids
 			question_set.save
 		end
-
-
 	end
 
 	Answer.all.each do |answer|
