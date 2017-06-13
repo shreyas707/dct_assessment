@@ -29,19 +29,35 @@ likes = []
 		likes.push(User.find(vote.voter_id).name) 
 	end
 
-if likes.length == 0
-	return "No one likes this"
-elsif likes.length == 1
-	return likes[0] + " likes this"
-elsif likes.length == 2
-	return likes.join(" and ") + " likes this"
-elsif likes.length == 3
-	return likes.slice(0,2).join(",") + " and one other likes this"
-elsif likes.length >= 4
-	return "#{likes.slice(0,2).join(",")} and #{(likes.length-2)} others likes this"
-end
+	if likes.length == 0
+		return "No one likes this"
+	elsif likes.length == 1
+		return likes[0] + " likes this"
+	elsif likes.length == 2
+		return likes.join(" and ") + " likes this"
+	elsif likes.length == 3
+		return likes.slice(0,2).join(",") + " and one other likes this"
+	elsif likes.length >= 4
+		return "#{likes.slice(0,2).join(",")} and #{(likes.length-2)} others likes this"
+	end
 end
 
+
+def display_users
+	users = []
+	self.get_upvotes.each do |vote|
+		users.push(User.find(vote.voter_id))
+	end
+	return users
+end
+
+def disliked_users
+	users = []
+	self.get_downvotes.each do |vote| 
+		users.push(User.find(vote.voter_id)) 
+	end
+	return users
+end
 
 
 def displaydislikes
@@ -64,3 +80,5 @@ end
 end
 
 end
+
+

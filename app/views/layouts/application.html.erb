@@ -24,6 +24,7 @@
       <!-- semantic ui -->
       <script>
       $(document).ready(function(){
+        //$('.ui.modal').modal('show');
         $('.ui.accordion').accordion();
         $('.ui.dropdown').dropdown();
         $('.ui.popup').popup();
@@ -52,7 +53,10 @@
           <%= link_to("Knowledge", knowledge_bases_path, class: controller.controller_name == "knowledge_bases" ? "active item" : "item") %>
         <% elsif current_user.try(:is_student?) %>
           <%= link_to("Batches", batches_path, class: controller.controller_name == "batches" ? "active item" : "item") %>
+           
           <%= link_to("Knowledge", knowledge_bases_path, class: controller.controller_name == "knowledge_bases" ? "active item" : "item") %>
+          <%= link_to("Myarticles", knowledge_bases_my_articles_path, class: controller.controller_name == "knowledge_bases" ? "active item" : "item") %>
+          <%= link_to("liked articles", knowledge_bases_liked_articles_path, class: controller.controller_name == "knowledge_bases" ? "active item" : "item") %>
         <% end %>
 
         <div class="right menu">

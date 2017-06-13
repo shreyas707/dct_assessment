@@ -1,6 +1,7 @@
 class KnowledgeBasesController < ApplicationController
   before_action :set_knowledge_basis, only: [:show, :edit, :update, :destroy]
-
+  before_action :authenticate_user!
+  
   # GET /knowledge_bases
   # GET /knowledge_bases.json
   def index
@@ -15,7 +16,7 @@ class KnowledgeBasesController < ApplicationController
     #   end
     # end
     current_user.student.batches.each do |batch|
-      @user_knowledge += KnowledgeBase.where(published: true, topic_id: batch.course.topics.pluck(:id))
+      @user_knowledge = KnowledgeBase.where(published: true, topic_id: batch.course.topics.pluck(:id))
     end
   end
 end
@@ -32,6 +33,10 @@ end
 
   # GET /knowledge_bases/1/edit
   def edit
+    if @knowledge_basis.published == true
+      authorize! :edit, @knowledge_basis
+  end
+
   end
 
   # POST /knowledge_bases
@@ -91,6 +96,29 @@ def downvote
   @knowledge = KnowledgeBase.find(params[:id])
   @knowledge.downvote_by current_user
   redirect_to :back
+end
+
+def my_articles
+  @knowledges = KnowledgeBase.where('user_id=?',current_user.id)
+end
+
+def liked_articles
+  @knowledges = []
+  ActsAsVotable::Vote.where("voter_id =? AND vote_flag =?",current_user.id, true).each do |vote|
+    @knowledges += KnowledgeBase.where('id = ?',vote.votable_id)
+  end
+end
+
+def topic_articles
+  @knowledges = KnowledgeBase.where('topic_id=?',params[:topic_id])
+end
+
+def chapter_articles
+  @knowledges = KnowledgeBase.where('chapter_id=?',params[:chapter_id])
+end
+
+def user_articles
+  @knowledges = KnowledgeBase.where('user_id=?',params[:user_id])
 end
 
 
