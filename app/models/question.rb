@@ -17,6 +17,7 @@ class Question < ActiveRecord::Base
 
 	validates_presence_of :statement, :chapter_id, :topic_id, :question_type_id, :kind
 	
+	before_create :question_code
 	after_create :correct_answer_option
 	before_destroy :delete_question_from_qustion_sets
 
@@ -44,6 +45,45 @@ class Question < ActiveRecord::Base
 				question_set.question_ids = question_set.question_ids - [question_set.question_ids.find {|question_id| question_id == self.id}]
 			end
 		end
+	end
+
+
+	# DCT-1EMTXT-ARR-0001
+	def question_code
+		
+		kind_code = ""
+		if self.kind == "assessment"
+			kind_code = "1"
+		elsif self.kind == "assignment"
+			kind_code = "2"
+		end
+		
+		type_code = ""
+		if self.question_type.name == "MCQ"
+			type_code = "MCQ"
+		elsif self.question_type.name == "Text"
+			type_code = "TXT"
+		end
+
+		difficulty_code = ""
+		self.difficulty_level.split("-").each do |difficulty_level|
+			difficulty_code += difficulty_level[0].capitalize
+		end
+
+		num = 0
+		questions = []
+		questions = Question.where(question_type_id: self.question_type_id, kind: self.kind, topic_id: self.topic.id, chapter_id: self.chapter.id, difficulty_level: self.difficulty_level) if Question.where(question_type_id: self.question_type_id, kind: self.kind, topic_id: self.topic.id, chapter_id: self.chapter.id, difficulty_level: self.difficulty_level).exists?
+		question = ""
+		question_digits = ""
+		unless questions.empty?
+			question = questions.last
+			question_digits = question.code.split("-").last.to_i.to_s.rjust(4,'0')
+		else
+			question_digits = "0001"
+		end 
+
+		self.code = "DCT-" + kind_code + difficulty_code + type_code + "-" + self.chapter.short_name + "-" + question_digits    
+
 	end
 
 	# def question_code
