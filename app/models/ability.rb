@@ -6,10 +6,10 @@ class Ability
     if user.role == "admin"
         can :manage, :all
     elsif user.role == "student"
-        can :create, [Answer]
-        can :read, [Answer, Batch, BatchSet]
+        can :create, [Answer, KnowledgeBase]
+        can :read, [Answer, Batch, BatchSet, KnowledgeBase]
         can :update, [BatchSet]
-        can :manage, [User]
+        
     end
     # Define abilities for the passed in user here. For example:
     #

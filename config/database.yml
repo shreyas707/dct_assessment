@@ -29,10 +29,11 @@
 development:
   adapter: postgresql
   encoding: unicode
+  host: localhost
   database: dct_assessment
   pool: 5
-  username: root
-  password: root
+  username: Yashwanth
+  password: postgres
   timeout: 5000
 
 test:
@@ -40,6 +41,6 @@ test:
   encoding: unicode
   database: dct_assessment
   pool: 5
-  username: root
-  password: root
+  username: Yashwanth
+  password: postgress
   timeout: 5000

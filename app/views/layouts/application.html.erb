@@ -24,12 +24,16 @@
       <!-- semantic ui -->
       <script>
       $(document).ready(function(){
+        //$('.ui.modal').modal('show');
         $('.ui.accordion').accordion();
         $('.ui.dropdown').dropdown();
         $('.ui.popup').popup();
         $('.tabular.menu .item').tab();
       });
       </script>
+
+       <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 
     </head>
     <body>
@@ -46,8 +50,13 @@
           <%= link_to("Question Types", question_types_path, class: controller.controller_name == "question_types" ? "active item" : "item") %>
           <%= link_to("Remarks", remarks_path, class: controller.controller_name == "remarks" ? "active item" : "item") %>
           <%= link_to("Event Types", event_types_path, class: controller.controller_name == "event_types" ? "active item" : "item") %>
+          <%= link_to("Knowledge", knowledge_bases_path, class: controller.controller_name == "knowledge_bases" ? "active item" : "item") %>
         <% elsif current_user.try(:is_student?) %>
           <%= link_to("Batches", batches_path, class: controller.controller_name == "batches" ? "active item" : "item") %>
+           
+          <%= link_to("Knowledge", knowledge_bases_path, class: controller.controller_name == "knowledge_bases" ? "active item" : "item") %>
+          <%= link_to("Myarticles", knowledge_bases_my_articles_path, class: controller.controller_name == "knowledge_bases" ? "active item" : "item") %>
+          <%= link_to("liked articles", knowledge_bases_liked_articles_path, class: controller.controller_name == "knowledge_bases" ? "active item" : "item") %>
         <% end %>
 
         <div class="right menu">

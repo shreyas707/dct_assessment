@@ -1,0 +1,2 @@
+module KnowledgeBasesHelper
+end
