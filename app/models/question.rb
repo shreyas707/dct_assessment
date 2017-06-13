@@ -72,15 +72,20 @@ class Question < ActiveRecord::Base
 
 		num = 0
 		questions = []
-		questions = Question.where(question_type_id: self.question_type_id, kind: self.kind, topic_id: self.topic.id, chapter_id: self.chapter.id, difficulty_level: self.difficulty_level) if Question.where(question_type_id: self.question_type_id, kind: self.kind, topic_id: self.topic.id, chapter_id: self.chapter.id, difficulty_level: self.difficulty_level).exists?
+		questions = Question.where(question_type_id: self.question_type_id, kind: self.kind, chapter_id: self.chapter.id, difficulty_level: self.difficulty_level) if Question.where(question_type_id: self.question_type_id, kind: self.kind, chapter_id: self.chapter.id, difficulty_level: self.difficulty_level).exists?
 		question = ""
 		question_digits = ""
-		unless questions.empty?
-			question = questions.last
-			question_digits = question.code.split("-").last.to_i.to_s.rjust(4,'0')
-		else
+		if questions.empty?
 			question_digits = "0001"
+		else
+			question = questions.last
+			if question.code.nil?
+				question_digits = "0001"
+			else
+				question_digits = (question.code.split("-").last.to_i + 1).to_s.rjust(4,'0') 
+			end
 		end 
+		binding.pry
 
 		self.code = "DCT-" + kind_code + difficulty_code + type_code + "-" + self.chapter.short_name + "-" + question_digits    
 
