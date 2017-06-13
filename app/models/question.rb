@@ -84,8 +84,7 @@ class Question < ActiveRecord::Base
 			else
 				question_digits = (question.code.split("-").last.to_i + 1).to_s.rjust(4,'0') 
 			end
-		end 
-		binding.pry
+		end
 
 		self.code = "DCT-" + kind_code + difficulty_code + type_code + "-" + self.chapter.short_name + "-" + question_digits    
 
