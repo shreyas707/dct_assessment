@@ -1,0 +1,68 @@
+<%= form_for(@knowledge_basis) do |f| %>
+  <% if @knowledge_basis.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@knowledge_basis.errors.count, "error") %> prohibited this knowledge_basis from being saved:</h2>
+
+      <ul>
+        <% @knowledge_basis.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br>
+    <div class="ui input"><%= f.text_field :title %></div><br/><br/>
+  </div>
+  <div class="field">
+    <%= f.label :body %><br>
+    <%= f.text_area :body, class: "textEditor" %><br/>
+  </div>
+   <div class="field">
+    <%= f.hidden_field :user_id, value: current_user.id %>
+  </div>
+  <div class="field">
+    <%= f.label :topic_id %><br>
+    <%= f.collection_select :topic_id, Topic.all, :id, :name, {prompt: "Select Topic"}, {class: "ui search dropdown"} %><br/><br/>
+  </div>
+  <div class="field">
+    <%= f.label :chapter_id %><br>
+    <%= f.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select Chapter"}, {class: "ui search dropdown"} %><br/><br/>
+  </div>
+  <div class="field">
+    <%= f.label :links %><br>
+    <div class="ui input"><%= f.text_field :links %></div><br/><br/>
+  </div>
+  <% if current_user.is_admin? %>
+    <% f.hidden_field :published, value: true %>
+  <% end %>
+ 
+  <div class="actions">
+    <%= f.submit class: "ui primary button" %>
+  </div><br/>
+  
+<% end %>
+
+<script>
+  var topicHandle = document.getElementById('knowledge_base_topic_id');
+  var chapterHandle = document.getElementById('knowledge_base_chapter_id');  
+  topicHandle.onchange = function(){
+    chapterHandle.innerHTML = "";
+    var request = new XMLHttpRequest();
+    request.open('get','/knowledge_bases/select_chapter.json?topic_id=' + topicHandle.value);
+    request.onreadystatechange = function(){
+      if(request.readyState === 4 && request.status === 200){
+        var response = JSON.parse(request.responseText);
+        response.forEach(function(chapter){
+          var newElement = document.createElement('option');
+          newElement.value = chapter.id;
+          var newText = document.createTextNode(chapter.name);
+          newElement.appendChild(newText);
+          chapterHandle.appendChild(newElement);
+        })
+      }
+    }
+    request.send();
+  }
+</script>

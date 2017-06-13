@@ -10,7 +10,7 @@ class Chapter < ActiveRecord::Base
 
 	has_many :chapter_topics #, dependent: :destroy
 	has_many :topics, through: :chapter_topics
-
+	has_many :knowledge_bases
 	validates_presence_of :name
 
 end

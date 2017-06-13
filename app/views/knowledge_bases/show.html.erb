@@ -1,0 +1,123 @@
+<p id="notice"><%= notice %></p>
+
+<div class="ui segment">
+
+  <p>
+    <strong>Title:</strong>
+    <%= @knowledge_basis.title %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= @knowledge_basis.body.html_safe  %>
+  </p>
+
+  <p>
+    <strong>Chapter:</strong>
+    <%= @knowledge_basis.chapter.name %>
+  </p>
+
+  <p>
+    <strong>Topic:</strong>
+    <%= @knowledge_basis.topic.name %>
+  </p>
+
+  <p>
+    <strong>Published:</strong>
+    <%= @knowledge_basis.published %>
+  </p>
+
+  <p>
+    <strong>Link:</strong>
+    <%= link_to "Visit Site", "https://#{@knowledge_basis.links}", {target: "_blank"} %>
+  </p>
+
+  <p>
+    <strong>User:</strong>
+    <%= link_to @knowledge_basis.user.name,knowledge_bases_user_articles_path(:user_id => @knowledge_basis.user_id) %>
+  </p>
+
+  <p>
+    <small>Submited <strong><%=time_ago_in_words(@knowledge_basis.created_at) %> ago </strong> </small>
+  </p>
+
+  <%= link_to like_knowledge_basis_path(@knowledge_basis), method: :put do %>
+    <i class="thumbs up icon"></i>
+    <%= @knowledge_basis.get_upvotes.size %>
+  <% end %>
+
+
+  <%= link_to dislike_knowledge_basis_path(@knowledge_basis), method: :put do %>
+    <i class="thumbs down icon"></i>
+    <%= @knowledge_basis.get_downvotes.size %>
+  <% end %>
+
+  <br>
+
+  <div class="likes"><%= link_to @knowledge_basis.displaylikes, 'javascript:;', :id => :foo %></div> <br>
+
+  <div class="dislikes"><%=link_to @knowledge_basis.displaydislikes, 'javascript:;', :id => :foo %></div> <br>
+  <br>
+
+  <% if current_user.is_admin? || @knowledge_basis.published == false %>
+
+    <%= link_to 'Edit', edit_knowledge_basis_path(@knowledge_basis),class: "ui primary button" %>
+    <%= link_to 'Destroy', @knowledge_basis, method: :delete, data: { confirm: 'Are you sure?' },class: "ui red button" %>
+  <% end %>
+
+  <%= link_to 'Back', knowledge_bases_path,class: "ui black button" %>
+
+
+
+  <div class="ui modal like">
+    <i class="close icon"></i>
+    <div class="header">
+      Liked Users
+    </div>
+    <div class="image content">    
+      <div class="description">
+        <div class="ui header"></div>
+        <% @knowledge_basis.display_users.each do |user| %>
+          <li><b> <%= user.name %></b></li><br>
+        <% end %>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui black deny button">
+       OK
+      </div>
+    </div>
+  </div>
+
+  <div class="ui modal dislike">
+    <i class="close icon"></i>
+    <div class="header">
+      Disliked Users
+    </div>
+    <div class="image content">
+      <div class="description">
+        <div class="ui header"></div>
+        <% @knowledge_basis.disliked_users.each do |user| %>
+          <li><b> <%= user.name %></b></li><br>
+        <% end %>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui black deny button">
+       OK
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    $(".likes").click(function(){
+      $(".like").modal('show');
+    });
+    $(".dislikes").click(function(){
+      $(".dislike").modal('show');
+    });
+  });
+</script>

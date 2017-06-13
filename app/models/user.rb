@@ -12,8 +12,9 @@ class User < ActiveRecord::Base
 
   belongs_to :student #, dependent: :destroy
 
+  acts_as_votable
+  has_many :knowledge_bases
   has_many :answers #, dependent: :destroy
-
   has_many :comments #, dependent: :destroy
   has_many :question_sets
 

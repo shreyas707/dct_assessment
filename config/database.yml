@@ -29,6 +29,7 @@
 development:
   adapter: postgresql
   encoding: unicode
+  host: localhost
   database: dct_assessment
   pool: 5
   username: root

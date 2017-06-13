@@ -10,6 +10,7 @@ class Topic < ActiveRecord::Base
 
 	has_many :chapter_topics#, dependent: :destroy
 	has_many :chapters, through: :chapter_topics
+	has_many :knowledge_bases
 
 	validates_presence_of :name, :course_ids
 

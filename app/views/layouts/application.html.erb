@@ -58,48 +58,54 @@
     
     <link rel="stylesheet" type="text/css" href="https://semantic-ui.com/dist/semantic.min.css">
     <script src="https://semantic-ui.com/dist/semantic.min.js"></script>
-
   </head>
     
   <div class="ui container">
     <body>
+      <div class="ui text menu">
+        <div class="ui secondary pointing menu">
+          <% if current_user.try(:is_admin?) %>
+            <%= link_to("Users", users_path, class: controller.controller_name == "users" ? "active item" : "item") %>
+            <%= link_to("Students", students_path, class: controller.controller_name == "students" ? "active item" : "item") %>
+            <%= link_to("Courses", courses_path, class: controller.controller_name == "courses" ? "active item" : "item") %>
+            <%= link_to("Topics", topics_path, class: controller.controller_name == "topics" ? "active item" : "item") %>
+            <%= link_to("Chapters", chapters_path, class: controller.controller_name == "chapters" ? "active item" : "item") %>
+            <%= link_to("Batches", batches_path, class: controller.controller_name == "batches" ? "active item" : "item") %>
+            <%= link_to("Questions", questions_path, class: controller.controller_name == "questions" ? "active item" : "item") %>
+            <div class="ui right dropdown item">
+              More
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <div class="item"><%= link_to("Question Types", question_types_path) %></div>
+                <div class="item"><%= link_to("Event Types", event_types_path) %></div>
+                <div class="item"><%= link_to("Remarks", remarks_path) %></div>
+              </div>
+            </div>
 
-      <div class="ui secondary pointing menu">
-        <% if current_user.try(:is_admin?) %>
-          <%= link_to("Users", users_path, class: controller.controller_name == "users" ? "active item" : "item") %>
-          <%= link_to("Students", students_path, class: controller.controller_name == "students" ? "active item" : "item") %>
-          <%= link_to("Courses", courses_path, class: controller.controller_name == "courses" ? "active item" : "item") %>
-          <%= link_to("Topics", topics_path, class: controller.controller_name == "topics" ? "active item" : "item") %>
-          <%= link_to("Chapters", chapters_path, class: controller.controller_name == "chapters" ? "active item" : "item") %>
-          <%= link_to("Batches", batches_path, class: controller.controller_name == "batches" ? "active item" : "item") %>
-          <%= link_to("Questions", questions_path, class: controller.controller_name == "questions" ? "active item" : "item") %>
-          <%= link_to("Question Types", question_types_path, class: controller.controller_name == "question_types" ? "active item" : "item") %>
-          <%= link_to("Remarks", remarks_path, class: controller.controller_name == "remarks" ? "active item" : "item") %>
-          <%= link_to("Event Types", event_types_path, class: controller.controller_name == "event_types" ? "active item" : "item") %>
-        <% elsif current_user.try(:is_student?) %>
-          <%= link_to("Batches", batches_path, class: controller.controller_name == "batches" ? "active item" : "item") %>
-        <% end %>
+            <div class="ui right dropdown item">
+              Knowledge Base
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <div class="item"><%= link_to("All Articles", knowledge_bases_path) %></div>
+                <div class="item"><%= link_to("My Articles", knowledge_bases_my_articles_path) %></div>
+                <div class="item"><%= link_to("Liked", knowledge_bases_liked_articles_path) %></div>
+              </div>
+            </div>
+
+          <% elsif current_user.try(:is_student?) %>
+            <%= link_to("Batches", batches_path, class: controller.controller_name == "batches" ? "active item" : "item") %>
+            <%= link_to("Knowledge Base", knowledge_bases_path, class: controller.controller_name == "knowledge_bases" ? "active item" : "item") %>
+            <%= link_to("My Articles", knowledge_bases_my_articles_path, class: controller.action_name == "my_articles" ? "active item" : "item") %>
+            <%= link_to("Liked Articles", knowledge_bases_liked_articles_path, class: controller.action_name == "liked_articles" ? "active item" : "item") %>
+          <% end %>
+        </div>
 
         <div class="right menu">
           <% if user_signed_in? %>
-<!--             <%# if current_user.is_admin? %>
-              <div class="ui text menu">
-                <div class="ui right dropdown item">
-                  More
-                  <i class="dropdown icon"></i>
-                  <div class="menu">
-                    <div class="item"><%#= link_to("Question Types", question_types_path) %></div>
-                    <div class="item"><%#= link_to("Remarks", remarks_path) %></div>
-                    <div class="item"><%#= link_to("Event Types", event_types_path) %></div>
-                  </div>
-                </div>
-              </div>
-            <%# end %> -->
-            <%#= link_to("Upload Avatar", users_upload_avatar_path(user: current_user.id), class: controller.controller_name == "registrations" ? "active ui item" : "ui item") %>
             <%= link_to("Edit Account", edit_user_registration_path, class: controller.controller_name == "registrations" ? "active ui item" : "ui item") %>
-          	<%= link_to("Logout", destroy_user_session_path, method: :delete, class: "ui item") %>
+            <%= link_to("Logout", destroy_user_session_path, method: :delete, class: "ui item") %>
           <% else %>
-          	<%= link_to("Login", new_user_session_path, class: controller.controller_name == "sessions" ? "active ui item" : "ui item") %>
+            <%= link_to("Login", new_user_session_path, class: controller.controller_name == "sessions" ? "active ui item" : "ui item") %>
           <% end %>
         </div>
       </div>
@@ -114,7 +120,6 @@
       <div class = "twelve wide column"></div>
       <div class="four wide column"><a class="ui basic label" href="mailto:hello@shreyas.im"><font color="grey">Please email the bugs to <u>hello@shreyas.im</u></font></a></div>
     </div>
-
 
   </div>
 
