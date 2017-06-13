@@ -37,20 +37,20 @@
           <%= @batch.complete %>
         </p>
 
-<!--         <p>
+        <p>
           <strong>List of students in this batch: </strong><br/>
-          <%# @batch_students.each do |student| %>
-            <%# if student.user.avatar.present? %>
-              <%#= link_to image_tag(student.user.avatar_url, {class: "ui avatar image"}), batches_student_path(:batch => @batch.id, :student => student.id) %>
-            <%# else %>
+          <% @batch_students.each do |student| %>
+            <% if student.user.avatar.present? %>
+              <%= link_to image_tag(student.user.avatar_url, {class: "ui avatar image"}), batches_student_path(:batch => @batch.id, :student => student.id) %>
+            <% else %>
               <div class="ui avatar image">
-                <a href="<%#= batches_student_path(:batch => @batch.id, :student => student.id) %>"><img src="/pic.jpg"></a>
-                <%#= student.name.split(" ")[0] %>
+                <a href="<%= batches_student_path(:batch => @batch.id, :student => student.id) %>"><img src="/pic.jpg"></a>
+                <%= student.name.split(" ")[0] %>
               </div>
-            <%# end %>
-          <%# end %>
+            <% end %>
+          <% end %>
           <br>
-        </p> -->
+        </p>
         <br/>
 
         <p>

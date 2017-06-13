@@ -151,7 +151,86 @@
 <%# end %>
 <% elsif @batch_set.kind == "assignment" %>
 
-
+  <% @batch_set.question_sets.each do |question_set| %>
+    <div class="ui styled accordion">
+      <% question_set.question_ids.each_with_index do |question_id, index| %>
+        <% if Question.where(id: question_set.question_ids.first).exists? %>
+          <% question = Question.find(question_id) %>
+          <div class="title">
+            <i class="dropdown icon"></i>
+            <% if question.title.nil? %>
+              <%= "QUESTION" %> <%= index + 1  %>
+            <% else %>
+              <%= question.title %>
+            <% end %>
+          </div>
+          <div class="content">
+            <%= question.formatted_statement %>
+            <div class="accordion transition hidden">
+              <% question.answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    <%= answer.user.name %>
+                </div>
+                <div class="content">
+                  <p class="transition hidden">
+                    <%= answer.formatted_statement %><br/><br/>
+                    <%= link_to 'Delete Answer', answer, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
+                    <div class="ui divider"></div>
+                    <div id="comments_for_<%= answer.id %>">
+                      <span id="comment_span"></span>
+                      <div class="ui comments">
+                        <% answer.comments.where('answer_id = ?', answer.id).each do |comment| %>
+                          <div class="comment">
+                            <a class="avatar">
+                              <% if comment.user.avatar.present? %>
+                                <%= image_tag comment.user.avatar_url, {class: "avatar"} %>
+                              <% else %>
+                                <div class="ui avatar image">
+                                  <img src="/pic.jpg">
+                                </div>
+                              <% end %>
+                            </a>
+                            <div class="content">
+                              <a class="author"><%= comment.user.try(:name) %></a>
+                               <!-- <div class="metadata">
+                                <div class="date">distance</div>
+                                <div class="rating">
+                                  <i class="star icon"></i> 
+                                  <%#= answer.remark.try(:title) %>
+                                </div>
+                              </div> -->
+                              <div class="text">
+                                <%= comment.statement.html_safe %>
+                              </div>
+                            </div>
+                          </div>
+                        <% end %>
+                      </div>
+                    </div>
+                    <!-- <a class="add_comment">Add Comment</a> -->
+                    <div class="showComment">
+                      <%= form_for (@comment), html: {id: "new_comment_#{answer.id}"} do |f| %>
+                        <%= f.hidden_field :user_id, value: current_user.id %>
+                        <%= f.hidden_field :answer_id, value: answer.id %>
+                        <%= f.text_area :statement, class: "textEditor" %>
+                        <%= f.submit id: "create_comment" %>
+                      <% end %>
+                    </div><br/><br/>
+                    <b>Remarks:</b> <%= answer.remark.try(:title) %><br/>
+                    <%= form_for (answer) do |f| %>
+                      <%= f.collection_select :remark_id, Remark.all, :id, :title, prompt: "Select a remark" %>
+                      <%= f.submit %>
+                    <% end %>
+                  </p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
 
 <% end %>
 
