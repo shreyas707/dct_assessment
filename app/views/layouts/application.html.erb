@@ -87,7 +87,7 @@
             </div>
           </div>
 
-          <% if current_user.is_admin? %>
+          <% if current_user.try(:is_admin?) %>
             <div class="ui right dropdown item">
               More
               <i class="dropdown icon"></i>
