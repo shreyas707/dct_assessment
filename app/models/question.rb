@@ -60,9 +60,9 @@ class Question < ActiveRecord::Base
 		
 		type_code = ""
 		if self.question_type.name == "MCQ"
-			type_code = "MCQ"
+			type_code = "M"
 		elsif self.question_type.name == "Text"
-			type_code = "TXT"
+			type_code = "T"
 		end
 
 		difficulty_code = ""
