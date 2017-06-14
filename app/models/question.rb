@@ -16,6 +16,7 @@ class Question < ActiveRecord::Base
 	has_many :batch_sets , through: :batch_set_questions
 
 	validates_presence_of :statement, :chapter_id, :topic_id, :question_type_id, :kind
+	validates_uniqueness_of :code
 	
 	before_create :question_code
 	after_create :correct_answer_option
@@ -48,7 +49,7 @@ class Question < ActiveRecord::Base
 	end
 
 
-	# DCT-1EMTXT-ARR-0001
+	# DCT-1EMT-ARR-0001
 	def question_code
 		
 		kind_code = ""
