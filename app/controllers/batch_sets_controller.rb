@@ -1,5 +1,6 @@
 class BatchSetsController < ApplicationController
   before_action :set_batch_set, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
   # load_and_authorize_resource
 
   # GET /batch_sets

@@ -18,7 +18,7 @@ class Question < ActiveRecord::Base
 	validates_presence_of :statement, :chapter_id, :topic_id, :question_type_id, :kind
 	validates_uniqueness_of :code
 	
-	before_create :question_code
+	# before_validation :question_code
 	after_create :correct_answer_option
 	before_destroy :delete_question_from_qustion_sets
 
@@ -48,48 +48,49 @@ class Question < ActiveRecord::Base
 		end
 	end
 
-
 	# DCT-1EMT-ARR-0001
-	def question_code
-		
-		kind_code = ""
-		if self.kind == "assessment"
-			kind_code = "1"
-		elsif self.kind == "assignment"
-			kind_code = "2"
-		end
-		
-		type_code = ""
-		if self.question_type.name == "MCQ"
-			type_code = "M"
-		elsif self.question_type.name == "Text"
-			type_code = "T"
-		end
+	# def question_code
+	# 	if self.code.nil? || self.new_record?
+	# 		kind_code = ""
+	# 		if self.kind == "assessment"
+	# 			kind_code = "1"
+	# 		elsif self.kind == "assignment"
+	# 			kind_code = "2"
+	# 		end
+			
+	# 		type_code = ""
+	# 		if self.question_type.name == "MCQ"
+	# 			type_code = "M"
+	# 		elsif self.question_type.name == "Text"
+	# 			type_code = "T"
+	# 		end
 
-		difficulty_code = ""
-		self.difficulty_level.split("-").each do |difficulty_level|
-			difficulty_code += difficulty_level[0].capitalize
-		end
+	# 		difficulty_code = ""
+	# 		self.difficulty_level.split("-").each do |difficulty_level|
+	# 			difficulty_code += difficulty_level[0].capitalize
+	# 		end
 
-		num = 0
-		questions = []
-		questions = Question.where(question_type_id: self.question_type_id, kind: self.kind, chapter_id: self.chapter.id, difficulty_level: self.difficulty_level) if Question.where(question_type_id: self.question_type_id, kind: self.kind, chapter_id: self.chapter.id, difficulty_level: self.difficulty_level).exists?
-		question = ""
-		question_digits = ""
-		if questions.empty?
-			question_digits = "0001"
-		else
-			question = questions.last
-			if question.code.nil?
-				question_digits = "0001"
-			else
-				question_digits = (question.code.split("-").last.to_i + 1).to_s.rjust(4,'0') 
-			end
-		end
+	# 		num = 0
+	# 		questions = []
+	# 		questions = Question.where(question_type_id: self.question_type_id, kind: self.kind, chapter_id: self.chapter.id, difficulty_level: self.difficulty_level) if Question.where(question_type_id: self.question_type_id, kind: self.kind, chapter_id: self.chapter.id, difficulty_level: self.difficulty_level).exists?
+	# 		question = ""
+	# 		question_digits = ""
+	# 		if questions.empty?
+	# 			question_digits = "0001"
+	# 		else
+	# 			question = questions.last
+	# 			if question.code.nil?
+	# 				question_digits = "0001"
+	# 			else
+	# 				question_digits = (question.code.split("-").last.to_i + 1).to_s.rjust(4,'0') 
+	# 			end
+	# 		end
 
-		self.code = "DCT-" + kind_code + difficulty_code + type_code + "-" + self.chapter.short_name + "-" + question_digits    
+	# 		self.code = "DCT-" + kind_code + difficulty_code + type_code + "-" + self.chapter.short_name + "-" + question_digits    
+	# 		binding.pry
+	# 	end
 
-	end
+	# end
 
 	# def question_code
 	# 	number = 0

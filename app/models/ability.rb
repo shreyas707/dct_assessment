@@ -5,7 +5,7 @@ class Ability
     if user.role == "admin"
         can :manage, :all
     elsif user.role == "student"
-        can :create, [Answer, KnowledgeBase]
+        can :create, [Answer]
         can :read, [Answer, Batch, BatchSet, KnowledgeBase]
         can :update, [BatchSet]
     end

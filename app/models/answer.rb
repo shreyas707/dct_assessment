@@ -1,6 +1,6 @@
 class Answer < ActiveRecord::Base
 
-	before_save :mcq_is_correct
+	before_create :mcq_is_correct
 
 	belongs_to :question
 	belongs_to :batch_set

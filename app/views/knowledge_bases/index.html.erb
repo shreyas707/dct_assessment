@@ -1,7 +1,7 @@
 <h2> Published Articles</h2>
-<%= link_to "Add Article", new_knowledge_basis_path, class: "ui primary button" %><br/><br/>
-
 <% if current_user.is_admin? %>
+  <%= link_to "Add Article", new_knowledge_basis_path, class: "ui primary button" %><br/><br/>
+
   <% if @knowledge_published.empty? %>
     <p>No articles found.</p>
   <% else %>

@@ -77,26 +77,33 @@
             <%= link_to("Batches", batches_path, class: controller.controller_name == "batches" ? "active item" : "item") %>
           <% end %>
 
-          <div class="ui right dropdown item">
-            <%= "Knowledge Base" %>
-            <i class="dropdown icon"></i>
-            <div class="menu">
-              <%= link_to("All Articles", knowledge_bases_path, {class: "item"}) %>
-              <%= link_to("My Articles", knowledge_bases_my_articles_path, {class: "item"}) %>
-              <%= link_to("Liked", knowledge_bases_liked_articles_path, {class: "item"}) %>
-            </div>
-          </div>
+          <% if user_signed_in? %>
 
-          <% if current_user.try(:is_admin?) %>
             <div class="ui right dropdown item">
-              More
+              Knowledge Base
               <i class="dropdown icon"></i>
               <div class="menu">
-                <div class="item"><%= link_to("Question Types", question_types_path) %></div>
-                <div class="item"><%= link_to("Event Types", event_types_path) %></div>
-                <div class="item"><%= link_to("Remarks", remarks_path) %></div>
+                <div class="item"><%= link_to("All Articles", knowledge_bases_path, {class: (controller.controller_name == "knowledge_bases" && controller.action_name == "index" || "show" || "edit" || "new") ? "active item" : "item"}) %></div>
+                <div class="item"><%= link_to("Liked", knowledge_bases_liked_articles_path, {class: controller.action_name == "liked_articles" ? "active item" : "item"}) %></div>
+                <% if current_user.is_admin? %>
+                  <div class="item"><%= link_to("My Articles", knowledge_bases_my_articles_path, {class: "item"}) %></div>
+                  <div class="item"><%= link_to("New Article", new_knowledge_basis_path, {class: "item"}) %></div>
+                <% end %>
               </div>
             </div>
+
+            <% if current_user.is_admin? %>
+              <div class="ui right dropdown item">
+                More
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                  <div class="item"><%= link_to("Question Types", question_types_path, {class: "item"}) %></div>
+                  <div class="item"><%= link_to("Event Types", event_types_path, {class: "item"}) %></div>
+                  <div class="item"><%= link_to("Remarks", remarks_path, {class: "item"}) %></div>
+                </div>
+              </div>
+            <% end %>
+
           <% end %>
 
         </div>
