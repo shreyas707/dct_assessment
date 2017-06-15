@@ -66,16 +66,12 @@
 
   <%= f.fields_for :options, @option do |option_form| %>
     <%= "Option" %><br/>
-    <div class="ui form">
-      <div class="field">
-        <%= option_form.text_area :statement, rows: "2" %><br/>
-      </div>
-    </div>
+    <div class="ui input"><%= option_form.text_field :statement %></div><br/>
     <%= option_form.check_box :is_answer, value: true, class: "ui radio checkbox" %>True
     <!-- <%#= option_form.radio_button :is_answer, false, class: "ui radio checkbox" %>False --><br/>
     <%= option_form.link_to_remove "Remove this option" %><br/>
   <% end %><br/>
-  <%= f.link_to_add "Add option", :options %><br/>
+  <p><%= f.link_to_add "Add option", :options %></p><br/>
 
   <br/><br/>
 
@@ -83,7 +79,16 @@
     <div class="ui input"><%= video_form.text_field :youtube_url %></div>
     <%= video_form.link_to_remove "Remove" %>
   <% end %>
-  <p><%= f.link_to_add "Add video", :videos %></p>
+  <p><%= f.link_to_add "Add Video", :videos %></p>
+
+  <%= f.fields_for :solutions do |solution| %>
+    <%= "Solution" %><br/>
+    <%= solution.hidden_field :chapter_id, value: @question.chapter.id %>
+    <%= solution.hidden_field :topic_id, value: @question.topic.id %>
+    <%= solution.text_area :body, {class: "textEditor"} %><br/>
+    <%= solution.link_to_remove "Remove" %><br/>
+  <% end %><br/>
+  <p><%= f.link_to_add "Add Solution", :solutions %></p><br/>
 
   <div class="actions">
     <%= f.submit class: "ui primary button" %><br/><br/>

@@ -13,8 +13,8 @@
     <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
     <script>
       $(document).ready(function(){
-        $('#dataTable').DataTable();
-        //$('#dataTableTable') == document.getElementById('dataTableTable');
+        $('.dataTable').DataTable();
+        //$('.dataTableTable') == document.getElementById('dataTableTable');
       });
     </script>
     
@@ -58,26 +58,25 @@
     
     <link rel="stylesheet" type="text/css" href="https://semantic-ui.com/dist/semantic.min.css">
     <script src="https://semantic-ui.com/dist/semantic.min.js"></script>
+
   </head>
     
   <div class="ui container">
     <body>
       <div class="ui text menu">
         <div class="ui secondary pointing menu">
-          <% if current_user.try(:is_admin?) %>
-            <%= link_to("Users", users_path, class: controller.controller_name == "users" ? "active item" : "item") %>
-            <%= link_to("Students", students_path, class: controller.controller_name == "students" ? "active item" : "item") %>
-            <%= link_to("Courses", courses_path, class: controller.controller_name == "courses" ? "active item" : "item") %>
-            <%= link_to("Topics", topics_path, class: controller.controller_name == "topics" ? "active item" : "item") %>
-            <%= link_to("Chapters", chapters_path, class: controller.controller_name == "chapters" ? "active item" : "item") %>
-            <%= link_to("Batches", batches_path, class: controller.controller_name == "batches" ? "active item" : "item") %>
-            <%= link_to("Questions", questions_path, class: controller.controller_name == "questions" ? "active item" : "item") %>
-
-          <% elsif current_user.try(:is_student?) %>
-            <%= link_to("Batches", batches_path, class: controller.controller_name == "batches" ? "active item" : "item") %>
-          <% end %>
-
           <% if user_signed_in? %>
+            <% if current_user.is_admin? %>
+              <%= link_to("Users", users_path, class: controller.controller_name == "users" ? "active item" : "item") %>
+              <%= link_to("Students", students_path, class: controller.controller_name == "students" ? "active item" : "item") %>
+              <%= link_to("Courses", courses_path, class: controller.controller_name == "courses" ? "active item" : "item") %>
+              <%= link_to("Topics", topics_path, class: controller.controller_name == "topics" ? "active item" : "item") %>
+              <%= link_to("Chapters", chapters_path, class: controller.controller_name == "chapters" ? "active item" : "item") %>
+              <%= link_to("Batches", batches_path, class: controller.controller_name == "batches" ? "active item" : "item") %>
+              <%= link_to("Questions", questions_path, class: controller.controller_name == "questions" ? "active item" : "item") %>
+            <% elsif current_user.is_student? %>
+              <%= link_to("Batches", batches_path, class: controller.controller_name == "batches" ? "active item" : "item") %>
+            <% end %>
 
             <div class="ui right dropdown item">
               Knowledge Base
@@ -100,6 +99,7 @@
                   <div class="item"><%= link_to("Question Types", question_types_path, {class: "item"}) %></div>
                   <div class="item"><%= link_to("Event Types", event_types_path, {class: "item"}) %></div>
                   <div class="item"><%= link_to("Remarks", remarks_path, {class: "item"}) %></div>
+                  <div class="item"><%= link_to("Solutions", solutions_path, {class: "item"}) %></div>
                 </div>
               </div>
             <% end %>

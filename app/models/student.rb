@@ -11,6 +11,10 @@ class Student < ActiveRecord::Base
 
 	validates_presence_of :name, :email
 
+	def self.difficulty 
+		["easy", "medium", "hard"]
+	end
+
 	private
 	def create_user
 		unless User.find_by(email: self.email).present?
@@ -22,6 +26,7 @@ class Student < ActiveRecord::Base
 			user.gender = self.gender
 			user.password = "password"
 			user.student_id = self.id
+			user.difficulty_level = self.difficulty_level
 			user.save
 		end
 	end
@@ -33,6 +38,7 @@ class Student < ActiveRecord::Base
 		user.mobile = self.mobile
 		user.dob = self.dob
 		user.gender = self.gender
+		user.difficulty_level = self.difficulty_level
 		user.save
 	end
 

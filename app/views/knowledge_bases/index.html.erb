@@ -5,7 +5,7 @@
   <% if @knowledge_published.empty? %>
     <p>No articles found.</p>
   <% else %>
-    <table class = "ui celled padded table" id ="knowledgebasesTable">
+    <table class = "ui celled padded table dataTable">
       <thead>
         <tr>
           <th>Sl no</th>
@@ -48,7 +48,7 @@
     <p>no knowledges found </p>
   <% else %>
 
-    <table class = "ui celled padded table" id ="unpublishedknowledgebasesTable">
+    <table class = "ui celled padded table dataTable">
       <thead>
         <tr>
           <th> Sl no</th>
@@ -117,13 +117,3 @@
 
 <% end %>
 <br/><br/>
-
-<script>
-  $(document).ready(function(){
-    $('#knowledgebasesTable').DataTable();
-  });
-
-  $(document).ready(function(){
-    $('#unpublishedknowledgebasesTable').DataTable();
-  });
-</script> 

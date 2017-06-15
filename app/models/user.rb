@@ -53,4 +53,8 @@ class User < ActiveRecord::Base
     end
   end
 
+  def name_with_difficulty_level
+    self.name + " - " + self.difficulty_level
+  end
+
 end

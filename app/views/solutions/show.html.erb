@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @solution.body.html_safe %>
+</p>
+
+<p>
+  <strong>Question:</strong>
+  <%= @solution.question.code %> - <%= @solution.question.title %><br/>
+  <%= @solution.question.formatted_statement %>
+</p>
+
+<p>
+  <strong>Topic:</strong>
+  <%= @solution.topic.name %>
+</p>
+
+<p>
+  <strong>Chapter:</strong>
+  <%= @solution.chapter.name %>
+</p>
+
+<%= link_to 'Edit', edit_question_path(@solution.question), class: "ui button" %>
+<%= link_to 'Back', solutions_path, class: "ui black button" %>

@@ -70,34 +70,47 @@
         <!-- IF ASSIGNMENT IS WITHIN DUE DATE -->
         <% elsif due_date_list.due_date_time > Time.now %>
           <p>
-            <% question_set.question_ids.each do |question_id| %>
-              <% question = Question.find(question_id) %>
-              <h4><%= question.formatted_statement %></h4>
-              <!-- IF ANSWERS DON'T EXIST -->
-              <% if !Question.find(question_id).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id).exists? %>
-                <%= form_for([@batch, @batch_set]) do |f| %>
-                  <%= f.fields_for :answers, @answer do |ans| %>
-                    <%= ans.hidden_field :question_id, value: question_id %>
-                    <%= ans.hidden_field :user_id, value: current_user.id %>
-                    <%= ans.hidden_field :batch_set_id, value: @batch_set.id %>
-                    <% if Question.find(question_id).question_type.name == "MCQ" %>
-                      <% Question.find(question_id).options.each do |option| %>
-                        <%= ans.radio_button :statement, option.statement.html_safe, class: "ui radio checkbox" %><%= option.statement.html_safe %><br/>
+            <% q = question_set.question_ids.sample %>
+            <!-- IF ANSWERS DON'T EXIST -->
+            <% if !Question.find(q).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, q, @batch_set.id).exists? %>
+
+              <%= form_for([@batch, @batch_set]) do |f| %>
+                <% question_set.question_ids.each do |question_id| %>
+                  <% question = Question.find(question_id) %>
+                  <h4><%= question.formatted_statement %></h4>
+                  <% if !Question.find(question_id).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id).exists? %>
+
+                    <%= f.fields_for :answers, @answer do |ans| %>
+                      <%= ans.hidden_field :question_id, value: question_id %>
+                      <%= ans.hidden_field :user_id, value: current_user.id %>
+                      <%= ans.hidden_field :batch_set_id, value: @batch_set.id %>
+                      <% if Question.find(question_id).question_type.name == "MCQ" %>
+                        <% Question.find(question_id).options.each do |option| %>
+                          <%= ans.radio_button :statement, option.statement.html_safe, class: "ui radio checkbox" %><%= option.statement.html_safe %><br/>
+                        <% end %>
+                        <div class="ui divider"></div>
+                      <% else %>
+                        <div class="ui form">
+                          <div class="field">
+                            <%= ans.text_area :statement, class: "textEditor" %>
+                          </div>    
+                        </div>
+                        <div class="ui divider"></div>
                       <% end %>
-                    <% else %>
-                      <div class="ui form">
-                        <div class="field">
-                          <%= ans.text_area :statement, class: "textEditor" %>
-                        </div>    
-                      </div>
                     <% end %>
-                  <% end %>
-                  <% if question_id == question_set.question_ids.last %>
-                    <br/><%= f.submit 'Submit Answer', {class: "ui primary button"} %>
-                  <% end %>
+                  <% end %> 
                 <% end %>
+                  <%# if question_id == question_set.question_ids.last %>
+                    <br/><%= f.submit 'Submit Answer', {class: "ui primary button"} %>
+                  <%# end %>
+              <% end %>
+            <% end %>
+
+            <% question_set.question_ids.each do |question_id| %>
               <!-- DISPLAYING ANSWERS IF THEY EXIST -->
-              <% elsif Question.find(question_id).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id).exists? %>
+              <% if Question.find(question_id).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id).exists? %>
+                <% question = Question.find(question_id) %>
+                <h4><%= question.formatted_statement %></h4>
                 <% answer = Question.find(question_id).answers.find_by('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id) %>
                 <%= answer.formatted_statement %>
                 <% if answer.question.question_type.name == "MCQ" %>
@@ -155,8 +168,8 @@
                   </div>
                 <% end %>
                 <%#= render "comment" %>
+                <div class="ui divider"></div>
               <% end %>
-              <div class="ui divider"></div>
             <% end %>
           </p>
           <%# question_set.question_ids.each do |question_id| %>

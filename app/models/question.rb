@@ -8,6 +8,8 @@ class Question < ActiveRecord::Base
 	accepts_nested_attributes_for :options, :allow_destroy => true
 	has_many :videos #, dependent: :destroy
 	accepts_nested_attributes_for :videos, :allow_destroy => true
+	has_many :solutions
+	accepts_nested_attributes_for :solutions, :allow_destroy => true
 	
 	has_many :question_sets
 	has_many :answers #, dependent: :destroy
@@ -21,6 +23,8 @@ class Question < ActiveRecord::Base
 	# before_validation :question_code
 	after_create :correct_answer_option
 	before_destroy :delete_question_from_qustion_sets
+
+	scope :get_questions, ->(questions_ids) { where(id: question_ids) }
 
 	def self.difficulty 
 		["easy","easy-medium","medium", "medium-hard", "hard"]

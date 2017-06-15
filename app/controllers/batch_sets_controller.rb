@@ -50,24 +50,15 @@ class BatchSetsController < ApplicationController
       @questions["asked_questions"][question_set.id] = []
       @questions["yet_to_be_asked_questions"][question_set.id] = []
       @question_set_chapter_topics.where(question_set_id: question_set.id).each do |qsct|
-        # binding.pry
         Question.where(kind: @batch_set.kind, chapter_id: qsct.chapter_id, topic_id: qsct.topic_id).each do |question|
-          # binding.pry
           @questions["all_questions"][question_set.id] += [question]
           if question_set.question_ids.include?(question.id)
             @questions["asked_questions"][question_set.id].push(question) 
-            # binding.pry
           else
             @questions["yet_to_be_asked_questions"][question_set.id].push(question)
           end
         end
       end
-    end
-
-    @users = []
-    @batch_students = BatchStudent.where(batch_id: @batch)
-    @batch_students.each do |batch_student|
-      @users.push(batch_student.student)
     end
 
     # questions = {"all_questions" => {}, "asked_questions" => {}, "yet_to_be_asked_questions" => {}}

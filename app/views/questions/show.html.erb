@@ -50,6 +50,14 @@
   <% end %>
 
   <p>
+    <strong>Solutions:</strong><br/><br/>
+    <% @question.solutions.each_with_index do |solution, index| %>
+      <b><%= "Solution" %> <%= index + 1 %></b><br/>
+      <%= solution.body.html_safe %><br/><br/>
+    <% end %>
+  </p>
+
+  <p>
     <strong> Video Links </strong><br/><br/>
     <div class="ui grid">
       <% @question.videos.each do |video| %>

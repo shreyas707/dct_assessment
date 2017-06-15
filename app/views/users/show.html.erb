@@ -15,8 +15,13 @@
 </p>
 
 <p>
-	<strong>Email</strong>
+	<strong>Email:</strong>
 	<%= @user.email %>
+</p>
+
+<p>
+	<strong>Difficulty Level:</strong>
+	<%= @user.try(:difficulty_level) %>
 </p>
 
 <p>
@@ -24,16 +29,15 @@
 	<%= @user.try(:mobile) %>
 </p>
 
+<p>
+  <strong>Gender:</strong>
+  <%= @user.gender %>
+</p>
 
 <p>
-	  <strong>Gender:</strong>
-	  <%= @user.gender %>
-	</p>
-
-	<p>
-	  <strong>DOB:</strong>
-	  <%= @user.dob %>
-	</p>
+  <strong>DOB:</strong>
+  <%= @user.dob %>
+</p>
 
 <% if @user.role == "student" %>
 	<p>

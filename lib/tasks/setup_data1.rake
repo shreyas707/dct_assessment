@@ -3,6 +3,7 @@ task :setup_data1 => :environment do
 	Student.all.each do |student|
 		user = User.find_by(student_id: student.id)
 		user.name = student.name
+		student.difficulty_level = "easy"
 		user.save
 	end
 

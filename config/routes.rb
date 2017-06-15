@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :solutions
   get 'batches/student'
   get 'batch_sets/select_chapters'
   get 'knowledge_bases/select_chapter'

@@ -40,6 +40,15 @@
     <%= f.collection_select :batch_ids, Batch.all, :id, :title, {prompt: "Select Batch"}, {class: "ui fluid search dropdown", multiple: ""} %>
   </div><br/>
 
+  <div class="field">
+    <b><label>Difficulty Level: </label></b>
+    <% if controller.action_name == "new" %>
+      <%= "Easy" %>
+    <% elsif controller.action_name == "edit" %>
+      <br/><%= f.select :difficulty_level, Student.difficulty, {prompt: "Select Difficulty Level"}, {class: "ui search dropdown"} %>
+    <% end %>
+  </div><br/><br/>
+
   <div class="actions">
     <%= f.submit class: "ui primary button" %><br/><br/>
   </div>

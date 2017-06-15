@@ -73,6 +73,6 @@ class QuestionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def question_params
-      params.require(:question).permit(:statement, :title, :code, :difficulty_level, :chapter_id, :topic_id, :question_type_id, :kind, :answer_option_id, options_attributes: [:id, :statement, :question_id, :is_answer, :_destroy], videos_attributes: [:id, :question_id, :youtube_url, :_destroy])
+      params.require(:question).permit(:statement, :title, :code, :difficulty_level, :chapter_id, :topic_id, :question_type_id, :kind, :answer_option_id, options_attributes: [:id, :statement, :question_id, :is_answer, :_destroy], videos_attributes: [:id, :question_id, :youtube_url, :_destroy], solutions_attributes: [:id, :body, :question_id, :topic_id, :chapter_id, :_destroy])
     end
 end

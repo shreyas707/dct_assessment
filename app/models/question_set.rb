@@ -9,4 +9,6 @@ class QuestionSet < ActiveRecord::Base
 	has_many :chapters, through: :question_set_chapter_topics
 	accepts_nested_attributes_for :question_set_chapter_topics, :allow_destroy => true
 
+	
+
 end

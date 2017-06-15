@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Solutions</h1>
+
+<table class="ui celled padded table dataTable">
+  <thead>
+    <tr>
+      <th>Body</th>
+      <th>Question</th>
+      <th>Topic</th>
+      <th>Chapter</th>
+      <th>Show</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @solutions.each do |solution| %>
+      <tr>
+        <td><%= solution.body.html_safe %></td>
+        <td><%= solution.question.code %> - <%= solution.question.title %></td>
+        <td><%= solution.topic.name %></td>
+        <td><%= solution.chapter.name %></td>
+        <td><%= link_to 'Show', solution %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br><br>
