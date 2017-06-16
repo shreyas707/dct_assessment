@@ -79,6 +79,10 @@ elsif dislikes.length >= 4
 end
 end
 
+def genrate_code
+	
+	self.code ="DCT-#{self.topic.short_name}-#{self.chapter.short_name}-#{SecureRandom.hex(4)}"
+
 end
 
-
+end
