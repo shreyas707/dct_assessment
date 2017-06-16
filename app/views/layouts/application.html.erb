@@ -90,7 +90,7 @@
             Knowledge Base
             <i class="dropdown icon"></i>
             <div class="menu">
-              <div class="item"><%= link_to("All Articles", knowledge_bases_path, {class: controller.controller_name == "knowledge_bases" ? "active item" : "item"}) %></div>
+              <div class="item"><%= link_to("All Articles", knowledge_bases_path, {class: controller.controller_name == "knowledge_bases" && controller.action_name == "index" ? "active item" : "item"}) %></div>
               <div class="item"><%= link_to("Liked", knowledge_bases_liked_articles_path, {class: controller.action_name == "liked_articles" ? "active item" : "item"}) %></div>
               <% if current_user.is_admin? %>
                 <div class="item"><%= link_to("My Articles", knowledge_bases_my_articles_path, {class: controller.action_name == "my_articles" ? "active item" : "item"}) %></div>
