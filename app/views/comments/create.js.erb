@@ -1,0 +1,3 @@
+$('.ui comments').hide();
+$('#text %>').append("<%= @comment.statement.html_safe %>")
+$('#new_comment_<%= @comment.answer.id %>')[0].reset();

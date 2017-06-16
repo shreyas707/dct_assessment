@@ -1,97 +1,131 @@
 <% if current_user.is_admin? %>
 
-  <%= nested_form_for(@batch_set) do |f| %> 
-    <h1>Editing Batch Set</h1>
-    <% if @batch_set.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@batch_set.errors.count, "error") %> prohibited this question from being saved:</h2>
+	<h1>Edit Batch Set</h1>
 
-        <ul>
-        <% @batch_set.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-        </ul>
-      </div>
-    <% end %>
+	<%= nested_form_for [@batch, @batch_set] do |f| %>
+	  <% if @batch_set.errors.any? %>
+	    <div id="error_explanation">
+	      <h2><%= pluralize(@batch_set.errors.count, "error") %> prohibited this question from being saved:</h2>
 
-    <div class="field">
-      <%= f.label :title %><br>
-      <div class="ui input"><%= f.text_field :title %></div>
-    </div>
-    <div class="field">
-      <%= f.label :set_date %><br>
-      <%= f.date_select :set_date %>
-    </div>
-    <div class="field">
-      <%= f.label :kind %><br>
-      <%= f.radio_button :kind, "assessment" %>Assessment<br/>
-      <%= f.radio_button :kind, "assignment" %>Assignment<br/>
-    </div>
-    <%= f.hidden_field :batch_id, value: @batch.id %>
-    <br/>
+	      <ul>
+	      <% @batch_set.errors.full_messages.each do |message| %>
+	        <li><%= message %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
 
-    <%= f.fields_for :batch_set_chapter_topics, @batch_set_chapter_topic do |b| %>
-      Select Topic<br/>
-      <%= b.collection_select :topic_id, Topic.all, :id, :name, {prompt: "Select topic"}, {class: "ui search dropdown"} %><br/>
-      Select Chapter<br/>
-      <%= b.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select Chapter"}, {class: "ui search dropdown"} %><br/>
-      <%= b.link_to_remove "Delete Topic and Chapter" %><br/><br/>
-    <% end %>
-    <%= f.link_to_add "Add Topic and Chapter", :batch_set_chapter_topics %>
-    <br/><br/><br/>
+	  <b><label>Select Kind</label></b>
+	  <div class="field">
+	    <div class="ui radio checkbox">
+	      <%= f.radio_button :kind, "assessment", class: "hidden" %>
+	      <label for="batch_set_kind_assessment">Assessment</label>
+	    </div><br/>
+	    <div class="ui radio checkbox">
+	      <%= f.radio_button :kind, "assignment", class: "hidden" %>
+	      <label for="batch_set_kind_assignment">Assignment</label>
+	    </div><br/>
+<!-- 	    <div class="ui radio checkbox">
+	      <%#= f.radio_button :kind, "homework", class: "hidden" %>
+	      <label for="batch_set_kind_homework">Homework</label>
+	    </div><br/> -->
+<!-- 	    <div class="ui radio checkbox">
+	      <%#= f.radio_button :kind, "test", class: "hidden" %>
+	      <label for="batch_set_kind_test">Test</label>
+	    </div> -->
+	  </div><br/>
 
-    <b>Select Questions:</b><br/>
-    <table class="ui celled padded table">
-      <thead>
-        <tr>
-          <th>All Questions</th>
-          <th>Yet to be asked</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <% all_questions = [] %>
-            <% asked_questions = [] %>
-            <% not_asked_questions = [] %>
+	  <div class="field">
+	    <b><%= f.label :title %></b><br>
+	    <div class="ui input"><%= f.text_field :title %></div>
+	  </div><br/>
 
-            <!-- ALL QUESTIONS -->
-            <% @batch_set.batch_set_chapter_topics.each do |bsct| %>
-              <% Question.where('chapter_id = ? AND topic_id = ? AND kind = ?', bsct.chapter_id, bsct.topic_id, @batch_set.kind).each do |question| %>
-                <% all_questions.push(question) %>
-              <% end %>
-            <% end %>
+	  <div class="field">
+	    <b><%= f.label :set_date %></b><br>
+	    <div class="ui input"><%= f.text_field :set_date, class: "date" %></div>
+	  </div><br/>
 
-            <!-- ASKED QUESTIONS -->
-            <% @batch_set.questions.each do |question| %>
-              <% asked_questions.push(question) %>
-            <% end %>
 
-            <!-- Not Asked -->
-            <% not_asked_questions = all_questions - asked_questions %>
+	  <%= f.hidden_field :batch_id, value: @batch.id %>
 
-            <!-- DISPLAYING ALL QUESTIONS -->
-            <%= f.collection_check_boxes :question_ids, all_questions, :id, :formatted_statement do |f| %>
-              <%= f.label %>
-              <%= f.check_box %>
-            <% end %>
-          </td>
-          <td>
-            <%= f.collection_check_boxes :question_ids, not_asked_questions, :id, :formatted_statement do |f| %>
-              <%= f.label %>
-              <%= f.check_box %>
-            <% end %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <br/>
-    <div class="actions">
-      <%= f.submit class: "ui primary button"%><br/><br/>
-    </div>
-  <% end %>
-  <%= link_to 'Back', batch_batch_set_path(@batch, @batch_set), class: "ui black button" %>
+	<!--   <%#= f.fields_for :batch_set_chapter_topics, @batch_set_chapter_topic do |b| %>
+	    Select Topic<br/>
+	    <%#= b.collection_select :topic_id, Topic.all, :id, :name, {prompt: "Select topic"}, {class: "ui search dropdown"} %><br/><br/>
+	    Select Chapter<br/>
+	    <%#= b.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select Chapter"}, {class: "ui search dropdown"} %><br/>
+	    <%#= b.link_to_remove "Delete Topic and Chapter" %><br/><br/><br/>
+	  <%# end %>
+	  <%#= f.link_to_add "Add Topic and Chapter", :batch_set_chapter_topics %>
+	  <br/><br/> -->
 
+	  <%= f.fields_for :question_sets, @question_set do |question_set| %>
+	  	<div class="ui divider"></div>
+	    <h3>Question Set</h3>
+	    <%= question_set.fields_for :question_set_chapter_topics, @question_set_chapter_topic do |question_set_chapter_topic| %>
+
+	    <h4>Select Topic and Chapter</h4>
+	      <b>Select Topic</b><br/>
+	      <%= question_set_chapter_topic.collection_select :topic_id, Topic.all, :id, :name, {prompt: "Select Topic"}, {class: "ui search dropdown"} %><br/>
+	      <b>Select Chapter</b><br/>
+	      <%= question_set_chapter_topic.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select Chapter"}, {class: "ui search dropdown"} %><br/>
+	      <%= question_set_chapter_topic.link_to_remove "Delete Chapter Topic" %><br/><br/>
+	    <% end %>
+	    <%= question_set.link_to_add "Add Chapter Topic", :question_set_chapter_topics %>
+	    
+	    <h4>Select Questions and Users</h4>
+	    <b>Select Users</b><br/><br/>
+	    	<%= question_set.collection_select :user_ids, @batch_users, :id, :name, {prompt: "Select Users"}, {class: "ui fluid search dropdown", multiple: ""} %><br/>
+	    <b>Select Questions</b><br/>
+
+		<table class="ui celled padded table">
+			<thead>
+				<tr>
+					<th>Yet To Be Asked</th>
+					<th>Already Asked</th>
+				</tr>	
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+			    		<%= question_set.collection_check_boxes :question_ids, @questions["yet_to_be_asked_questions"][question_set.object.id].to_a, :id, :formatted_statement do |f| %>
+					    	<%= f.check_box %>
+					    	<%= f.label %><br/>
+					    <% end %>
+					</td>
+					<td>
+						<%= question_set.collection_check_boxes :question_ids, @questions["asked_questions"][question_set.object.id].to_a, :id, :formatted_statement do |f| %>
+					    	<%= f.check_box %>
+					    	<%= f.label %><br/>
+					    <% end %>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	    
+	    <%= question_set.link_to_remove "Delete Question Set" %><br/><br/>
+	  <% end %>
+	  <%= f.link_to_add "Add Question Set", :question_sets %>
+
+	  <div class="ui divider"></div>
+	  <h4>Select Due Dates and Users</h4>
+	  <%= f.fields_for :due_date_lists, @due_date_list do |due_date_list| %>
+	    <%= due_date_list.hidden_field :batch_set_id, value: @batch_set.id %>
+	    <b>Select Date and Time</b><br/>
+	    <%= due_date_list.datetime_select :due_date_time %><br/>
+	    <b>Add Users</b>
+	    <%= due_date_list.collection_select :user_ids, @batch_users, :id, :name, {prompt: "Select User"}, {class: "ui fluid search dropdown", multiple: ""} %>
+	    <%= due_date_list.link_to_remove "Delete Due Date List" %><br/><br/>
+	  <% end %>
+	  <%= f.link_to_add "Add Due Date List", :due_date_lists %>
+	  <br/><br/><br/>
+
+	  <div class="actions">
+	    <%= f.submit class: "ui primary button" %><br/><br/>
+	  </div>
+
+	<% end %>
+  
+  <%= link_to 'Back', batch_path(@batch), class: "ui black button" %>
   <br/><br/>
 
 <% else %>

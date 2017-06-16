@@ -11,44 +11,50 @@
 
 <p>
   <strong>Name:</strong>
-  <%= @user.student.try(:name) %>
+  <%= @user.try(:name) %>
 </p>
 
 <p>
-	<strong>Email</strong>
+	<strong>Email:</strong>
 	<%= @user.email %>
 </p>
 
 <p>
-	<strong>Mobile:</strong>
-	<%= @user.student.try(:mobile) %>
+	<strong>Difficulty Level:</strong>
+	<%= @user.try(:difficulty_level) %>
 </p>
 
+<p>
+	<strong>Mobile:</strong>
+	<%= @user.try(:mobile) %>
+</p>
 
 <p>
-	  <strong>Gender:</strong>
-	  <%= @user.gender %>
-	</p>
+  <strong>Gender:</strong>
+  <%= @user.gender %>
+</p>
 
-	<p>
-	  <strong>DOB:</strong>
-	  <%= @user.dob %>
-	</p>
+<p>
+  <strong>DOB:</strong>
+  <%= @user.dob %>
+</p>
 
 <% if @user.role == "student" %>
 	<p>
 		<strong>Batches:</strong><br/>
-		<% @user.student.batches.each do |batch| %>
-			<b>Batch Name</b>
-			<%= batch.title %><br/>
-			<b>Start Date:</b>
-			<%= batch.start_date %><br/>
-			<b>End Date:</b>
-			<%= batch.end_date %><br/><br/>
+		<% unless @user.student.nil? %>
+			<% @user.student.batches.each do |batch| %>
+				<b>Batch Name</b>
+				<%= batch.title %><br/>
+				<b>Start Date:</b>
+				<%= batch.start_date %><br/>
+				<b>End Date:</b>
+				<%= batch.end_date %><br/><br/>
+			<% end %>
 		<% end %>
 	</p>
 <% end %>
 
-<%= link_to 'Edit', edit_user_path(@user), class: "ui button" %>
+<%= link_to 'Edit', @user.role == "admin" ? edit_user_path(@user) : edit_student_path(@user.student), class: "ui button" %>
 <%= link_to 'Back', users_path, class: "ui black button" %><br/><br/>
 <%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>

@@ -26,18 +26,28 @@
 
   <div class="field">
     <%= f.label :gender %><br>
-     <%= f.radio_button :gender, "Male" %>Male<br/>
-    <%= f.radio_button :gender, "Female" %>Female<br/>
+     <%= f.radio_button :gender, "male" %>Male<br/>
+    <%= f.radio_button :gender, "female" %>Female<br/>
   </div>
 
   <div class="field">
-    <%= f.label :dob %><br>
+    <label>Date of Birth</label><br>
     <div class="ui input"><%= f.date_select :dob, options = {start_year: Date.today.year-100} %></div>
   </div>
 
   <div class="field">
-    <%= f.collection_select :batch_ids, Batch.all, :id, :title, {prompt: "Select Student"}, {class: "ui fluid search dropdown", multiple: ""} %>
-  </div>
+    <label>Batches: </label>
+    <%= f.collection_select :batch_ids, Batch.all, :id, :title, {prompt: "Select Batch"}, {class: "ui fluid search dropdown", multiple: ""} %>
+  </div><br/>
+
+  <div class="field">
+    <b><label>Difficulty Level: </label></b>
+    <% if controller.action_name == "new" %>
+      <%= "Easy" %>
+    <% elsif controller.action_name == "edit" %>
+      <br/><%= f.select :difficulty_level, Student.difficulty, {prompt: "Select Difficulty Level"}, {class: "ui search dropdown"} %>
+    <% end %>
+  </div><br/><br/>
 
   <div class="actions">
     <%= f.submit class: "ui primary button" %><br/><br/>

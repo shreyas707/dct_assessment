@@ -7,8 +7,8 @@ class BatchesController < ApplicationController
   # GET /batches.json
   def index
     if current_user.is_admin?
-      @on_going_batches = Batch.where("complete = ?", false)
-      @completed_batches = Batch.where("complete = ?", true)
+      @on_going_batches = Batch.where("complete = ?", false).includes(:course)
+      @completed_batches = Batch.where("complete = ?", true).includes(:course)
     elsif current_user.is_student?
       @batches = current_student.batches
     end
@@ -17,7 +17,32 @@ class BatchesController < ApplicationController
   # GET /batches/1
   # GET /batches/1.json
   def show
+    @batch_students = @batch.students.includes(:user)
     @batch_sets = BatchSet.where('batch_id = ?', @batch.id)
+    @first_ten_batch_sets = @batch_sets.order('set_date DESC').first(10)
+    @rest_of_batch_sets = @batch_sets.order('set_date DESC') - @batch_sets.order('set_date DESC').first(10)
+
+    if current_user.is_admin?
+      @all_assessments = @batch_sets.where('kind = ?', "assessment").order('set_date DESC')
+      @this_week_assessments = @batch_sets.where('kind = ? AND set_date BETWEEN ? AND ?', "assessment", Date.today.beginning_of_week, Date.today.end_of_week).order('set_date DESC')
+      @rest_of_assessments = (@all_assessments - @this_week_assessments) 
+      
+      @all_assignments = @batch_sets.where('kind = ?', "assignment").order('set_date DESC')
+      @this_week_assignments = @batch_sets.where('kind = ? AND set_date BETWEEN ? AND ?', "assignment", Date.today.beginning_of_week, Date.today.end_of_week).order('set_date DESC')
+      @rest_of_assignments = (@all_assignments - @this_week_assignments) 
+
+    else
+
+      @all_assessments = @batch_sets.where('kind = ?', "assessment").order('set_date DESC')
+      @this_week_assessments = @batch_sets.where('kind = ? AND set_date BETWEEN ? AND ?', "assessment", Date.today.beginning_of_week, Date.today).order('set_date DESC')
+      @rest_of_assessments = (@all_assessments - @this_week_assessments)
+
+      @all_assignments = @batch_sets.where('kind = ?', "assignment").order('set_date DESC')
+      @this_week_assignments = @batch_sets.where('kind = ? AND set_date BETWEEN ? AND ?', "assignment", Date.today.beginning_of_week, Date.today).order('set_date DESC')
+      @rest_of_assignments = (@all_assignments - @this_week_assignments)
+    
+    end
+
   end
 
   def student

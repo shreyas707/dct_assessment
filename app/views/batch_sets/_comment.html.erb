@@ -1,0 +1,18 @@
+    <div class="comment">
+      <a class="avatar">
+        <%= image_tag @comment.user.avatar_url %>
+      </a>
+      <div class="content">
+        <a class="author"><%= @comment.user.name %></a>
+<!--             <div class="metadata">
+          <div class="date">distance</div>
+          <div class="rating">
+            <i class="star icon"></i>
+            <%#= answer.remark.try(:title) %>
+          </div>
+        </div> -->
+        <div class="text">
+          <%= @comment.statement.html_safe %>
+        </div>
+      </div>
+    </div>

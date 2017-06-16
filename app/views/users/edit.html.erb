@@ -20,12 +20,25 @@
     <div class="ui input"><%= f.text_field :email %></div>
     <br/><br/>
 
-    <label>Password</label><br/>
-    <div class="ui input"><%= f.password_field :password %></div>
+<!--     <label>Password</label><br/>
+    <div class="ui input"><%#= f.password_field :password %></div>
     <br/><br/>
 
     <label>Re-enter Password</label><br/>
-    <div class="ui input"><%= f.password_field :password_confirmation %></div>
+    <div class="ui input"><%#= f.password_field :password_confirmation %></div>
+    <br/><br/> -->
+
+    <label>Mobile</label><br/>
+    <div class="ui input"><%= f.text_field :mobile %></div>
+    <br/><br/>
+
+    <label>Gender</label><br/>
+    <%= f.radio_button :gender, "male" %>Male<br/>
+    <%= f.radio_button :gender, "female" %>Female<br/>
+    <br/><br/>
+
+    <label>Date of Birth</label><br/>
+    <div class="ui input"><%= f.text_field :dob, class: "date" %></div>
     <br/><br/>
 
     <label>User Role: </label><%= @user.role %>

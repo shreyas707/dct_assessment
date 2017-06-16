@@ -1,8 +1,9 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Listing Remarks</h1>
+<%= link_to 'New Remark', new_remark_path, class: "ui primary button" %><br/><br/>
 
-<table class="ui celled padded table">
+<table class="ui celled padded table dataTable">
   <thead>
     <tr>
       <th>Title</th>
@@ -20,6 +21,4 @@
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Remark', new_remark_path, class: "ui primary button" %><br/><br/>
+<br><br>

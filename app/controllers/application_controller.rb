@@ -6,6 +6,10 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  rescue_from CanCan::AccessDenied do
+    redirect_to root_path, notice: "You are not authorized to access this page."
+  end
+
   helper_method :current_student
 
   def current_student
@@ -15,8 +19,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:avatar])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:avatar, :name])
+    # devise_parameter_sanitizer.permit(:sign_up, keys: [:avatar])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:avatar, :name, :dob, :gender, :mobile])
   end
 
 end

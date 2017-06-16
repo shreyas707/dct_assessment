@@ -1,39 +1,48 @@
-<!-- <script>
+<script>
   $(document).ready(function() {
 
         // page is now ready, initialize the calendar...
   $('#calendar').fullCalendar({
-    /*  header: {
+      header: {
         left: 'prev,next today',
         center: 'title',
         right: 'month,basicWeek,basicDay'
       },
-      defaultDate: '2017-05-12',
+      defaultDate: '<%= Date.today.strftime("%Y-%m-%d") %>',
       navLinks: true, // can click day/week names to navigate views
       editable: true,
-      eventLimit: true, // allow "more" link when too many events */
+      eventLimit: true, // allow "more" link when too many events 
       events: [
-        <%# @batch.batch_sets.where('kind = ? AND due_date >= ?', "assignment", Date.today).each do |batch_set| %>
+        <% @batch.batch_sets.each do |batch_set| %>
+          <% batch_set.due_date_lists.each do |due_date_list| %>
+            <% batch_set.question_sets.each do |question_set| %>
+              <% if due_date_list.user_ids.include?(current_user.id) %>
+                <% if Question.where(id: question_set.question_ids.first).exists? %>
+                  <% if !Question.find(question_set.question_ids.first).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_set.question_ids.first, batch_set.id).exists? %>
+                    {
+                      title: '<%= batch_set.title.html_safe %>',
+                      start: '<%= due_date_list.due_date_time.strftime("%Y-%m-%dT%H:%M:%S") %>',
+                      // url: 'http://google.com', //2017-05-09T16:00:00
+                      color: 'red',
+                      editable: false 
+                    },
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <% @batch.events.each do |event| %>
           {
-            title: '<%#= batch_set.title %>',
-            start: '<%#= batch_set.due_date.strftime("%Y-%m-%dT%H:%M:%S") %>',
-            //url: 'http://google.com', //2017-05-09T16:00:00
-            color: 'red',
-            editable: false 
-          },
-        <%# end %>
-        <%# @batch.events.each do |event| %>
-          {
-            title: '<%#= event.event_type.name %>',
-            start: '<%#= event.start_date.strftime("%Y-%m-%d") %>',
-            end: '<%#= event.end_date.strftime("%Y-%m-%d") %> ',
+            title: '<%= event.event_type.name %>',
+            start: '<%= event.start_date.strftime("%Y-%m-%d") %>',
+            end: '<%= event.end_date.strftime("%Y-%m-%d") %> ',
             editable: false
           },
-        <%# end %>
+        <% end %>
       ]
     });
     
   });
 
 </script>
- -->

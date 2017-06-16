@@ -2,11 +2,12 @@
 
 <div class="ui segment">
 
+  <h3><%= @batch_set.title %></h3>
+  
   <div class="ui grid">
 
     <div class="ten wide column">
 
-      <h3><%= @batch_set.title %></h3>
 
       <p><strong>Batch:</strong>
       <%= @batch_set.batch.title %></p>
@@ -17,36 +18,68 @@
 
         <p><strong>Kind:</strong>
         <%= @batch_set.kind %></p>
+
+        <% if @batch_set.due_date_lists.exists? %>
+          <p>
+            <strong>Due Dates:</strong><br/>
+            <% @batch_set.due_date_lists.each do |due_date_list| %>
+              <strong>Due Date:</strong>
+              <%= due_date_list.due_date_time_field %><br/>
+              <strong>Students:</strong>
+              <% due_date_list.user_ids.each do |user| %>
+                <%= User.find_by(id: user).try(:name) %>
+              <% end %><br/><br/>
+            <% end %>
+          </p>
+        <% end %>
       
         <p>
-          <strong>Students who haven't submitted the answers: </strong><br/>
-          <% if @batch_set_answers.exists? %>
-            <% all_students = [] %>
-            <% answered_students = [] %>
-            <% unanswered_students = [] %>
-            <% @batch_set_answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
-              <% answer.batch_set.batch.students.each do |student| %>
-                <% all_students.push(student) %>
-              <% end %>
-            <% end %>
-            <% @batch_set_answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
-              <% answered_students.push(answer.user.student) %>
-            <% end %>
-            <% unanswered_students = all_students - answered_students %>
-            <% unanswered_students.uniq.each do |student| %>
-              <% if student.user.avatar.present? %>
-                <%= link_to image_tag(student.user.avatar_url, {class: "ui avatar image"}) %>
-              <% else %>
-                <div class="ui avatar image">
-                  <img src="/pic.jpg"><br/>
-                  <%= student.name.split(" ")[0] %>
-                </div>
-              <% end %>
-            <% end %>
-          <% else %>
-            <%= "Nobody has answered the questions yet." %>
+          <strong>Question Sets:</strong><br/>
+          <% @batch_set.question_sets.each do |question_set| %>
+            <strong>Topic:</strong>
+            <% QuestionSetChapterTopic.where('question_set_id = ?', question_set).each do |question_set_chapter_topic| %>
+              <%= question_set_chapter_topic.topic.name %>,
+            <% end %><br/>
+            <strong>Chapter:</strong>
+            <% QuestionSetChapterTopic.where('question_set_id = ?', question_set).each do |question_set_chapter_topic| %>
+              <%= question_set_chapter_topic.chapter.name %>,
+            <% end %><br/>
+            <strong>Students:</strong>
+            <% question_set.user_ids.each do |user| %>
+              <%= User.find_by(id: user).try(:name) %>,
+            <% end %><br/><br/>
           <% end %>
         </p>
+
+        <!-- <p>
+          <strong>Students who haven't submitted the answers: </strong><br/>
+          <%# if @batch_set_answers.exists? %>
+            <%# all_students = [] %>
+            <%# answered_students = [] %>
+            <%# unanswered_students = [] %>
+            <%# @batch_set_answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
+              <%# answer.batch_set.batch.students.each do |student| %>
+                <%# all_students.push(student) %>
+              <%# end %>
+            <%# end %>
+            <%# @batch_set_answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
+              <%# answered_students.push(answer.user.student) %>
+            <%# end %>
+            <%# unanswered_students = all_students - answered_students %>
+            <%# unanswered_students.uniq.each do |student| %>
+              <%# if student.user.avatar.present? %>
+                <%#= link_to image_tag(student.user.avatar_url, {class: "ui avatar image"}) %>
+              <%# else %>
+                <div class="ui avatar image">
+                  <img src="/pic.jpg"><br/>
+                  <%#= student.name.split(" ")[0] %>
+                </div>
+              <%# end %>
+            <%# end %>
+          <%# else %>
+            <%#= "Nobody has answered the questions yet." %>
+          <%# end %>
+        </p> -->
       <% end %>
 
       <%= link_to 'Back', @batch, class: "ui black button" %><br/><br/>
@@ -63,44 +96,48 @@
 
         <%= render "admin_answers" %>
 
-      <% end %>
-
     </div>
 
-    <div class="six wide column">
-      <table class="ui very basic collapsing celled table">
-        <thead>
-          <tr><th>Student</th>
-          <th>Correct Answers</th>
-          <th>Wrong Answers</th>
-        </tr></thead>
-        <tbody>
-          <% @batch.students.each do |student| %>
-          <tr>
-            <td>
-              <h4 class="ui image header">
-                <% if student.user.avatar.present? %>
-                  <%= image_tag student.user.avatar_url, class: "ui mini rounded image" %>
-                <% else %>
-                  <img src="/pic.jpg" class="ui mini rounded image">
-                <% end %>
-                <div class="content">
-                  <%= student.name.split(" ")[0] %>
-                  <!-- <div class="sub header">Human Resources
-                </div> -->
-              </div>
-            </h4></td>
-            <td>
-              22
-            </td>
-            <td>
-              10
-            </td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+      <div class="six wide column">
+        <table class="ui very basic collapsing celled table">
+          <thead>
+            <tr><th>Student</th>
+            <th>Correct</th>
+            <th>Partially Correct</th>
+            <th>Wrong</th>
+          </tr></thead>
+          <tbody>
+            <% @batch.students.each do |student| %>
+            <tr>
+              <td>
+                <h4 class="ui image header">
+                  <% if student.user.avatar.present? %>
+                    <%= image_tag student.user.avatar_url, class: "ui mini rounded image" %>
+                  <% else %>
+                    <img src="/pic.jpg" class="ui mini rounded image">
+                  <% end %>
+                  <div class="content">
+                    <%= student.name.split(" ")[0] %>
+                    <!-- <div class="sub header">Human Resources
+                  </div> -->
+                </div>
+              </h4></td>
+              <td>
+                <%= student.user.answers.where("is_correct = ? AND batch_set_id = ?", "correct", @batch_set.id).count %>
+              </td>
+              <td>
+                <%= student.user.answers.where("is_correct = ? AND batch_set_id = ?", "partially_correct", @batch_set.id).count %>
+              </td>
+              <td>
+                <%= student.user.answers.where("is_correct = ? AND batch_set_id = ?", "wrong", @batch_set.id).count %>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    
+    <% end %>
 
   </div>
 </div>

@@ -1,11 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Listing Chapters</h1>
+<%= link_to 'New Chapter', new_chapter_path, class: "ui primary button" %><br/><br/>
 
-<table class="ui celled padded table">
+<table class="ui celled padded table dataTable">
   <thead>
     <tr>
       <th>Name</th>
+      <th>Short Name</th>
       <th>Show</th>
     </tr>
   </thead>
@@ -14,12 +16,12 @@
     <% @chapters.each do |chapter| %>
       <tr>
         <td><%= chapter.name %></td>
+        <td><%= chapter.try(:short_name) %></td>
         <td><%= link_to 'Show', chapter %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
+<br><br>
 
-<%= link_to 'New Chapter', new_chapter_path, class: "ui primary button" %>

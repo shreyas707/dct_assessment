@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170529082245) do
+ActiveRecord::Schema.define(version: 20170615184103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,13 +24,7 @@ ActiveRecord::Schema.define(version: 20170529082245) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "remark_id"
-  end
-
-  create_table "appreciations", force: :cascade do |t|
-    t.string   "title"
-    t.integer  "answer_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "is_correct"
   end
 
   create_table "batch_events", force: :cascade do |t|
@@ -62,6 +56,7 @@ ActiveRecord::Schema.define(version: 20170529082245) do
     t.datetime "updated_at", null: false
     t.string   "title"
     t.string   "kind"
+    t.datetime "due_date"
   end
 
   create_table "batch_students", force: :cascade do |t|
@@ -92,6 +87,7 @@ ActiveRecord::Schema.define(version: 20170529082245) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "short_name"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -137,6 +133,20 @@ ActiveRecord::Schema.define(version: 20170529082245) do
     t.datetime "end_date"
   end
 
+  create_table "holiday_batches", force: :cascade do |t|
+    t.integer  "holiday_id"
+    t.integer  "batch_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "holidays", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.date     "start_date"
+    t.date     "end_date"
+  end
+
   create_table "knowledge_bases", force: :cascade do |t|
     t.string   "title"
     t.text     "body"
@@ -158,6 +168,23 @@ ActiveRecord::Schema.define(version: 20170529082245) do
     t.datetime "updated_at",                  null: false
   end
 
+  create_table "question_set_chapter_topics", force: :cascade do |t|
+    t.integer  "question_set_id"
+    t.integer  "chapter_id"
+    t.integer  "topic_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "question_sets", force: :cascade do |t|
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.integer  "batch_set_id"
+    t.jsonb    "question_ids",     default: [],              array: true
+    t.jsonb    "user_ids",         default: [],              array: true
+    t.string   "difficulty_level"
+  end
+
   create_table "question_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -175,6 +202,7 @@ ActiveRecord::Schema.define(version: 20170529082245) do
     t.string   "kind"
     t.string   "code"
     t.string   "title"
+    t.string   "difficulty_level"
   end
 
   create_table "remarks", force: :cascade do |t|
@@ -183,20 +211,31 @@ ActiveRecord::Schema.define(version: 20170529082245) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "solutions", force: :cascade do |t|
+    t.text     "body"
+    t.integer  "question_id"
+    t.integer  "topic_id"
+    t.integer  "chapter_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "students", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
     t.string   "mobile"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "gender"
     t.date     "dob"
+    t.string   "difficulty_level", default: "easy"
   end
 
   create_table "topics", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "short_name"
   end
 
   create_table "users", force: :cascade do |t|
@@ -219,6 +258,8 @@ ActiveRecord::Schema.define(version: 20170529082245) do
     t.string   "avatar"
     t.string   "gender"
     t.date     "dob"
+    t.string   "mobile"
+    t.string   "difficulty_level"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

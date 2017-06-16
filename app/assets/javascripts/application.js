@@ -12,9 +12,18 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
+// require turbolinks
 //= require jquery_nested_form
 //= require semantic-ui
 //= require semantic-ui/modal
 //= require semantic-ui/dropdown
 //= require_tree .
+
+$(document).ready(function(){
+	 $('.add_comment').css('cursor', 'pointer');
+ 	 $('.showComment').css('display', 'none');
+ 	 $('.add_comment').on('click', function(){
+ 		$('.showComment').toggle();
+ 	 });
+});
+

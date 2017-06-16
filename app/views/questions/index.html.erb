@@ -5,12 +5,14 @@
 
 <h1>Assessment Questions</h1>
 
-<table class="ui celled padded table">
+<table class="ui celled padded table dataTable">
   <thead>
     <tr>
       <th>Statement</th>
+      <th>Difficulty</th>
       <th>Chapter</th>
       <th>Topic</th>
+      <!-- <th>Code</th> -->
       <th>Question type</th>
       <th>Correct option</th>
       <th>Show</th>
@@ -20,9 +22,11 @@
   <tbody>
     <% @questions.where('kind = ?', "assessment").each do |question| %>
       <tr>
-        <td><%= question.statement.html_safe %></td>
+        <td><%= question.try(:title) %><br/><%= question.statement.html_safe %></td>
+        <td><%= question.try(:difficulty_level) %></td>        
         <td><%= question.chapter.name %></td>
         <td><%= question.topic.try(:name) %></td>
+        <!-- <td><%#= question.try(:code) %></td> -->
         <td><%= question.question_type.name %></td>
         <td><%= question.options.find_by(question_id: question.id).try(:statement) %></td>
         <td><%= link_to 'Show', question %></td>
@@ -33,12 +37,14 @@
 
 <h1>Assignment Questions</h1>
 
-<table class="ui celled padded table">
+<table class="ui celled padded table dataTable">
   <thead>
     <tr>
       <th>Statement</th>
+      <th>Difficulty</th>
       <th>Chapter</th>
       <th>Topic</th>
+      <!-- <th>Code</th> -->
       <th>Show</th>
     </tr>
   </thead>
@@ -47,8 +53,10 @@
     <% @questions.where('kind = ?', "assignment").each do |question| %>
       <tr>
         <td><%= question.statement.html_safe %></td>
+        <td><%= question.try(:difficulty_level) %></td>        
         <td><%= question.chapter.name %></td>
         <td><%= question.topic.try(:name) %></td>
+        <!-- <td><%#= question.try(:code) %></td> -->
         <td><%= link_to 'Show', question %></td>
       </tr>
     <% end %>

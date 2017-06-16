@@ -17,6 +17,11 @@
   </div>
 
   <div class="field">
+    <%= f.label :short_name %><br>
+    <div class="ui input"><%= f.text_field :short_name %></div><br/><br/>
+  </div>
+
+  <div class="field">
     <label>Select topics that the chapter belongs to:</label>
     <%= f.collection_select :topic_ids, Topic.all, :id, :name, {prompt: "Select Chapters"}, {class: "ui fluid search dropdown", multiple: ""} %><br/>
   </div>

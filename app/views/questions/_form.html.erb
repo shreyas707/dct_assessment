@@ -12,9 +12,23 @@
   <% end %>
 
   <div class="field">
+  </div>
+  <div class="field">
+    <%= f.label :code %><br>
+    <div class="ui input"><%= f.text_field :code %></div>
+  </div>
+  <div class="field">
+    <%= f.label :title %><br>
+    <div class="ui input"><%= f.text_field :title %></div>
+  </div>
+  <div class="field">
     <%= f.label :statement %><br>
     <%= f.text_area :statement, class: "textEditor" %>
-  </div>
+  </div><br/>
+  <div class="field">
+    <%= f.label :difficulty_level %><br>
+    <%= f.select :difficulty_level, Question.difficulty, {prompt: "Select Difficulty"}, {class: "ui search dropdown"} %><br/>
+  </div><br/>
   <div class="field">
     <label>Select Topic:</label><br>
     <%= f.collection_select :topic_id, Topic.all, :id, :name, {prompt: "Select topic"}, {class: "ui search dropdown"} %>
@@ -23,15 +37,26 @@
     <label>Select Chapter:</label><br>
     <%= f.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select chapter"}, {class: "ui search dropdown"}%>
   </div>
-  <div class="field">
-    <%= f.label :kind %><br>
-    <%= f.radio_button :kind, "assessment" %>Assessment<br/>
-    <%= f.radio_button :kind, "assignment" %>Assignment<br/>
-  </div>
 
+  
+  <label>Select Kind:</label><br>
   <div class="field">
-    <%= f.label :title %><br>
-    <div class="ui input"><%= f.text_field :title %></div>
+    <div class="ui radio checkbox">
+      <%= f.radio_button :kind, "assessment", class: "hidden" %>
+      <label for="question_kind_assessment">Assessment</label>
+    </div><br/>
+    <div class="ui radio checkbox">
+      <%= f.radio_button :kind, "assignment", class: "hidden" %>
+      <label for="question_kind_assignment">Assignment</label>
+    </div><br/>
+<!--     <div class="ui radio checkbox">
+      <%#= f.radio_button :kind, "homework", class: "hidden" %>
+      <label for="question_kind_homework">Homework</label>
+    </div><br/> -->
+<!--     <div class="ui radio checkbox">
+      <%#= f.radio_button :kind, "test", class: "hidden" %>
+      <label for="question_kind_test">Test</label>
+    </div> -->
   </div>
 
   <div class="field">
@@ -41,28 +66,29 @@
 
   <%= f.fields_for :options, @option do |option_form| %>
     <%= "Option" %><br/>
-    <div class="ui form">
-      <div class="field">
-        <%= option_form.text_area :statement, rows: "2" %><br/>
-      </div>
-    </div>
+    <div class="ui input"><%= option_form.text_field :statement %></div><br/>
     <%= option_form.check_box :is_answer, value: true, class: "ui radio checkbox" %>True
     <!-- <%#= option_form.radio_button :is_answer, false, class: "ui radio checkbox" %>False --><br/>
     <%= option_form.link_to_remove "Remove this option" %><br/>
   <% end %><br/>
-  <%= f.link_to_add "Add option", :options %><br/>
+  <p><%= f.link_to_add "Add option", :options %></p><br/>
 
   <br/><br/>
 
   <%= f.fields_for :videos do |video_form| %>
-  <%= video_form.text_field :youtube_url%>
-  <%= video_form.link_to_remove "Remove" %>
-<% end %>
-<p><%= f.link_to_add "Add video", :videos %></p>
+    <div class="ui input"><%= video_form.text_field :youtube_url %></div>
+    <%= video_form.link_to_remove "Remove" %>
+  <% end %>
+  <p><%= f.link_to_add "Add Video", :videos %></p>
 
-
-
-
+  <%= f.fields_for :solutions do |solution| %>
+    <%= "Solution" %><br/>
+    <%= solution.hidden_field :chapter_id, value: @question.chapter_id %>
+    <%= solution.hidden_field :topic_id, value: @question.topic_id %>
+    <%= solution.text_area :body, {class: "textEditor"} %><br/>
+    <%= solution.link_to_remove "Remove" %><br/>
+  <% end %><br/>
+  <p><%= f.link_to_add "Add Solution", :solutions %></p><br/>
 
   <div class="actions">
     <%= f.submit class: "ui primary button" %><br/><br/>

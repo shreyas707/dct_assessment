@@ -10,12 +10,17 @@
 
   <div class = "field">
 
+
     <label>Name</label><br/>
     <div class="ui input"><%= f.text_field :name %></div>
     <br/><br/>
 
     <label>Email</label><br/>
     <div class="ui input"><%= f.text_field :email %></div>
+    <br/><br/>
+    
+    <label><b>User Role: Admin</b></label><br/>
+    <%= f.hidden_field :role, value: "admin" %>
     <br/><br/>
 
     <label>Password</label><br/>
@@ -26,9 +31,19 @@
     <div class="ui input"><%= f.password_field :password_confirmation %></div>
     <br/><br/>
 
-    <label>User Role: Admin</label><br/>
-    <%= f.hidden_field :role, value: "admin" %>
+    <label>Mobile</label><br/>
+    <div class="ui input"><%= f.text_field :mobile %></div>
     <br/><br/>
+
+    <label>Gender</label><br/>
+    <%= f.radio_button :gender, "male" %>Male<br/>
+    <%= f.radio_button :gender, "female" %>Female<br/>
+    <br/><br/>
+
+    <label>Date of Birth</label><br/>
+    <div class="ui input"><%= f.text_field :dob, class: "date" %></div>
+    <br/><br/>
+
 
     <label>Disable this user</label>&nbsp&nbsp<%= f.radio_button :is_active, value: false %><br/><br/>
 

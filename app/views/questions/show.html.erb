@@ -2,9 +2,24 @@
 
 <div class="ui segment">
   <p>
+    <strong>Code:</strong>
+    <%= @question.try(:code) %>
+  </p>
+
+  <p>
+    <strong>Title:</strong>
+    <%= @question.try(:title) %>
+  </p>
+
+  <p>
     <strong>Statement:</strong>
     <%= @question.formatted_statement %>
   </p>
+
+  <p>
+    <strong>Difficulty:</strong>
+    <%= @question.try(:difficulty_level) %>
+  </p>  
 
   <p>
     <strong>Chapter:</strong>
@@ -35,13 +50,23 @@
   <% end %>
 
   <p>
-    <strong> Video Links </strong>
-    <% @question.videos.each do |video| %>
-    <iframe id="player" type="text/html" width="640" height="390"
-  src= <%= video.youtube_url %>
-  frameborder="0"></iframe>
-    <%end%>
-    </p>
+    <strong>Solutions:</strong><br/><br/>
+    <% @question.solutions.each_with_index do |solution, index| %>
+      <b><%= "Solution" %> <%= index + 1 %></b><br/>
+      <%= solution.body.html_safe %><br/><br/>
+    <% end %>
+  </p>
+
+  <p>
+    <strong> Video Links </strong><br/><br/>
+    <div class="ui grid">
+      <% @question.videos.each do |video| %>
+        <div class="five wide column">
+          <iframe allowfullscreen="allowfullscreen" id="player" type="text/html" width="320" height="180" src= <%= video.youtube_url %> frameborder="0"></iframe>
+        </div>
+      <% end %>
+    </div>
+  </p>
 
   <%= link_to 'Edit', edit_question_path(@question), class: "ui button" %>
   <%= link_to 'Back', questions_path, class: "ui black button" %><br/><br/>

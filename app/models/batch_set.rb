@@ -1,20 +1,23 @@
 class BatchSet < ActiveRecord::Base
 
-	# validate :check_date
+	before_save :fix_jsonb
 
 	belongs_to :batch
 
-	has_many :answers  #, dependent: :destroy
-	accepts_nested_attributes_for :answers
+	has_many :answers #, dependent: :destroy
+	accepts_nested_attributes_for :answers, :allow_destroy => true
 
-	has_many :batch_set_chapter_topics  #, dependent: :destroy
+	has_many :batch_set_chapter_topics #, dependent: :destroy
 	accepts_nested_attributes_for :batch_set_chapter_topics, :allow_destroy => true
 
-	has_many :batch_set_questions  #, dependent: :destroy
-	has_many :questions, through: :batch_set_questions
+	has_many :question_sets #, dependent: :destroy
+	accepts_nested_attributes_for :question_sets, :allow_destroy => true
 
-	has_many :due_date_lists
+	has_many :due_date_lists #, dependent: :destroy
 	accepts_nested_attributes_for :due_date_lists, :allow_destroy => true
+
+	has_many :batch_set_questions #, dependent: :destroy
+	has_many :questions, through: :batch_set_questions
 
 	validates_presence_of :title, :set_date, :batch_id
 
@@ -33,10 +36,14 @@ class BatchSet < ActiveRecord::Base
 		return questions
 	end
 
-	# def check_date
-	# 	if self.due_date < self.set_date
-	# 		errors.add(:due_date, "Due date cannot be lesser than set date.")
-	# 	end
-	# end
+	def fix_jsonb
+		self.question_sets.each do |question_set|
+			question_set.question_ids = question_set.question_ids.compact
+			question_set.user_ids = question_set.user_ids.compact
+		end
+		self.due_date_lists.each do |due_date_list|
+			due_date_list.user_ids = due_date_list.user_ids.compact
+		end
+	end
 
 end

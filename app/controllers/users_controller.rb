@@ -2,10 +2,10 @@ class UsersController < ApplicationController
 
 	before_action :set_topic, only: [:show, :edit, :update, :destroy]
 
-	load_and_authorize_resource
+	# load_and_authorize_resource
 
 	def index
-		@users = User.all
+		@users = User.all.includes(:student)
 	end
 
 	def show
@@ -28,8 +28,8 @@ class UsersController < ApplicationController
 	end
 
 	def update
-		if @user.update_attributes(user_parameters)
-			redirect_to current_user.is_admin? ? user_path(@user.id) : edit_user_registration_path, notice: "Successfully updated"
+		if @user.update_attributes(user_update_parameters)
+			redirect_to user_path(@user.id), notice: "Successfully updated"
 		else
 			render action: "edit"
 		end
@@ -40,8 +40,18 @@ class UsersController < ApplicationController
 		redirect_to users_path
 	end 
 
-	def upload_avatar
-		@user = User.find(params[:user])
+	# def upload_avatar
+	# 	@user = User.find(params[:user])
+	# end
+
+	protected
+
+    def update_resource(resource, params)
+		if params[:password].blank? && params[:password_confirmation].blank?
+			resource.update_without_password(params)
+		else
+			super
+		end
 	end
 
 	private
@@ -51,7 +61,11 @@ class UsersController < ApplicationController
 	end
 
 	def user_parameters
-		params.require(:user).permit(:name, :avatar, :email, :password, :gender,:dob,:password_confirmation, :mobile, :role, :student_id, :is_active)
+		params.require(:user).permit(:name, :password, :password_confirmation, :avatar, :email, :gender, :dob, :mobile, :role, :student_id, :is_active)
 	end
+
+	def user_update_parameters
+		params.require(:user).permit(:name, :avatar, :email, :gender, :dob, :mobile, :role, :student_id, :is_active, :difficulty_level)
+	end		
 
 end

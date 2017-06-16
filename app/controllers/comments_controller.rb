@@ -25,11 +25,21 @@ class CommentsController < ApplicationController
   # POST /comments.json
   def create
     @comment = Comment.new(comment_params)
-
     respond_to do |format|
       if @comment.save
+
+        #For mailer
+        # binding.pry
+        if current_user.is_admin?
+          @user = @comment.answer.user
+        else
+          @user = User.find_by(email: "shreyas707@gmail.com")
+        end
+        UserMailer.comment_email(@user, @comment).deliver
+        
         format.html { redirect_to :back, notice: 'Comment was successfully created.' }
         format.json { render :show, status: :created, location: @comment }
+        format.js
       else
         format.html { render :new }
         format.json { render json: @comment.errors, status: :unprocessable_entity }

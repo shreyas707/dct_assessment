@@ -16,6 +16,10 @@
     <div class="ui input"><%= f.text_field :name %></div><br/><br/>
   </div>
   <div class="field">
+    <%= f.label :short_name %><br>
+    <div class="ui input"><%= f.text_field :short_name %></div><br/><br/>
+  </div>
+  <div class="field">
     <label>Select courses that the topics belong to:</label>
     <%= f.collection_select :course_ids, Course.all, :id, :name, {prompt: "Select Courses"}, {class: "ui fluid search dropdown", multiple: ""} %><br/><br/>
   </div>

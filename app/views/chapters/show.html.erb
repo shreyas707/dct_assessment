@@ -7,6 +7,11 @@
 	</p>
 
 	<p>
+		<strong>Short Name:</strong>
+		<%= @chapter.try(:short_name) %>
+	</p>
+
+	<p>
 		<strong>Topics:</strong>
 		<% @chapter.topics.each do |topic| %>
 			<%= topic.name %>,

@@ -1,86 +1,128 @@
-<h3><%= @batch.title %></h3>
-<h3><%= @student.name %></h3>
-<% if @student.user.avatar.present? %>
-  <%= image_tag @student.user.avatar_url, class: "ui medium rounded image" %>
-<% else %>
-  <img src="/pic.jpg " class="ui medium rounded image" ><br/>
-<% end %>
-<h4>Assessments</h4>
+<div class="ui grid">
 
-<div class="ui styled accordion">
-  <% @batch.batch_sets.where('kind = ?', "assessment").each do |batch_set| %>
-    <div class="title">
-      <i class="dropdown icon"></i>
-      <%= batch_set.title %>
-    </div>
-    <div class="content">
-      <% if batch_set.questions.where('question_type_id = ?', "1").exists? %>
-        <p><b>MCQ</b></p>
-        <% batch_set.questions.where('question_type_id = ?', "1").each do |question| %>
-          <p class="transition hidden">
-            <%= question.formatted_statement %>
-            <% if question.answers.where("user_id = ?", @student.user.id).exists? %>
-              <%= question.answers.find_by(user_id: @student.user.id).formatted_statement %>
-              <% if question.options.find_by(is_answer: true).statement.html_safe == question.answers.find_by(user_id: @student.user.id).statement.html_safe %>
-                <i class="checkmark icon"></i><font color="green"><%= "Correct answer" %></font>
-              <% else %>
-                <i class="remove icon"></i><font color="red"><%= "Wrong answer" %></font><br/>
-                <font color="green"><%= question.options.find_by(is_answer: true).statement.html_safe %></font><%= " is the correct answer" %><br/>
-              <% end %><br/><br/>
-            <% else %>
-              <br/>This student hasn't answered this question yet.<br/><br/>
+  <div class="ten wide column">
+    <h3><%= @batch.title %></h3>
+    <h3><%= @student.name %></h3>
+    <% if @student.user.avatar.present? %>
+      <%= image_tag @student.user.avatar_url, class: "ui medium rounded image" %>
+    <% else %>
+      <img src="/pic.jpg " class="ui medium rounded image" ><br/>
+    <% end %>
+    <h4>Assessments</h4>
+    <div class="ui styled accordion">
+      <% @batch.batch_sets.where('kind = ?', "assessment").each do |batch_set| %>
+        <div class="title">
+          <i class="dropdown icon"></i>
+          <%= batch_set.title %>
+        </div>
+        <div class="content">
+          <% if batch_set.questions.where('question_type_id = ?', "1").exists? %>
+            <p><b>MCQ</b></p>
+            <% batch_set.questions.where('question_type_id = ?', "1").each do |question| %>
+              <div class="ui message">
+                <p class="transition hidden">
+                  <div class="header">
+                    <%= question.formatted_statement %><br/>
+                  </div>
+                  <% if question.answers.where("user_id = ?", @student.user.id).exists? %>
+                    <%= question.answers.find_by(user_id: @student.user.id).formatted_statement %>
+                    <% if question.options.find_by(is_answer: true).statement.html_safe == question.answers.find_by(user_id: @student.user.id).statement.html_safe %>
+                      <i class="checkmark icon"></i><font color="green"><%= "Correct answer" %></font>
+                    <% else %>
+                      <i class="remove icon"></i><font color="red"><%= "Wrong answer" %></font><br/>
+                      <font color="green"><%= question.options.find_by(is_answer: true).statement.html_safe %></font><%= " is the correct answer" %><br/>
+                    <% end %>
+                  <% else %>
+                    <br/>This student hasn't answered this question yet.<br/><br/>
+                  <% end %>
+                </p>
+              </div>
             <% end %>
-          </p>
-        <% end %>
-      <% end %>
-      <% if batch_set.questions.where('question_type_id = ?', "2").exists? %>
-        <p><b>TEXT</b></p>
-        <% batch_set.questions.where('question_type_id = ?', "2").each do |question| %>
-          <p class="transition hidden">
-            <%= question.formatted_statement %>
-            <% if question.answers.where("user_id = ?", @student.user.id).exists? %>
-              <%= question.answers.find_by(user_id: @student.user.id).formatted_statement %>
-              <% question.answers.find_by(user_id: @student.user.id).comments.each do |comment| %>
-                <b><%= "Feedback: " %></b>
-                <%= comment.try(:statement) %>
-              <% end %><br/><br/>
-            <% else %>
-              This student hasn't answered this question yet.<br/><br/>
+            <div class="ui divider"></div>
+          <% end %>
+          <% if batch_set.questions.where('question_type_id = ?', "2").exists? %>
+            <p><b>TEXT</b></p>
+            <% batch_set.questions.where('question_type_id = ?', "2").each do |question| %>
+              <div class="ui message">
+                <p class="transition hidden">
+                  <div class="header">
+                    <%= question.formatted_statement %>
+                  </div>
+                  <% if question.answers.where("user_id = ?", @student.user.id).exists? %>
+                    <%= question.answers.find_by(user_id: @student.user.id).formatted_statement %>
+                    <% question.answers.find_by(user_id: @student.user.id).comments.each do |comment| %>
+                      <b><%= "Feedback: " %></b>
+                      <%= comment.try(:statement) %>
+                    <% end %><br/><br/>
+                  <% else %>
+                    This student hasn't answered this question yet.<br/><br/>
+                  <% end %>
+                </p>
+              </div>
             <% end %>
-          </p>
-        <% end %>
-      <% end %>
-    </div>
-  <% end %>
-</div>
-
-<br/><br/>
-
-<h4>Assignments</h4>
-
-
-<div class="ui styled accordion">
-  <% @batch.batch_sets.where('kind = ?', "assignment").each do |batch_set| %>
-    <div class="title">
-      <i class="dropdown icon"></i>
-      <%= batch_set.title %>
-    </div>
-    <div class="content">
-      <% batch_set.questions.each do |question| %>
-        <div class="accordion transition visible" style="display: block !important;">
-          <div class="title">
-              <i class="dropdown icon"></i>
-              <%= question.formatted_statement %>
-          </div>
-          <div class="content">
-            <p class="transition visible" style="display: block !important;">
-              <%= question.answers.find_by(user_id: @student.user.id).try(:formatted_statement) %>
-            </p>
-          </div>
+          <% end %>
         </div>
       <% end %>
     </div>
-  <% end %>
-</div>
 
-<br/><br/>
+    <br/><br/>
+
+    <h4>Assignments</h4>
+
+
+    <div class="ui styled accordion">
+      <% @batch.batch_sets.where('kind = ?', "assignment").each do |batch_set| %>
+        <div class="title">
+          <i class="dropdown icon"></i>
+          <%= batch_set.title %>
+        </div>
+        <div class="content">
+          <% batch_set.questions.each do |question| %>
+            <div class="accordion transition visible" style="display: block !important;">
+              <div class="title">
+                  <i class="dropdown icon"></i>
+                  <%= question.formatted_statement %>
+              </div>
+              <div class="content">
+                <p class="transition visible" style="display: block !important;">
+                  <%= question.answers.find_by(user_id: @student.user.id).try(:formatted_statement) %>
+                </p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <br/><br/>
+  </div>
+
+  <div class="six wide column">
+    <table class="ui very basic collapsing celled table">
+      <thead>
+        <tr><th>Class</th>
+        <th>Correct</th>
+        <th>Partially Correct</th>
+        <th>Wrong</th>
+      </tr></thead>
+      <tbody>
+        <% @batch.batch_sets.each do |batch_set| %>
+          <tr>
+            <td>
+              <%= batch_set.title %>
+            </td>
+            <td>
+              <%= batch_set.answers.where("is_correct = ? AND user_id = ?", "correct", @student.user.id).count %>
+            </td>
+            <td>
+              <%= batch_set.answers.where("is_correct = ? AND user_id = ?", "partially_correct", @student.user.id).count %>
+            </td>
+            <td>
+              <%= batch_set.answers.where("is_correct = ? AND user_id = ?", "wrong", @student.user.id).count %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+</div>

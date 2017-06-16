@@ -2,8 +2,9 @@
 
 <h1>Listing Students</h1>
 <h3>Students count: <%= @students.count %></h3>
+<%= link_to 'New Student', new_student_path, class: "ui primary button" %><br/><br/>
 
-<table class="ui celled padded table">
+<table class="ui celled padded table dataTable">
   <thead>
     <tr>
       <th>Name</th>
@@ -27,4 +28,3 @@
 
 <br>
 
-<%= link_to 'New Student', new_student_path, class: "ui primary button" %>

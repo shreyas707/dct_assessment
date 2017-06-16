@@ -4,3 +4,48 @@
     float: left;
     margin-right: 10px
 }
+
+a.ui.orange.button.or-space {
+    margin: 5px;
+}
+
+/*.ui.avatar.image {
+
+	margin-right: 0em !important; 
+    display: inline-block;
+    width: 0em !important; 
+    height: 0em !important; 
+    border-radius: 500rem;
+}
+
+.ui.avatar.image {
+    margin: 20px 15px 20px 15px;
+}
+
+.ui.avatar.image img {
+    margin: 0 auto;
+    display: block;
+}*/
+
+.ui.avatar.image {
+    margin: 15px 25px;
+}
+
+.ui.avatar.image img {
+    display: block;
+    margin: 0 auto;
+}
+
+.ui.avatar.image a {
+    /*display: block;
+    margin: 0 auto;*/
+}
+
+
+.ui.avatar.image img {
+    margin-right: 0em;
+    display: inline-block;
+     width: 0em !important;  
+     height: 0em !important; 
+    border-radius: 0rem !important;
+}

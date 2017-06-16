@@ -1,8 +1,9 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Listing Courses</h1>
+<%= link_to 'New Course', new_course_path, class: "ui primary button" %><br/><br/>
 
-<table class="ui celled padded table">
+<table class="ui celled padded table dataTable">
   <thead>
     <tr>
       <th>Name</th>
@@ -20,6 +21,5 @@
   </tbody>
 </table>
 
-<br>
+<br><br>
 
-<%= link_to 'New Course', new_course_path, class: "ui primary button" %>

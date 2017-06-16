@@ -1,9 +1,19 @@
 <p id="notice"><%= notice %></p>
 
 <% if current_user.is_admin? %>
+
+  <div class="ui grid">
+    <div class="two wide column">
+      <%= link_to 'New Batch', new_batch_path, class: "ui primary button" %>
+    </div>
+    <div class="two wide column">
+      <%= link_to 'Add Event', new_event_path, class: "ui primary button" %>
+    </div>
+  </div>
+
   <h3>On Going Batches</h3>
 
-  <table class="ui celled padded table">
+  <table class="ui celled padded table dataTable">
     <thead>
       <tr>
         <th>Title</th>
@@ -29,7 +39,7 @@
 
   <h3>Completed Batches</h3>
 
-  <table class="ui celled padded table">
+  <table class="ui celled padded table dataTable">
     <thead>
       <tr>
         <th>Title</th>
@@ -37,10 +47,6 @@
         <th>End date</th>
         <th>Course</th>
         <th>Show</th>
-        <% if current_user.is_admin? %>
-          <th>Edit</th>
-          <th>Destroy</th>
-        <% end %>
       </tr>
     </thead>
 
@@ -51,22 +57,13 @@
           <td><%= batch.start_date %></td>
           <td><%= batch.end_date %></td>
           <td><%= batch.course.name %></td>
-          <% if user_signed_in? %>
-            <td><%= link_to 'Show', batch %></td>
-          <% end %>
-          <% if current_user.try(:is_admin?) %>
-          <td><%= link_to 'Edit', edit_batch_path(batch) %></td>
-          <td><%= link_to 'Destroy', batch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          <% end %>
+          <td><%= link_to 'Show', batch %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 
-  <br/>
-
-  <%= link_to 'New Batch', new_batch_path, class: "ui primary button" %><br/><br/>
-  <%= link_to 'Add Event', new_event_path, class: "ui primary button" %>
+  <br/><br/>
 
 <% else %>
   

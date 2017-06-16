@@ -8,9 +8,10 @@
     <% if @user.avatar.present? %>
       <%= image_tag @user.avatar_url, class: "ui medium rounded image" %>
     <% else %>
-      <img src="/pic.jpg " class="ui medium rounded image" ><br/>
+      <img src="/pic.jpg " class="ui medium rounded image" >
     <% end %>
-  </div>
+  </div><br/>
+
   <div class="field">
     <b>Change Avatar:</b> 
     <%= f.file_field :avatar %><br/><br/>
@@ -23,7 +24,17 @@
 
   <div class="field">
     <b><%= f.label :email %></b><br />
-    <div class="ui input"><%= f.email_field :email, autofocus: true %></div>
+    <div class="ui input"><%= f.email_field :email %></div>
+  </div>
+
+  <div class="field">
+    <b><%= f.label :mobile %></b><br />
+    <div class="ui input"><%= f.text_field :mobile %></div>
+  </div>
+
+  <div class="field">
+    <b><%= f.label :dob %></b><br />
+    <div class="ui input"><%= f.text_field :dob, class: "date" %></div>
   </div>
   <br/>
 
@@ -45,7 +56,7 @@
   </div>
   <br/>
   <div class="field">
-    <b><%= f.label :current_password %></b> <i>(we need your current password to confirm your changes)</i><br />
+    <b><%= f.label :current_password %></b> <i>(we need your current password to confirm your <b>new password</b> changes)</i><br />
     <div class="ui input"><%= f.password_field :current_password, autocomplete: "off" %></div>
   </div><br/>
 
