@@ -61,6 +61,10 @@
 	  <%= f.fields_for :question_sets, @question_set do |question_set| %>
 	  	<div class="ui divider"></div>
 	    <h3>Question Set</h3>
+
+	    <h4>Select Difficulty Level</h4>
+    	<%= question_set.select :difficulty_level, QuestionSet.difficulty, {prompt: "Select Difficulty"}, {class: "ui search dropdown"} %><br/><br/>
+
 	    <%= question_set.fields_for :question_set_chapter_topics, @question_set_chapter_topic do |question_set_chapter_topic| %>
 
 	    <h4>Select Topic and Chapter</h4>
@@ -75,32 +79,49 @@
 	    <h4>Select Questions and Users</h4>
 	    <b>Select Users</b><br/><br/>
 	    	<%= question_set.collection_select :user_ids, @batch_users, :id, :name, {prompt: "Select Users"}, {class: "ui fluid search dropdown", multiple: ""} %><br/>
-	    <b>Select Questions</b><br/>
+	    <b>Select Questions</b><br/><br/>
 
-		<table class="ui celled padded table">
-			<thead>
-				<tr>
-					<th>Yet To Be Asked</th>
-					<th>Already Asked</th>
-				</tr>	
-			</thead>
-			<tbody>
-				<tr>
-					<td>
-			    		<%= question_set.collection_check_boxes :question_ids, @questions["yet_to_be_asked_questions"][question_set.object.id].to_a, :id, :formatted_statement do |f| %>
-					    	<%= f.check_box %>
-					    	<%= f.label %><br/>
-					    <% end %>
-					</td>
-					<td>
-						<%= question_set.collection_check_boxes :question_ids, @questions["asked_questions"][question_set.object.id].to_a, :id, :formatted_statement do |f| %>
-					    	<%= f.check_box %>
-					    	<%= f.label %><br/>
-					    <% end %>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+	    <div class="ui grid">
+	    	<div class="eight wide column">
+				<table class="ui celled padded table dataTable">
+					<thead>
+						<tr>
+							<th>Yet To Be Asked</th>
+						</tr>	
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+					    		<%= question_set.collection_check_boxes :question_ids, @questions["yet_to_be_asked_questions"][question_set.object.id].to_a, :id, :formatted_statement do |f| %>
+							    	<%= f.check_box %>
+							    	<%= f.label %><br/>
+							    <% end %>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="eight wide column">
+				<table class="ui celled padded table dataTable">
+					<thead>
+						<tr>
+							<th>Already Asked</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<%= question_set.collection_check_boxes :question_ids, @questions["asked_questions"][question_set.object.id].to_a, :id, :formatted_statement do |f| %>
+							    	<%= f.check_box %>
+							    	<%= f.label %><br/>
+							    <% end %>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	    
 	    <%= question_set.link_to_remove "Delete Question Set" %><br/><br/>
 	  <% end %>

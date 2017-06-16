@@ -50,7 +50,7 @@ class BatchSetsController < ApplicationController
       @questions["asked_questions"][question_set.id] = []
       @questions["yet_to_be_asked_questions"][question_set.id] = []
       @question_set_chapter_topics.where(question_set_id: question_set.id).each do |qsct|
-        Question.where(kind: @batch_set.kind, chapter_id: qsct.chapter_id, topic_id: qsct.topic_id).each do |question|
+        Question.where(kind: @batch_set.kind, chapter_id: qsct.chapter_id, topic_id: qsct.topic_id, difficulty_level: question_set.difficulty_level).each do |question|
           @questions["all_questions"][question_set.id] += [question]
           if question_set.question_ids.include?(question.id)
             @questions["asked_questions"][question_set.id].push(question) 
@@ -147,6 +147,6 @@ class BatchSetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def batch_set_params
-      params.require(:batch_set).permit(:title, :kind, :set_date, :batch_id, batch_set_chapter_topics_attributes: [:id, :batch_id, :chapter_id, :topic_id, :_destroy], answers_attributes:[:id, :question_id, :batch_set_id, :user_id, :statement], due_date_lists_attributes: [:id, :batch_set_id, :due_date_time, :_destroy, user_ids: []], question_sets_attributes: [:id, :batch_set_id, :_destroy, user_ids: [], question_ids: [], question_set_chapter_topics_attributes: [:id, :question_set_id, :chapter_id, :topic_id, :_destroy]], question_ids: [])
+      params.require(:batch_set).permit(:title, :kind, :set_date, :batch_id, batch_set_chapter_topics_attributes: [:id, :batch_id, :chapter_id, :topic_id, :_destroy], answers_attributes:[:id, :question_id, :batch_set_id, :user_id, :statement], due_date_lists_attributes: [:id, :batch_set_id, :due_date_time, :_destroy, user_ids: []], question_sets_attributes: [:id, :batch_set_id, :difficulty_level, :_destroy, user_ids: [], question_ids: [], question_set_chapter_topics_attributes: [:id, :question_set_id, :chapter_id, :topic_id, :_destroy]], question_ids: [])
     end
 end

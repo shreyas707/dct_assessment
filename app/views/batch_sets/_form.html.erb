@@ -57,10 +57,13 @@
   <%= f.fields_for :question_sets, @question_set do |question_set| %>
   <div class="ui divider"></div>
     <h3>New Question Set</h3>
-    <div class="topicChapter">
+
+    <h4>Select Difficulty Level</h4>
+    <%= question_set.select :difficulty_level, QuestionSet.difficulty, {prompt: "Select Difficulty"}, {class: "ui search dropdown"} %><br/><br/>
+
     <%= question_set.fields_for :question_set_chapter_topics, @question_set_chapter_topic do |question_set_chapter_topic| %>
 
-    <h4>Select Topic and Chapter</h4>
+      <h4>Select Topic and Chapter</h4>
       <%#= question_set_chapter_topic.hidden_field :question_set_id, value: @question_set.id %>
       <b>Select Topic</b><br/>
       <%= question_set_chapter_topic.collection_select :topic_id, Topic.all, :id, :name, {prompt: "Select Topic"}, {class: "ui search dropdown"} %><br/>
@@ -69,8 +72,6 @@
       <%= question_set_chapter_topic.link_to_remove "Delete Chapter Topic" %><br/><br/>
     <% end %>
     <%= question_set.link_to_add "Add Chapter Topic", :question_set_chapter_topics %>
-
-    </div>
     
     <h4>Select Questions and Users</h4>
     <!-- <b>Select Questions</b><br/> -->
