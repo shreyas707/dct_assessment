@@ -130,6 +130,6 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def knowledge_basis_params
-      params.require(:knowledge_base).permit(:title, :body, :is_private, :chapter_id, :topic_id, :published,:links, :user_id)
+      params.require(:knowledge_base).permit(:title, :body, :is_private, :chapter_id, :topic_id, :published,:links, :user_id,:article_code)
     end
 end

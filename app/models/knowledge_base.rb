@@ -1,25 +1,32 @@
 class KnowledgeBase < ActiveRecord::Base
+
 	acts_as_votable
 	belongs_to :user
 	belongs_to :chapter
 	belongs_to :topic
-	before_save :publish_if_admin 
+
+	#validates_uniqueness_of :generate_code
+	
+	before_create :generate_code
 
 	
 
 
 
+=begin
 def publish_knowledge 
  update_column(:published, true) 
 
 end
+=end
 
+=begin
 def publish_if_admin
 if (self.user.is_admin?)
 	self.published = true
 end
 end
-
+=end
 
 
 
@@ -79,10 +86,38 @@ elsif dislikes.length >= 4
 end
 end
 
-def genrate_code
+=begin
+def generate_code
 	
-	self.code ="DCT-#{self.topic.short_name}-#{self.chapter.short_name}-#{SecureRandom.hex(4)}"
+	self.article_code ="DCT-#{self.topic.short_name}-#{self.chapter.short_name}-#{SecureRandom.random_number(1000..9999)}"
+	while self.article_code.valid?
+		self.article_code ="DCT-#{self.topic.short_name}-#{self.chapter.short_name}-#{SecureRandom.random_number(1000..9999)}"
+	end
 
 end
+=end
+
+
+
+def generate_code
+	digits = ""
+	articles = KnowledgeBase.all
+	if articles.empty?
+		digits = "0001"
+	else
+		article = KnowledgeBase.last
+		if article.article_code.nil?
+			digits = "0001"
+		else
+			digits = (article.article_code.split("-").last.to_i + 1).to_s.rjust(4,'0')
+		end
+	end
+
+	self.article_code = loop do
+		code = "DCT-#{self.topic.short_name}-#{self.chapter.short_name}-#{digits}"
+		break code unless KnowledgeBase.exists?(article_code: code)
+	end
+end
+
 
 end

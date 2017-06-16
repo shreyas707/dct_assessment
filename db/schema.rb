@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170615184103) do
+ActiveRecord::Schema.define(version: 20170616111653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,7 +56,6 @@ ActiveRecord::Schema.define(version: 20170615184103) do
     t.datetime "updated_at", null: false
     t.string   "title"
     t.string   "kind"
-    t.datetime "due_date"
   end
 
   create_table "batch_students", force: :cascade do |t|
@@ -133,31 +132,18 @@ ActiveRecord::Schema.define(version: 20170615184103) do
     t.datetime "end_date"
   end
 
-  create_table "holiday_batches", force: :cascade do |t|
-    t.integer  "holiday_id"
-    t.integer  "batch_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "holidays", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.date     "start_date"
-    t.date     "end_date"
-  end
-
   create_table "knowledge_bases", force: :cascade do |t|
     t.string   "title"
     t.text     "body"
-    t.boolean  "is_private", default: false
+    t.boolean  "is_private",   default: false
     t.integer  "chapter_id"
     t.integer  "topic_id"
-    t.boolean  "published",  default: false
+    t.boolean  "published",    default: false
     t.integer  "user_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.string   "links"
+    t.string   "article_code"
   end
 
   create_table "options", force: :cascade do |t|
