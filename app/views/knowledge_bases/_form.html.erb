@@ -34,10 +34,15 @@
     <%= f.label :links %><br>
     <div class="ui input"><%= f.text_field :links %></div><br/><br/>
   </div>
-  <%# if current_user.is_admin? %>
-    <%# f.hidden_field :published, value: true %>
-  <%# end %>
- 
+  <% if current_user.is_admin? %>
+
+  <div class="field">
+  <%= f.label :publish %><br/>
+  <%= f.radio_button :published, true %> Yes<br/>
+  <%= f.radio_button :published, false %> No<br/>
+    
+  <% end %>
+ </div><br/>
   <div class="actions">
     <%= f.submit class: "ui primary button" %>
   </div><br/>
