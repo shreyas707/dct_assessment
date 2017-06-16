@@ -83,8 +83,8 @@
 
   <%= f.fields_for :solutions do |solution| %>
     <%= "Solution" %><br/>
-    <%= solution.hidden_field :chapter_id, value: @question.chapter.id %>
-    <%= solution.hidden_field :topic_id, value: @question.topic.id %>
+    <%= solution.hidden_field :chapter_id, value: @question.chapter_id %>
+    <%= solution.hidden_field :topic_id, value: @question.topic_id %>
     <%= solution.text_area :body, {class: "textEditor"} %><br/>
     <%= solution.link_to_remove "Remove" %><br/>
   <% end %><br/>
