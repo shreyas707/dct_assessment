@@ -27,7 +27,7 @@
       <td> <%= knowledge.body.truncate(50).html_safe %></td>
       <td> <%= link_to knowledge.topic.name,knowledge_bases_topic_articles_path(:topic_id => knowledge.topic_id) %> </td>
       <td> <%= link_to knowledge.chapter.name,knowledge_bases_chapter_articles_path(:chapter_id => knowledge.chapter_id) %> </td>
-      <td> <%= link_to "Visit Site", "https://#{knowledge.links}", {target: "_blank"} %> </td>
+      <td> <%= link_to "Visit Site", "http://#{knowledge.links}", {target: "_blank"} %> </td>
       
      </tr>
      <%end%>

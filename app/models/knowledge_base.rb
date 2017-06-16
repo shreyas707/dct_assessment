@@ -3,7 +3,7 @@ class KnowledgeBase < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :chapter
 	belongs_to :topic
-	before_save :publish_if_admin 
+	# before_save :publish_if_admin 
 
 	
 
@@ -14,11 +14,13 @@ def publish_knowledge
 
 end
 
+=begin
 def publish_if_admin
 if (self.user.is_admin?)
 	self.published = true
 end
 end
+=end
 
 
 

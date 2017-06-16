@@ -78,7 +78,7 @@
 	    
 	    <h4>Select Questions and Users</h4>
 	    <b>Select Users</b><br/><br/>
-	    	<%= question_set.collection_select :user_ids, @batch_users, :id, :name, {prompt: "Select Users"}, {class: "ui fluid search dropdown", multiple: ""} %><br/>
+	    	<%= question_set.collection_select :user_ids, @batch_users, :id, :name_with_difficulty_level, {prompt: "Select Users"}, {class: "ui fluid search dropdown", multiple: ""} %><br/>
 	    <b>Select Questions</b><br/><br/>
 
 	    <div class="ui grid">
@@ -86,18 +86,22 @@
 				<table class="ui celled padded table dataTable">
 					<thead>
 						<tr>
+							<th>Select</th>
 							<th>Yet To Be Asked</th>
 						</tr>	
 					</thead>
 					<tbody>
-						<tr>
-							<td>
+						
 					    		<%= question_set.collection_check_boxes :question_ids, @questions["yet_to_be_asked_questions"][question_set.object.id].to_a, :id, :formatted_statement do |f| %>
-							    	<%= f.check_box %>
+					    		<tr>
+					    		<td><%= f.check_box %></td>
+									<td>
+							    	
 							    	<%= f.label %><br/>
-							    <% end %>
-							</td>
+							    	</td>
 						</tr>
+							    <% end %>
+							
 					</tbody>
 				</table>
 			</div>
@@ -106,18 +110,22 @@
 				<table class="ui celled padded table dataTable">
 					<thead>
 						<tr>
+							<th> Select </th>
 							<th>Already Asked</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>
+
 								<%= question_set.collection_check_boxes :question_ids, @questions["asked_questions"][question_set.object.id].to_a, :id, :formatted_statement do |f| %>
-							    	<%= f.check_box %>
+														<tr>
+														<td><%= f.check_box %></td>
+							<td>
+							    	
 							    	<%= f.label %><br/>
-							    <% end %>
 							</td>
 						</tr>
+							    <% end %>
+							
 					</tbody>
 				</table>
 			</div>
@@ -132,7 +140,7 @@
 	  <%= f.fields_for :due_date_lists, @due_date_list do |due_date_list| %>
 	    <%= due_date_list.hidden_field :batch_set_id, value: @batch_set.id %>
 	    <b>Select Date and Time</b><br/>
-	    <%= due_date_list.datetime_select :due_date_time %><br/>
+	    <div class="ui input"><%= due_date_list.text_field :due_date_time, {class: "datetimepicker"} %></div><br/>
 	    <b>Add Users</b>
 	    <%= due_date_list.collection_select :user_ids, @batch_users, :id, :name, {prompt: "Select User"}, {class: "ui fluid search dropdown", multiple: ""} %>
 	    <%= due_date_list.link_to_remove "Delete Due Date List" %><br/><br/>

@@ -18,7 +18,7 @@ class Question < ActiveRecord::Base
 	has_many :batch_sets , through: :batch_set_questions
 
 	validates_presence_of :statement, :chapter_id, :topic_id, :question_type_id, :kind
-	validates_uniqueness_of :code
+	validates_uniqueness_of :code, :title
 	
 	before_validation :question_code
 	after_create :correct_answer_option
