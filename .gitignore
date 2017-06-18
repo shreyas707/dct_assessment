@@ -16,6 +16,6 @@
 !/log/.keep
 /tmp
 
-dct_assessment/config/initializers/setup_mailer.rb #because it has id pass
-dct_assessment/config/cloudinary.yml #because it has api key
-dct_assessment/config/database.yml
+/config/initializers/setup_mailer.rb #because it has id pass
+/config/cloudinary.yml #because it has api key
+/config/database.yml
