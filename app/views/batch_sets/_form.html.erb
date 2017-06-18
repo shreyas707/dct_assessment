@@ -87,7 +87,7 @@
   <%= f.fields_for :due_date_lists, @due_date_list do |due_date_list| %>
     <%= due_date_list.hidden_field :batch_set_id, value: @batch_set.id %>
     <b>Select Date and Time</b><br/>
-    <%= due_date_list.datetime_select :due_date_time %><br/>
+    <div class="ui input"><%= due_date_list.text_field :due_date_time, {class: "datetimepicker"} %></div><br/>
     <b>Add Users</b>
     <%= due_date_list.collection_select :user_ids, @batch_users, :id, :name_with_difficulty_level, {prompt: "Select User"}, {class: "ui fluid search dropdown", multiple: ""} %>
     <%= due_date_list.link_to_remove "Delete Due Date List" %><br/><br/>

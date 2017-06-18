@@ -9,8 +9,14 @@
 
 
     <!-- DATA TABLES -->
-    <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-    <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
+<!--     <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet"> -->
+    <script src="http://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="http://cdn.datatables.net/1.10.15/js/dataTables.semanticui.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.semanticui.min.css">
     <script>
       $(document).ready(function(){
         $('.dataTable').DataTable();
@@ -28,6 +34,12 @@
           changeMonth: true,
           changeYear: true,
           minDate: 0
+        });
+        $(".full_date").datepicker({
+          dateFormat: 'yy-mm-dd',
+          changeMonth: true,
+          changeYear: true,
+          yearRange: "1970:Date.today"
         });
       });
     </script>
@@ -129,12 +141,16 @@
 
       <%= yield %>
 
-    </body>
+      <div class="ui divider"></div>
+      <footer>
+        <font color="grey">Copyright © 2017 DCT Academy</font>
+        <div align="center">
+          <a class="ui basic label" href="https://www.linkedin.com/in/shreyas707/" target="_blank">Designed and Maintained by Shreyas S</a><br/>
+          <i class="mail icon"></i>Please email the bugs to <u>hello@shreyas.im</u>
+        </div>
+      </footer><br/><br/>
 
-    <div class="ui grid">
-      <div class = "twelve wide column"></div>
-      <div class="four wide column"><a class="ui basic label" href="mailto:hello@shreyas.im"><font color="grey">Please email the bugs to <u>hello@shreyas.im</u></font></a></div>
-    </div>
+    </body>
 
   </div>
 
