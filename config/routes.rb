@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  namespace :api do
+    namespace :v1 do
+      resources :batches
+    end
+  end
+
   resources :solutions
   get 'batches/student'
   get 'batch_sets/select_chapters'
