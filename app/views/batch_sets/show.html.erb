@@ -18,20 +18,6 @@
 
         <p><strong>Kind:</strong>
         <%= @batch_set.kind %></p>
-
-        <% if @batch_set.due_date_lists.exists? %>
-          <p>
-            <strong>Due Dates:</strong><br/>
-            <% @batch_set.due_date_lists.each do |due_date_list| %>
-              <strong>Due Date:</strong>
-              <%= due_date_list.due_date_time_field %><br/>
-              <strong>Students:</strong>
-              <% due_date_list.user_ids.each do |user| %>
-                <%= User.find_by(id: user).try(:name) %>
-              <% end %><br/><br/>
-            <% end %>
-          </p>
-        <% end %>
       
         <p>
           <strong>Question Sets:</strong><br/>
@@ -80,6 +66,32 @@
             <%#= "Nobody has answered the questions yet." %>
           <%# end %>
         </p> -->
+
+        <% if @batch_set.due_date_lists.exists? %>
+            <p>
+              <strong>Due Dates:</strong><br/>
+              <% @batch_set.due_date_lists.each do |due_date_list| %>
+                <strong>Due Date:</strong>
+                <%= due_date_list.due_date_time_field %><br/>
+                <strong>Students:</strong>
+                <% due_date_list.user_ids.each do |user| %>
+                  <%= User.find_by(id: user).try(:name) %>
+                <% end %><br/><br/>
+              <% end %>
+            </p>
+        <% end %>
+
+      <% else %>
+
+        <% if @batch_set.due_date_lists.exists? %>
+          <p>
+            <strong>Due Date:</strong>
+            <% @batch_set.due_date_lists.each do |due_date_list| %>
+              <%= due_date_list.due_date_time_field if due_date_list.user_ids.include?(current_user.id) %>
+            <% end %>
+          </p>
+        <% end %>
+
       <% end %>
 
       <%= link_to 'Back', @batch, class: "ui black button" %><br/><br/>

@@ -52,7 +52,11 @@
   <tbody>
     <% @questions.where('kind = ?', "assignment").each do |question| %>
       <tr>
-        <td><%= question.statement.html_safe %></td>
+        <td>
+          <h3><%= question.try(:code) %></h3>  
+          <h3><%= question.try(:title) %></h3>
+          <%= question.statement.html_safe %>
+        </td>
         <td><%= question.try(:difficulty_level) %></td>        
         <td><%= question.chapter.name %></td>
         <td><%= question.topic.try(:name) %></td>
