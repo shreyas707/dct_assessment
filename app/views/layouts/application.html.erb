@@ -19,9 +19,10 @@
     <link href="https://cdn.datatables.net/1.10.15/css/dataTables.semanticui.min.css"> -->
     <script>
       $(document).ready(function(){
-        $('.dataTable').DataTable({           // $('.dataTableTable') == document.getElementById('dataTableTable');
+        $('.customDataTable').DataTable({           // $('.dataTableTable') == document.getElementById('dataTableTable');
           "dom": '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>'
         });
+        $('.dataTable').DataTable();
       });
     </script>
     
