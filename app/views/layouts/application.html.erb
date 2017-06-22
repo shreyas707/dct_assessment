@@ -9,18 +9,19 @@
 
 
     <!-- DATA TABLES -->
-<!--     <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-    <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet"> -->
-    <script src="http://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
+<!--     <script src="http://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
     <script src="http://cdn.datatables.net/1.10.15/js/dataTables.semanticui.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.semanticui.min.css">
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.semanticui.min.css"> -->
     <script>
       $(document).ready(function(){
-        $('.dataTable').DataTable();
-        //$('.dataTableTable') == document.getElementById('dataTableTable');
+        $('.dataTable').DataTable({           // $('.dataTableTable') == document.getElementById('dataTableTable');
+          "dom": '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>'
+        });
       });
     </script>
     
