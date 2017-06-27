@@ -38,6 +38,51 @@
         </p>
 
         <p>
+          <strong>Questions asked in this batch: </strong><br/>
+          <div class="ui accordion">
+            <div class="title">
+              <i class="dropdown icon"></i>
+              Questions
+            </div>
+            <div class="content">
+              <p class="transition hidden">
+                <table class="ui celled padded table dataTable">
+                  <thead>
+                    <tr>
+                      <th>Statement</th>
+                      <th>Difficulty</th>
+                      <th>Chapter</th>
+                      <th>Topic</th>
+                      <th>Kind</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @batch_questions.each do |question| %>
+                      <tr>
+                        <td>
+                          <% if question.kind == "assessment" || question.kind == nil %>
+                            <%= link_to truncate(question.formatted_statement, length: 55, escape: false), question_path(question) %>
+                          <% else %>
+                            <%  %>
+                            <%= question.try(:code) %><br/>
+                            <%= question.try(:title) %><br/>
+                            <%= link_to truncate(question.formatted_statement, length: 55, escape: false), question_path(question) %>
+                          <% end %>
+                        </td>
+                        <td><%= question.try(:difficulty_level) %></td>
+                        <td><%= question.chapter.name %></td>
+                        <td><%= question.topic.name %></td>
+                        <td><%= question.kind %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </p>
+            </div>
+          </div>
+        </p>
+
+        <p>
           <strong>List of students in this batch: </strong><br/>
           <% @batch_students.each do |student| %>
             <% if student.user.avatar.present? %>

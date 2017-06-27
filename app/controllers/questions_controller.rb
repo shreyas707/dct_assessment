@@ -13,6 +13,7 @@ class QuestionsController < ApplicationController
   # GET /questions/1.json
   def show
     @options = @question.options
+    @question_sets = QuestionSet.all.includes(:batch_set)
   end
 
   # GET /questions/new

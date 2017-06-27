@@ -2,7 +2,7 @@
 <html>
   <head>
 
-    <title><%= controller.controller_name.capitalize %> - <%= controller.action_name.capitalize %></title>
+    <title><%= controller.controller_name.split("_").map(&:capitalize).join(" ") %> - <%= controller.action_name.capitalize %></title>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>

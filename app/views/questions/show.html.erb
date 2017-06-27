@@ -50,6 +50,15 @@
   <% end %>
 
   <p>
+    <strong>Batches in which this question was asked: </strong><br/>
+    <% @question_sets.each do |question_set| %>
+      <% if question_set.question_ids.include?(@question.id) %>
+        <%= question_set.batch_set.batch.title %>
+      <% end %>
+    <% end %>
+  </p>
+
+  <p>
     <strong>Solutions:</strong><br/><br/>
     <% @question.solutions.each_with_index do |solution, index| %>
       <b><%= "Solution" %> <%= index + 1 %></b><br/>

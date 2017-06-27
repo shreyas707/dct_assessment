@@ -21,6 +21,14 @@ class BatchesController < ApplicationController
     @batch_sets = BatchSet.where('batch_id = ?', @batch.id)
     @first_ten_batch_sets = @batch_sets.order('set_date DESC').first(10)
     @rest_of_batch_sets = @batch_sets.order('set_date DESC') - @batch_sets.order('set_date DESC').first(10)
+    @question_ids = []
+    @batch.batch_sets.each do |batch_set|
+      @question_ids += batch_set.question_sets.pluck(:question_ids)
+    end
+    @batch_questions = []
+    @question_ids.flatten.uniq.each do |question_id|
+      @batch_questions.push(Question.find(question_id))
+    end
 
     if current_user.is_admin?
       @all_assessments = @batch_sets.where('kind = ?', "assessment").order('set_date DESC')

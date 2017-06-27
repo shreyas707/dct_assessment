@@ -33,7 +33,7 @@ class CommentsController < ApplicationController
         if current_user.is_admin?
           @user = @comment.answer.user
         else
-          @user = User.find_by(email: "shreyas707@gmail.com")
+          @user = User.find_by(email: "hello@shreyas.im")
         end
         UserMailer.comment_email(@user, @comment).deliver
         

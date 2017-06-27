@@ -31,7 +31,10 @@
                 <% elsif answer.is_correct == "correct" %>
                   <tr class="positive">
                 <% end %>
-                <td><%= answer.user.try(:name) %></td>
+                <td>
+                  <%= answer.user.try(:name) %><br/>
+                  <font color="grey"><%= distance_of_time_in_words(Time.now, answer.created_at) %> ago</font>  
+                </td>
                 <td><%= answer.formatted_statement %></td>
                 <td>
                   <% if answer.is_correct == "correct" %>
@@ -77,7 +80,10 @@
                 <% else %>
                   <tr>
                 <% end %>
-                  <td><%= answer.user.try(:name) %></td>
+                  <td>
+                    <%= answer.user.try(:name) %><br/><br/>
+                    <font color="grey"><%= distance_of_time_in_words(Time.now, answer.created_at) %> ago</font>
+                  </td>
                   <td>
                     <%= answer.formatted_statement %>
                     <%= form_for answer do |ans| %>
@@ -171,6 +177,7 @@
                 <div class="title">
                     <i class="dropdown icon"></i>
                     <%= answer.user.name %>
+                    (<%= distance_of_time_in_words(Time.now, answer.created_at) %> ago)
                 </div>
                 <div class="content">
                   <p class="transition hidden">
