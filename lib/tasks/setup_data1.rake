@@ -1,14 +1,14 @@
 task :setup_data1 => :environment do 
 
-	Student.all.each do |student|
-		student.difficulty_level = "easy"
-		student.save
-	end
+	# Student.all.each do |student|
+	# 	student.difficulty_level = "easy"
+	# 	student.save
+	# end
 
-	Question.all.where(kind: "assessment").each do |question|
-		question.difficulty_level = "easy"
-		question.save
-	end
+	# Question.all.where(kind: "assessment").each do |question|
+	# 	question.difficulty_level = "easy"
+	# 	question.save
+	# end
 
 
 	# Student.all.each do |student|
@@ -35,14 +35,15 @@ task :setup_data1 => :environment do
 	# 	end
 	# end
 
-	# Answer.all.each do |answer|
-	# 	if answer.question.question_type == "MCQ"
-	# 		if answer.statement == Option.find(answer.question.answer_option_id).statement
-	# 			answer.is_correct = "correct"
-	# 		else
-	# 			answer.is_correct = "wrong"
-	# 		end
-	# 	end
-	# end
+	Answer.all.each do |answer|
+		if answer.question.question_type.name == "MCQ"
+			if answer.statement == Option.find(answer.question.answer_option_id).statement
+				answer.is_correct = "correct"
+			else
+				answer.is_correct = "wrong"
+			end
+		end
+		answer.save
+	end
 
 end

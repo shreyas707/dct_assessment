@@ -19,6 +19,7 @@
               <%= question.formatted_statement %><br/>
               <% answer = Question.find(question_id).answers.find_by('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id) %>
               <%= answer.formatted_statement %>
+              <% answer.question.id %>
               <% if answer.question.question_type.name == "MCQ" %>
                 <% if answer.is_correct == "correct" %>
                   <i class="checkmark icon"></i><font color="green"><%= "Correct answer" %></font>
