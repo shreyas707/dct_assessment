@@ -47,13 +47,13 @@ class Question < ActiveRecord::Base
 		# # binding.pry
 	end
 
-	def add_question_ids_to_tag
-		self.tag_ids.compact.each do |tag_id| 
-			Tag.find(tag_id).question_ids.push(self.id)
-			binding.pry
-		end
-		binding.pry
-	end
+	# def add_question_ids_to_tag
+	# 	self.tag_ids.compact.each do |tag_id| 
+	# 		Tag.find(tag_id).question_ids.push(self.id)
+	# 		binding.pry
+	# 	end
+	# 	binding.pry
+	# end
 
 	def correct_answer_option
 	  if self.question_type_id == 1
