@@ -1,6 +1,6 @@
-<h2> Published Articles</h2>
 <% if current_user.is_admin? %>
-  <%= link_to "Add Article", new_knowledge_basis_path, class: "ui primary button" %><br/><br/>
+  <%= link_to "Add Article", new_knowledge_basis_path, class: "ui primary button" %><br/>
+  <h2>Published Articles</h2>
 
   <% if @knowledge_published.empty? %>
     <p>No articles found.</p>
@@ -10,7 +10,6 @@
         <tr>
           <th>Sl no</th>
           <th>Title</th>
-          <th>Body</th>
           <th>Topic</th>
           <th>Chapter</th>
           <th>Link</th>
@@ -25,7 +24,6 @@
           <tr>
             <td> <%= index + 1 %></td>
             <td> <%= link_to knowledge.title,knowledge_basis_path(knowledge) %></td>
-            <td> <%= knowledge.body.truncate(50).html_safe %></td>
             <td> <%= link_to knowledge.topic.name,knowledge_bases_topic_articles_path(:topic_id => knowledge.topic_id) %> </td>
             <td> <%= link_to knowledge.chapter.name,knowledge_bases_chapter_articles_path(:chapter_id => knowledge.chapter_id) %> </td>
             <td> <%= link_to "Visit Site", "http://#{knowledge.links}", {target: "_blank"} %> </td>
@@ -43,7 +41,6 @@
 
   <h2> Unpublished Article </h2>
 
-
   <% if @knowledge_unpublished.empty? %>
     <p>no knowledges found </p>
   <% else %>
@@ -51,9 +48,8 @@
     <table class = "ui celled padded table dataTable">
       <thead>
         <tr>
-          <th> Sl no</th>
+          <th>Sl no</th>
           <th>Title</th>
-          <th>Body</th>
           <th>Topic</th>
           <th>Chapter</th>
           <th>Link</th>
@@ -65,15 +61,16 @@
         <% @knowledge_unpublished.each_with_index do |knowledge, index| %>
           <tr>
             <td> <%= index + 1 %></td>
-            <td> <%= link_to knowledge.title,knowledge_basis_path(knowledge) %></td>
-            <td> <%= knowledge.body.truncate(50).html_safe %></td>
-            <td> <%= link_to knowledge.topic.name,knowledge_bases_topic_articles_path(:topic_id => knowledge.topic_id) %> </td>
-            <td> <%= link_to knowledge.chapter.name,knowledge_bases_chapter_articles_path(:chapter_id => knowledge.chapter_id) %> </td>
-            <td> <%= link_to "Visit Site", "http://#{knowledge.links}", {target: "_blank"}%> </td>
-            <td> <%= form_for knowledge do |f| %>
-                  <%= f.hidden_field :published, value: true %>
-                  <%= f.submit "publish", class: "ui primary button" %>
-                 <% end %> </td>
+            <td> <%= link_to knowledge.title, knowledge_basis_path(knowledge) %></td>
+            <td> <%= link_to knowledge.topic.name, knowledge_bases_topic_articles_path(:topic_id => knowledge.topic_id) %></td>
+            <td> <%= link_to knowledge.chapter.name, knowledge_bases_chapter_articles_path(:chapter_id => knowledge.chapter_id) %></td>
+            <td> <%= link_to "Visit Site", "http://#{knowledge.links}", {target: "_blank"} %></td>
+            <td> 
+              <%= form_for knowledge do |f| %>
+                <%= f.hidden_field :published, value: true %>
+                <%= f.submit "publish", class: "ui primary button" %>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>
@@ -82,7 +79,8 @@
   <% end %>
 
 <% elsif current_user.role == "student" %>
-
+  
+  <h2> Published Articles</h2>
   <% if @user_knowledge.empty? %>
     <p>no knowledges found </p>
     <%= link_to "Add Article", new_knowledge_basis_path %>
@@ -92,7 +90,6 @@
         <tr>
           <th>Sl No</th>
           <th>Title</th>
-          <th>Body</th>
           <th>Topic</th>
           <th>Chapter</th>
           <th>Link</th>
@@ -104,7 +101,6 @@
           <tr>
             <td> <%= index + 1 %></td>
             <td> <%= link_to knowledge.title,knowledge_basis_path(knowledge) %></td>
-            <td> <%= knowledge.body.truncate(50).html_safe %></td>
             <td> <%= link_to knowledge.topic.name,knowledge_bases_topic_articles_path(:topic_id => knowledge.topic_id) %> </td>
             <td> <%= link_to knowledge.chapter.name,knowledge_bases_chapter_articles_path(:chapter_id => knowledge.chapter_id) %> </td>
             <td> <%= link_to "Visit Site", "http://#{knowledge.links}", {target: "_blank"} %> </td>

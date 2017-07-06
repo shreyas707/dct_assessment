@@ -94,6 +94,13 @@ class BatchSetsController < ApplicationController
     @batch = Batch.find(params[:batch_id])
     respond_to do |format|
       if @batch_set.save
+
+        # FOR MAILER
+        @batch_set.batch.students.each do |student|
+          @user = student.user
+          UserMailer.batch_set_email(@user, @batch_set).deliver
+        end
+        
         format.html { redirect_to edit_batch_batch_set_path(@batch, @batch_set), notice: 'Batch set was successfully created.' }
         format.json { render :show, status: :created, location: @batch_set }
       else
@@ -108,13 +115,6 @@ class BatchSetsController < ApplicationController
   def update
     @batch = Batch.find(params[:batch_id])
     respond_to do |format|
-
-      # FOR MAILER
-      @batch_set.batch.students.each do |student|
-        @user = student.user
-        UserMailer.batch_set_email(@user, @batch_set).deliver
-      end
-
       if @batch_set.update(batch_set_params)
         if current_user.try(:is_admin?)
           format.html { redirect_to batch_batch_set_path(@batch, @batch_set), notice: 'Batch set was successfully updated.' }

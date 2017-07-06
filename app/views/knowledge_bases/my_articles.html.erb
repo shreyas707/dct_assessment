@@ -10,7 +10,6 @@
       <tr>
      <th> Sl no</th>
      <th>Title</th>
-     <th>Body</th>
      <th> Topic</th>
      <th> Chapter</th>
      <th> Link</th>
@@ -23,7 +22,6 @@
   <tr>
       <td> <%= index + 1 %></td>
       <td> <%= link_to knowledge.title,knowledge_basis_path(knowledge) %></td>
-      <td> <%= knowledge.body.truncate(50).html_safe %></td>
       <td> <%= link_to knowledge.topic.name,knowledge_bases_topic_articles_path(:topic_id => knowledge.topic_id) %> </td>
       <td> <%= link_to knowledge.chapter.name,knowledge_bases_chapter_articles_path(:chapter_id => knowledge.chapter_id) %> </td>
       <td> <%= link_to "Visit Site", "http://#{knowledge.links}", {target: "_blank"} %> </td>
