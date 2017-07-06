@@ -44,7 +44,7 @@
   <% if @question.question_type.name == "MCQ" %>
     <p><strong>Options</strong>
       <% @options.each do |option| %>
-      	<ul><li><font><%= option.statement.html_safe %></li></ul>
+      	<ul><li><%= option.statement.html_safe %></li></ul>
       <% end %>
     </p>
   <% end %>
@@ -55,6 +55,13 @@
       <% if question_set.question_ids.include?(@question.id) %>
         <%= question_set.batch_set.batch.title %>
       <% end %>
+    <% end %>
+  </p>
+
+  <p>
+    <strong>Tags:</strong>
+    <% @question.tag_ids.each do |tag_id| %>
+      <%= Tag.find(tag_id).name %>,
     <% end %>
   </p>
 

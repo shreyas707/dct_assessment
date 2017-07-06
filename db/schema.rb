@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170616111653) do
+ActiveRecord::Schema.define(version: 20170705133230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -196,14 +196,15 @@ ActiveRecord::Schema.define(version: 20170616111653) do
     t.text     "statement"
     t.integer  "question_type_id"
     t.integer  "answer_option_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.integer  "topic_id"
     t.integer  "chapter_id"
     t.string   "kind"
     t.string   "code"
     t.string   "title"
     t.string   "difficulty_level"
+    t.jsonb    "tag_ids",          default: [],              array: true
   end
 
   create_table "remarks", force: :cascade do |t|
@@ -230,6 +231,13 @@ ActiveRecord::Schema.define(version: 20170616111653) do
     t.string   "gender"
     t.date     "dob"
     t.string   "difficulty_level", default: "easy"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "name"
+    t.jsonb    "question_ids", default: [],              array: true
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "topics", force: :cascade do |t|

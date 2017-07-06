@@ -1,0 +1,17 @@
+<p id="notice"><%= notice %></p>
+
+<div class="ui segment">
+	<p>
+	  <strong>Name:</strong>
+	  <%= @tag.name %>
+	</p>
+
+	<p>
+	  <strong>Question ids:</strong>
+	  <%= @tag.question_ids %>
+	</p>
+
+	<%= link_to 'Edit', edit_tag_path(@tag), class: "ui button"  %>
+	<%= link_to 'Back', tags_path, class: "ui black button" %><br/><br/>
+	<%= link_to 'Destroy', @tag, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
+</div>

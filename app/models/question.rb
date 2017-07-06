@@ -1,5 +1,10 @@
 class Question < ActiveRecord::Base
 	
+	before_validation :question_code
+	before_destroy :delete_question_from_qustion_sets
+	before_save :fix_jsonb
+	after_create :correct_answer_option#, :add_question_ids_to_tag
+
 	belongs_to :chapter
 	belongs_to :topic
 	belongs_to :question_type
@@ -19,10 +24,6 @@ class Question < ActiveRecord::Base
 
 	validates_presence_of :statement, :chapter_id, :topic_id, :question_type_id, :kind
 	validates_uniqueness_of :code, :title
-	
-	before_validation :question_code
-	after_create :correct_answer_option
-	before_destroy :delete_question_from_qustion_sets
 
 	def self.difficulty 
 		["easy","easy-medium","medium", "medium-hard", "hard"]
@@ -33,6 +34,27 @@ class Question < ActiveRecord::Base
 	end
 
 	private
+
+	def fix_jsonb
+		# self.tag_ids = self.tag_ids.compact
+		tmp_tag_ids = self.tag_ids.compact
+		self.tag_ids = []
+		# binding.pry
+		tmp_tag_ids.each do |tag_id|
+			self.tag_ids.push(Tag.find(tag_id).name)
+			# binding.pry
+		end
+		# binding.pry
+	end
+
+	def add_question_ids_to_tag
+		self.tag_ids.compact.each do |tag_id| 
+			Tag.find(tag_id).question_ids.push(self.id)
+			binding.pry
+		end
+		binding.pry
+	end
+
 	def correct_answer_option
 	  if self.question_type_id == 1
 	  	option = options.find_by_is_answer(true)
@@ -75,16 +97,18 @@ class Question < ActiveRecord::Base
 			num = 0
 			questions = []
 			questions = Question.where(question_type_id: self.question_type_id, kind: self.kind, chapter_id: self.chapter.id, difficulty_level: self.difficulty_level) if Question.where(question_type_id: self.question_type_id, kind: self.kind, chapter_id: self.chapter.id, difficulty_level: self.difficulty_level).exists?
-			question = ""
+			# question = ""
 			question_digits = ""
 			if questions.empty?
 				question_digits = "0001"
 			else
 				question = questions.last
+				binding.pry
 				if question.code.nil?
 					question_digits = "0001"
 				else
-					question_digits = (question.code.split("-").last.to_i + 1).to_s.rjust(4,'0') 
+					question_digits = (question.code.split("-").last.to_i + 1).to_s.rjust(4,'0')
+					binding.pry 
 				end
 			end
 

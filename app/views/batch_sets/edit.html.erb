@@ -45,18 +45,7 @@
 	    <div class="ui input"><%= f.text_field :set_date, class: "date" %></div>
 	  </div><br/>
 
-
 	  <%= f.hidden_field :batch_id, value: @batch.id %>
-
-	<!--   <%#= f.fields_for :batch_set_chapter_topics, @batch_set_chapter_topic do |b| %>
-	    Select Topic<br/>
-	    <%#= b.collection_select :topic_id, Topic.all, :id, :name, {prompt: "Select topic"}, {class: "ui search dropdown"} %><br/><br/>
-	    Select Chapter<br/>
-	    <%#= b.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select Chapter"}, {class: "ui search dropdown"} %><br/>
-	    <%#= b.link_to_remove "Delete Topic and Chapter" %><br/><br/><br/>
-	  <%# end %>
-	  <%#= f.link_to_add "Add Topic and Chapter", :batch_set_chapter_topics %>
-	  <br/><br/> -->
 
 	  <%= f.fields_for :question_sets, @question_set do |question_set| %>
 	  	<div class="ui divider"></div>
@@ -91,17 +80,12 @@
 						</tr>	
 					</thead>
 					<tbody>
-						
-					    		<%= question_set.collection_check_boxes :question_ids, @questions["yet_to_be_asked_questions"][question_set.object.id].to_a, :id, :formatted_statement do |f| %>
-					    		<tr>
-					    		<td><%= f.check_box %></td>
-									<td>
-							    	
-							    	<%= f.label %><br/>
-							    	</td>
-						</tr>
-							    <% end %>
-							
+						<%= question_set.collection_check_boxes :question_ids, @questions["yet_to_be_asked_questions"][question_set.object.id].to_a, :id, :formatted_statement do |f| %>
+							<tr>
+								<td><%= f.check_box %></td>
+								<td><%= f.label %><br/></td>
+							</tr>
+						<% end %>
 					</tbody>
 				</table>
 			</div>
@@ -115,17 +99,12 @@
 						</tr>
 					</thead>
 					<tbody>
-
-								<%= question_set.collection_check_boxes :question_ids, @questions["asked_questions"][question_set.object.id].to_a, :id, :formatted_statement do |f| %>
-														<tr>
-														<td><%= f.check_box %></td>
-							<td>
-							    	
-							    	<%= f.label %><br/>
-							</td>
-						</tr>
-							    <% end %>
-							
+						<%= question_set.collection_check_boxes :question_ids, @questions["asked_questions"][question_set.object.id].to_a, :id, :formatted_statement do |f| %>
+							<tr>
+								<td><%= f.check_box %></td>
+								<td><%= f.label %><br/></td>
+							</tr>
+						<% end %>
 					</tbody>
 				</table>
 			</div>

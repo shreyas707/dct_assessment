@@ -34,7 +34,6 @@
     <%= f.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select chapter"}, {class: "ui search dropdown"}%>
   </div>
 
-  
   <label>Select Kind:</label><br>
   <div class="field">
     <div class="ui radio checkbox">
@@ -69,7 +68,8 @@
   <% end %><br/>
   <p><%= f.link_to_add "Add option", :options %></p><br/>
 
-  <br/><br/>
+  <label><b>Select Tags</b></label><br/>
+  <%= f.collection_select :tag_ids, Tag.all, :id, :name, {prompt: "Select question type"}, {class: "ui fluid search dropdown", multiple: ""} %><br/><br/>
 
   <%= f.fields_for :videos do |video_form| %>
     <div class="ui input"><%= video_form.text_field :youtube_url %></div>

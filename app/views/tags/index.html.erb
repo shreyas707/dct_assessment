@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Tags</h1>
+<%= link_to 'New Tag', new_tag_path, class: "ui primary button" %><br/><br/>
+
+<table class="ui celled padded table dataTable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Question ids</th>
+      <th>Show</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tags.each do |tag| %>
+      <tr>
+        <td><%= tag.name %></td>
+        <td><%= tag.question_ids %></td>
+        <td><%= link_to 'Show', tag %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br><br>
