@@ -8,7 +8,7 @@ gem 'devise'
 gem 'rabl'
 gem 'acts_as_votable', '~> 0.10.0'
 gem 'pry'
-
+gem 'selectize-rails'
 gem 'nested_form'
 gem 'pry-rails', '~> 0.3.4'
 gem 'rails', '4.2.5.1'

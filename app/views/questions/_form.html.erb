@@ -11,26 +11,6 @@
     </div>
   <% end %>
 
-
-<div class="ui modal">
-  <i class="close icon"></i>
-  <div class="header">
-    Add Tag
-  </div>
-  <div class="content">
-    <p>
-      <%= form_for @tag do |f| %>
-        <div class="ui input"><%= f.text_field :name %></div>
-        <%= f.submit class: "ui primary button" %>
-      <% end %>
-    </p>
-  </div>
-<!--   <div class="actions">
-    <div class="ui button">Cancel</div>
-    <div class="ui button">OK</div>
-  </div> -->
-</div>
-
   <div class="field">
   </div>
   <div class="field">
@@ -89,7 +69,7 @@
   <p><%= f.link_to_add "Add option", :options %></p><br/>
 
   <label><b>Select Tags</b></label><br/>
-  <%= f.collection_select :tag_ids, Tag.all, :id, :name, {prompt: "Select question type"}, {class: "ui fluid search dropdown", multiple: ""} %><br/><br/>
+  <%= f.collection_select :tag_ids, Tag.all, :id, :name, {}, {class: "selectize", multiple: true} %><br/><br/>
 
   <%= f.fields_for :videos do |video_form| %>
     <div class="ui input"><%= video_form.text_field :youtube_url %></div>
@@ -111,3 +91,23 @@
     <%= f.submit class: "ui primary button" %><br/><br/>
   </div>
 <% end %>
+
+
+<div class="ui modal ">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Tag
+  </div>
+  <div class="content">
+    <p>
+      <%= form_for @tag do |f| %>
+        <div class="ui input"><%= f.text_field :name %></div>
+        <%= f.submit "Create", class: "ui primary button" %>
+      <% end %>
+    </p>
+  </div>
+<!--   <div class="actions">
+    <div class="ui button">Cancel</div>
+    <div class="ui button">OK</div>
+  </div> -->
+</div>

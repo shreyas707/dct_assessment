@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 // require turbolinks
+//= require selectize
 //= require jquery_nested_form
 //= require semantic-ui
 //= require semantic-ui/modal
@@ -27,3 +28,25 @@ $(document).ready(function(){
  	 });
 });
 
+// FOR SELECTIZE
+$(document).ready(function(){
+	$(".selectize").selectize({
+		create: function(input, callback){
+			$('.ui.modal').modal('show');
+			$('#tag_name').val(input);
+			
+			$('#new_tag').on("submit", function(e){
+				e.preventDefault();
+				$.ajax({
+					method: "POST",
+					url: $(this).attr("action"),
+					data: $(this).serialize(),
+					success: function(response){
+						callback({value: response.id, text: response.name});
+						$('.ui.modal').modal('hide');
+					}
+				});
+			});
+		}
+	});
+});
