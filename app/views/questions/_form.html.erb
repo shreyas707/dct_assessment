@@ -11,6 +11,26 @@
     </div>
   <% end %>
 
+
+<div class="ui modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Tag
+  </div>
+  <div class="content">
+    <p>
+      <%= form_for @tag do |f| %>
+        <div class="ui input"><%= f.text_field :name %></div>
+        <%= f.submit class: "ui primary button" %>
+      <% end %>
+    </p>
+  </div>
+<!--   <div class="actions">
+    <div class="ui button">Cancel</div>
+    <div class="ui button">OK</div>
+  </div> -->
+</div>
+
   <div class="field">
   </div>
   <div class="field">
@@ -81,6 +101,7 @@
     <%= "Solution" %><br/>
     <%= solution.hidden_field :chapter_id, value: @question.chapter_id %>
     <%= solution.hidden_field :topic_id, value: @question.topic_id %>
+    <%= solution.hidden_field :user_id, value: current_user.id %>
     <%= solution.text_area :body, {class: "textEditor"} %><br/>
     <%= solution.link_to_remove "Remove" %><br/>
   <% end %><br/>

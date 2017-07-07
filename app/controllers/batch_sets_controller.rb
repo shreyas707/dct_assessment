@@ -20,6 +20,7 @@ class BatchSetsController < ApplicationController
     @batch = Batch.find(params[:batch_id])
     @answer = Answer.new
     @comment = Comment.new
+    @solution = Solution.new
     @batch_set_answers = Answer.where('batch_set_id = ?', @batch_set.id)
   end
 

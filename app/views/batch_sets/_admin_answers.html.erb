@@ -92,6 +92,14 @@
                       <%= ans.radio_button :is_correct, "wrong" %>Wrong<br/>
                       <%= ans.submit %>
                     <% end %><br/>
+                    <%= form_for @solution do |f| %>
+                      <%= f.hidden_field :chapter_id, value: question.chapter_id %>
+                      <%= f.hidden_field :topic_id, value: question.topic_id %>
+                      <%= f.hidden_field :user_id, value: answer.user_id %>
+                      <%= f.hidden_field :question_id, value: question.id %>
+                      <%= f.hidden_field :body, value: answer.statement %>
+                      <%= f.submit class: "ui primary button" %>
+                    <% end %><br/>
                     <%= link_to 'Delete Answer', answer, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
                   </td>
                   <td>
@@ -136,8 +144,6 @@
                       <% end %>
                     </div>
                   </td>
-
-
                   <td>
                     <%= answer.remark.try(:title) %>
                     <%= form_for (answer) do |f| %>
@@ -182,6 +188,14 @@
                 <div class="content">
                   <p class="transition hidden">
                     <%= answer.formatted_statement %><br/><br/>
+                    <%= form_for @solution do |f| %>
+                      <%= f.hidden_field :chapter_id, value: question.chapter_id %>
+                      <%= f.hidden_field :topic_id, value: question.topic_id %>
+                      <%= f.hidden_field :user_id, value: answer.user_id %>
+                      <%= f.hidden_field :question_id, value: question.id %>
+                      <%= f.hidden_field :body, value: answer.statement %>
+                      <%= f.submit class: "ui primary button" %>
+                    <% end %><br/>
                     <%= link_to 'Delete Answer', answer, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
                     <div class="ui divider"></div>
                     <div id="comments_for_<%= answer.id %>">

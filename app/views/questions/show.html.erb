@@ -68,7 +68,7 @@
   <p>
     <strong>Solutions:</strong><br/><br/>
     <% @question.solutions.each_with_index do |solution, index| %>
-      <b><%= "Solution" %> <%= index + 1 %></b><br/>
+      <b><%= "Solution" %> <%= index + 1 %></b> (by <%= solution.user.try(:name) %>)<br/>
       <%= solution.body.html_safe %><br/><br/>
     <% end %>
   </p>
