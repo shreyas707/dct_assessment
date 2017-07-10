@@ -61,7 +61,7 @@
   <p>
     <strong>Tags:</strong>
     <% @question.tag_ids.each do |tag_id| %>
-      <%= Tag.find(tag_id).name %>,
+      <%= Tag.find(tag_id).name if Tag.find(tag_id).present? %>,
     <% end %>
   </p>
 

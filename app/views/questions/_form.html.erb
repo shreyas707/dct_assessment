@@ -100,7 +100,7 @@
   </div>
   <div class="content">
     <p>
-      <%= form_for @tag do |f| %>
+      <%= form_for Tag.new do |f| %>
         <div class="ui input"><%= f.text_field :name %></div>
         <%= f.submit "Create", class: "ui primary button" %>
       <% end %>

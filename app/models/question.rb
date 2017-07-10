@@ -1,9 +1,9 @@
 class Question < ActiveRecord::Base
 	
 	before_validation :question_code
-	before_destroy :delete_question_from_qustion_sets
-	before_save :fix_jsonb
-	after_create :correct_answer_option#, :add_question_ids_to_tag
+	before_destroy :delete_question_id_from_qustion_sets, :delete_question_id_from_tags
+	before_save :fix_jsonb, :add_question_ids_to_tag
+	after_create :correct_answer_option
 
 	belongs_to :chapter
 	belongs_to :topic
@@ -47,13 +47,13 @@ class Question < ActiveRecord::Base
 		# # binding.pry
 	end
 
-	# def add_question_ids_to_tag
-	# 	self.tag_ids.compact.each do |tag_id| 
-	# 		Tag.find(tag_id).question_ids.push(self.id)
-	# 		binding.pry
-	# 	end
-	# 	binding.pry
-	# end
+	def add_question_ids_to_tag
+		self.tag_ids.compact.each do |tag_id| 
+			tag = Tag.find(tag_id) 
+			tag.question_ids.push(self.id) unless tag.question_ids.include?(self.id)
+			tag.save
+		end
+	end
 
 	def correct_answer_option
 	  if self.question_type_id == 1
@@ -64,15 +64,31 @@ class Question < ActiveRecord::Base
 	  end
 	end
 
-	def delete_question_from_qustion_sets
+	def delete_question_id_from_qustion_sets
 		QuestionSet.all.each do |question_set|
 			if question_set.question_ids.include?(self.id)
-				question_set.question_ids = question_set.question_ids - [question_set.question_ids.find {|question_id| question_id == self.id}]
+				question_set.question_ids = question_set.question_ids - [self.id]
+				question_set.save
+			end
+		end
+	end
+
+	def delete_question_id_from_tags
+		Tag.all.each do |tag|
+			if tag.question_ids.include?(self.id)
+				tag.question_ids = tag.question_ids - [self.id]
+				tag.save
 			end
 		end
 	end
 
 	# DCT-1EMT-ARR-0001
+	# DCT-KDDC-CHN-CNTR
+	# K - Question Kind, 1 = Assessment, 2 = Assignment
+	# DD - Difficulty level
+	# C - Question Code, T = Text, M = MCQ
+	# CHN - Chapter Short Name
+	# CNTR - Counter for similar question codes
 	def question_code
 		if self.code.nil? || self.new_record?
 			kind_code = ""
