@@ -21,7 +21,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'pg'
-gem 'rabl'
+gem 'sidekiq'
 
 group :development, :test do
   gem 'web-console', '~> 2.0'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170706132548) do
+ActiveRecord::Schema.define(version: 20170711112735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20170706132548) do
     t.datetime "updated_at",   null: false
     t.integer  "remark_id"
     t.string   "is_correct"
+    t.float    "score"
   end
 
   create_table "batch_events", force: :cascade do |t|
@@ -232,6 +233,7 @@ ActiveRecord::Schema.define(version: 20170706132548) do
     t.string   "gender"
     t.date     "dob"
     t.string   "difficulty_level", default: "easy"
+    t.boolean  "is_active",        default: true
   end
 
   create_table "tags", force: :cascade do |t|

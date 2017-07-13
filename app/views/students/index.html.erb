@@ -10,6 +10,7 @@
       <th>Name</th>
       <th>Email</th>
       <th>Mobile</th>
+      <th>Is Active</th>
       <th>Show</th>
     </tr>
   </thead>
@@ -20,6 +21,7 @@
         <td><%= student.name %></td>
         <td><%= student.email %></td>
         <td><%= student.mobile %></td>
+        <td><%= student.is_active %></td>
         <td><%= link_to 'Show', student %></td>
       </tr>
     <% end %>

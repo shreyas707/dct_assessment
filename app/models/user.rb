@@ -60,4 +60,8 @@ class User < ActiveRecord::Base
     self.name + " - " + self.difficulty_level
   end
 
+  def active_users
+    User.where(is_active: true)
+  end
+
 end

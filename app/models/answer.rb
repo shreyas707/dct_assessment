@@ -18,9 +18,11 @@ class Answer < ActiveRecord::Base
 	def mcq_is_correct
 		if self.question.question_type.name == "MCQ"
 			if self.question.options.find_by(is_answer: true).statement == self.statement
-				self.is_correct = "correct"
+				# self.is_correct = "correct"
+				self.score = 1.0
 			else
-				self.is_correct = "wrong"
+				# self.is_correct = "wrong"
+				self.score = 0.0
 			end
 		end
 	end

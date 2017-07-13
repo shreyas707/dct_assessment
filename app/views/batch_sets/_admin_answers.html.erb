@@ -26,9 +26,9 @@
 
             <tbody>
               <% question.answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
-                <% if answer.is_correct == "wrong" %>
+                <% if answer.score == 0.0 %>
                   <tr class="negative">
-                <% elsif answer.is_correct == "correct" %>
+                <% elsif answer.score == 1.0 %>
                   <tr class="positive">
                 <% end %>
                 <td>
@@ -67,7 +67,7 @@
                 <th>Students</th>
                 <th>Answers</th>
                 <th>Feedbacks</th>
-                <th>Remarks</th>
+                <th>Remarks/Score</th>
               </tr>
             </thead>
 
@@ -85,14 +85,8 @@
                     <font color="grey"><%= distance_of_time_in_words(Time.now, answer.created_at) %> ago</font>
                   </td>
                   <td>
-                    <%= answer.formatted_statement %>
-                    <%= form_for answer do |ans| %>
-                      <%= ans.radio_button :is_correct, "correct" %>Correct<br/>
-                      <%= ans.radio_button :is_correct, "partially_correct" %>Partially Correct<br/>
-                      <%= ans.radio_button :is_correct, "wrong" %>Wrong<br/>
-                      <%= ans.submit %>
-                    <% end %><br/>
-                    <%= form_for @solution do |f| %>
+                    <%= answer.formatted_statement %><br/><br/>
+                    <%= form_for @solution, remote: true do |f| %>
                       <%= f.hidden_field :chapter_id, value: question.chapter_id %>
                       <%= f.hidden_field :topic_id, value: question.topic_id %>
                       <%= f.hidden_field :user_id, value: answer.user_id %>
@@ -145,7 +139,37 @@
                     </div>
                   </td>
                   <td>
-                    <%= answer.remark.try(:title) %>
+                    <b><%= "Score:" if answer.score.present? %></b> <%= answer.try(:score) %>
+                    <%= form_for answer, remote: true do |ans| %>
+
+<!-- <div class="ui radio checkbox">
+  <%#= ans.radio_button :score, 0.0, class: "hidden" %>
+  <label for="answer_score_00">Bad (0)</label>
+</div><br/>
+<div class="ui radio checkbox">
+  <%#= ans.radio_button :score, 0.25, class: "hidden" %>
+  <label for="answer_score_025">Average (0.25)</label>
+</div><br/>
+<div class="ui radio checkbox">
+  <%#= ans.radio_button :score, 0.5, class: "hidden" %>
+  <label for="answer_score_05">Satisfactory (0.5)</label>
+</div><br/>
+<div class="ui radio checkbox">
+  <%#= ans.radio_button :score, 0.75, class: "hidden" %>
+  <label for="answer_score_075">Good (0.75)</label>
+</div><br/>
+<div class="ui radio checkbox">
+  <%#= ans.radio_button :score, 1.0, class: "hidden" %>
+  <label for="answer_score_10">Excellent (1.0)</label>
+</div><br/> -->
+
+                      <%= ans.radio_button :score, 0.0 %>Bad (0)<br/>
+                      <%= ans.radio_button :score, 0.25 %>Average (0.25)<br/>
+                      <%= ans.radio_button :score, 0.5 %>Satisfactory (0.5)<br/>
+                      <%= ans.radio_button :score, 0.75 %>Good (0.75)<br/>
+                      <%= ans.radio_button :score, 1.0 %>Very Good (1.0)<br/>
+                    <% end %><br/>
+                    <%= answer.remark.try(:title) %><br/>
                     <%= form_for (answer) do |f| %>
                       <%= f.collection_select :remark_id, Remark.all, :id, :title, prompt: "Select a remark" %>
                       <%= f.submit %>
@@ -188,13 +212,22 @@
                 <div class="content">
                   <p class="transition hidden">
                     <%= answer.formatted_statement %><br/><br/>
-                    <%= form_for @solution do |f| %>
+                    <b><%= "Score:" if answer.score.present? %></b> <%= answer.try(:score) %>
+                    <%= form_for answer, remote: true do |ans| %>
+                      <%= ans.radio_button :score, 0.0 %>Bad (0)<br/>
+                      <%= ans.radio_button :score, 0.25 %>Average (0.25)<br/>
+                      <%= ans.radio_button :score, 0.5 %>Satisfactory (0.5)<br/>
+                      <%= ans.radio_button :score, 0.75 %>Good (0.75)<br/>
+                      <%= ans.radio_button :score, 1.0 %>Very Good (1.0)<br/>
+                      <%= ans.submit %>
+                    <% end %><br/>
+                    <%= form_for @solution, remote: true do |f| %>
                       <%= f.hidden_field :chapter_id, value: question.chapter_id %>
                       <%= f.hidden_field :topic_id, value: question.topic_id %>
                       <%= f.hidden_field :user_id, value: answer.user_id %>
                       <%= f.hidden_field :question_id, value: question.id %>
                       <%= f.hidden_field :body, value: answer.statement %>
-                      <%= f.submit class: "ui primary button" %>
+                      <%= f.submit class: "ui primary button new_solution" %>
                     <% end %><br/>
                     <%= link_to 'Delete Answer', answer, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>
                     <div class="ui divider"></div>

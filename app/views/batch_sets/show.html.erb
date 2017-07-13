@@ -6,7 +6,7 @@
 
   <div class="ui grid">
 
-    <div class="ten wide column">
+    <div class="eleven wide column">
 
       <p><strong>Batch:</strong>
       <%= @batch_set.batch.title %></p>
@@ -35,36 +35,6 @@
             <% end %><br/><br/>
           <% end %>
         </p>
-
-        <!-- <p>
-          <strong>Students who haven't submitted the answers: </strong><br/>
-          <%# if @batch_set_answers.exists? %>
-            <%# all_students = [] %>
-            <%# answered_students = [] %>
-            <%# unanswered_students = [] %>
-            <%# @batch_set_answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
-              <%# answer.batch_set.batch.students.each do |student| %>
-                <%# all_students.push(student) %>
-              <%# end %>
-            <%# end %>
-            <%# @batch_set_answers.where('batch_set_id = ?', @batch_set.id).each do |answer| %>
-              <%# answered_students.push(answer.user.student) %>
-            <%# end %>
-            <%# unanswered_students = all_students - answered_students %>
-            <%# unanswered_students.uniq.each do |student| %>
-              <%# if student.user.avatar.present? %>
-                <%#= link_to image_tag(student.user.avatar_url, {class: "ui avatar image"}) %>
-              <%# else %>
-                <div class="ui avatar image">
-                  <img src="/pic.jpg"><br/>
-                  <%#= student.name.split(" ")[0] %>
-                </div>
-              <%# end %>
-            <%# end %>
-          <%# else %>
-            <%#= "Nobody has answered the questions yet." %>
-          <%# end %>
-        </p> -->
 
         <% if @batch_set.due_date_lists.exists? %>
             <p>
@@ -109,14 +79,14 @@
 
     </div>
 
-      <div class="six wide column">
-        <table class="ui very basic collapsing celled table">
+      <div class="five wide column">
+        <table class="ui padded celled table">
           <thead>
-            <tr><th>Student</th>
-            <th>Correct</th>
-            <th>Partially Correct</th>
-            <th>Wrong</th>
-          </tr></thead>
+            <tr>
+              <th>Student</th>
+              <th>Score</th>
+            </tr>
+          </thead>
           <tbody>
             <% @batch.students.each do |student| %>
             <tr>
@@ -134,13 +104,7 @@
                 </div>
               </h4></td>
               <td>
-                <%= student.user.answers.where("is_correct = ? AND batch_set_id = ?", "correct", @batch_set.id).count %>
-              </td>
-              <td>
-                <%= student.user.answers.where("is_correct = ? AND batch_set_id = ?", "partially_correct", @batch_set.id).count %>
-              </td>
-              <td>
-                <%= student.user.answers.where("is_correct = ? AND batch_set_id = ?", "wrong", @batch_set.id).count %>
+                <%= student.user.answers.where(batch_set_id: @batch_set.id).pluck(:score).compact.inject(:+) %>
               </td>
             </tr>
             <% end %>

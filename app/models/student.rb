@@ -27,6 +27,7 @@ class Student < ActiveRecord::Base
 			user.password = "password"
 			user.student_id = self.id
 			user.difficulty_level = self.difficulty_level
+			user.is_active = self.is_active
 			user.save
 		end
 	end
@@ -39,7 +40,12 @@ class Student < ActiveRecord::Base
 		user.dob = self.dob
 		user.gender = self.gender
 		user.difficulty_level = self.difficulty_level
+		user.is_active = self.is_active
 		user.save
+	end
+
+	def active_students
+    	Student.where(is_active: true)
 	end
 
 end

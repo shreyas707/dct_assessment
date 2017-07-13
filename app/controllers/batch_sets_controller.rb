@@ -21,6 +21,7 @@ class BatchSetsController < ApplicationController
     @answer = Answer.new
     @comment = Comment.new
     @solution = Solution.new
+    @solutions = Solution.all
     @batch_set_answers = Answer.where('batch_set_id = ?', @batch_set.id)
   end
 

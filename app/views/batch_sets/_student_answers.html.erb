@@ -9,19 +9,31 @@
         <h3>Questions:</h3>
         <!-- IF ASSIGNMENT IS PAST DUE DATE -->
         <% if due_date_list.due_date_time < Time.now %>
-          <% question_set.question_ids.each do |question_id| %>
+          <% question_set.question_ids.each_with_index do |question_id, index| %>
             <% question = Question.find(question_id) %>
             <!-- IF ANSWERS DON'T EXIST -->
             <% if !Question.find(question_id).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id).exists? %>
-              <%= question.formatted_statement %><br/>
+              <b><%= "Question " %><%= index + 1 %><%= ":" %></b><br/>
+              <%= question.formatted_statement %>
+              <% if question.solutions.exists? %>
+                <% @solutions.where(question_id: question_id).each_with_index do |solution, index| %>
+                  <b><%= "Solution " %><%= index + 1 %><%= ":" %></b>
+                  <%= solution.body.html_safe %><br/>
+                <% end %>
+              <% else %>
+                <b><%= "No solutions have been added to this question yet." %></b>
+              <% end %>
+              <div class="ui divider"></div>
             <!-- DISPLAYING ANSWERS IF THEY EXIST -->
             <% else %>
+              <b><%= "Question " %><%= index + 1 %><%= ":" %></b><br/>
               <%= question.formatted_statement %><br/>
               <% answer = Question.find(question_id).answers.find_by('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id) %>
+              <b>Answer</b>
               <%= answer.formatted_statement %>
               <% answer.question.id %>
               <% if answer.question.question_type.name == "MCQ" %>
-                <% if answer.is_correct == "correct" %>
+                <% if answer.score == 1.0 %>
                   <i class="checkmark icon"></i><font color="green"><%= "Correct answer" %></font>
                 <% else %>
                   <i class="remove icon"></i><font color="red"><%= "Wrong answer" %></font><br/>
@@ -63,6 +75,14 @@
                     <%= f.submit class: "ui primary button" %>
                   <% end %>
                 </div>
+              <% end %><br/><br/>
+              <% if question.solutions.exists? %>
+                <% @solutions.where(question_id: question_id).each_with_index do |solution, index| %>
+                  <b><%= "Solution " %><%= index + 1 %><%= ":" %></b>
+                  <%= solution.body.html_safe %><br/>
+                <% end %>
+              <% else %>
+                <b><%= "No solutions have been added to this question yet." %></b>
               <% end %>
               <div class="ui divider"></div>
               <%#= render "comment" %>
@@ -115,7 +135,7 @@
                 <% answer = Question.find(question_id).answers.find_by('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id) %>
                 <%= answer.formatted_statement %>
                 <% if answer.question.question_type.name == "MCQ" %>
-                  <% if answer.is_correct == "correct" %>
+                  <% if answer.is_correct == 1.0 %>
                     <i class="checkmark icon"></i><font color="green"><%= "Correct answer" %></font>
                   <% else %>
                     <i class="remove icon"></i><font color="red"><%= "Wrong answer" %></font><br/>

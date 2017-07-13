@@ -20,6 +20,20 @@
 //= require semantic-ui/dropdown
 //= require_tree .
 
+// AJAX FOR UPDATING ANSWER SCORE
+$(document).ready(function(){
+	$('.edit_answer input[type=radio]').click(function(){
+		$(this).parent('form').submit();
+	});
+});
+
+//AJAX FOR CREATING SOLUTIONS
+$(document).ready(function(){
+	$('.new_solution').click(function(){
+		$(this).parent('form').submit();
+	});
+});
+
 $(document).ready(function(){
 	 $('.add_comment').css('cursor', 'pointer');
  	 $('.showComment').css('display', 'none');

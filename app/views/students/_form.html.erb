@@ -26,7 +26,7 @@
 
   <div class="field">
     <%= f.label :gender %><br>
-     <%= f.radio_button :gender, "male" %>Male<br/>
+    <%= f.radio_button :gender, "male" %>Male<br/>
     <%= f.radio_button :gender, "female" %>Female<br/>
   </div>
 
@@ -46,6 +46,17 @@
       <%= "Easy" %>
     <% elsif controller.action_name == "edit" %>
       <br/><%= f.select :difficulty_level, Student.difficulty, {prompt: "Select Difficulty Level"}, {class: "ui search dropdown"} %>
+    <% end %>
+  </div><br/>
+  
+  <div class="field">
+    <b><label>Is Active: </label></b>
+    <% if controller.action_name == "new" %>
+      <%= "True" %>
+    <% elsif controller.action_name == "edit" %>
+      <br/>
+      <%= f.radio_button :is_active, "true" %>True<br/>
+      <%= f.radio_button :is_active, "false" %>False<br/>
     <% end %>
   </div><br/><br/>
 

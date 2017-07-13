@@ -25,11 +25,11 @@ class SolutionsController < ApplicationController
   # POST /solutions.json
   def create
     @solution = Solution.new(solution_params)
-
     respond_to do |format|
       if @solution.save
         format.html { redirect_to :back, notice: 'Solution was successfully created.' }
         format.json { render :show, status: :created, location: @solution }
+        format.js
       else
         format.html { render :new }
         format.json { render json: @solution.errors, status: :unprocessable_entity }

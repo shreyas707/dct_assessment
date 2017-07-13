@@ -30,6 +30,11 @@
 	  <%= @student.dob %>
 	</p>
 
+	<p>
+		<strong>Is Active: </strong>
+		<%= @student.is_active %>
+	</p>
+
 	<%= link_to 'Edit', edit_student_path(@student), class: "ui button" %>
 	<%= link_to 'Back', students_path, class: "ui black button" %><br/><br/>
 	<%= link_to 'Destroy', @student, method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red button" %>

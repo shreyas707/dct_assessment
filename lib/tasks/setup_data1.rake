@@ -35,15 +35,31 @@ task :setup_data1 => :environment do
 	# 	end
 	# end
 
-	Answer.all.each do |answer|
-		if answer.question.question_type.name == "MCQ"
-			if answer.statement == Option.find(answer.question.answer_option_id).statement
-				answer.is_correct = "correct"
-			else
-				answer.is_correct = "wrong"
-			end
-		end
-		answer.save
-	end
+	# Answer.all.each do |answer|
+	# 	if answer.question.question_type.name == "MCQ"
+	# 		if answer.statement == Option.find(answer.question.answer_option_id).statement
+	# 			answer.is_correct = "correct"
+	# 		else
+	# 			answer.is_correct = "wrong"
+	# 		end
+	# 	end
+	# 	answer.save
+	# end
+
+	# YET TO RUN ON HEROKU
+	# Student.all.each do |student|
+	# 	student.is_active = true
+	# 	student.save
+	# end
+
+	# Answer.all.each do |answer|
+	# 	if answer.question.question_type.name == "MCQ"
+	# 		if answer.is_correct == "correct"
+	# 			answer.score = 1.0
+	# 		elsif answer.is_correct == "wrong"
+	# 			answer.score = 0.0
+	# 		end
+	# 	end
+	# end
 
 end
