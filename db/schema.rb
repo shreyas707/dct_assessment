@@ -134,20 +134,6 @@ ActiveRecord::Schema.define(version: 20170711112735) do
     t.datetime "end_date"
   end
 
-  create_table "holiday_batches", force: :cascade do |t|
-    t.integer  "holiday_id"
-    t.integer  "batch_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "holidays", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.date     "start_date"
-    t.date     "end_date"
-  end
-
   create_table "knowledge_bases", force: :cascade do |t|
     t.string   "title"
     t.text     "body"

@@ -118,7 +118,7 @@
                       <% batch_set.due_date_lists.each do |due_date_list| %>
                         <div class="description">
                           <p>
-                            <b>Due On: </b><%= due_date_list.due_date_time.strftime("%d %b %Y, %I:%M %p") %></br>
+                            <b>Due On: </b><%#= due_date_list.due_date_time.strftime("%d %b %Y, %I:%M %p") %></br>
                             <b>Students: </b>
                             <% due_date_list.user_ids.compact.each do |user_id| %>
                               <% if User.where(id: user_id).exists? && !User.find(user_id).answers.where(batch_set_id: batch_set.id).exists? %>

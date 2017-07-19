@@ -1,5 +1,43 @@
 task :setup_data1 => :environment do 
 
+	# YET TO RUN ON HEROKU STAGING AND MAIN
+	# =======================================================================>
+	# Student.all.each do |student|
+	# 	student.is_active = true
+	# 	student.save
+	# end
+
+	# Answer.all.each do |answer|
+	# 	if answer.question.question_type.name == "MCQ"
+	# 		if answer.is_correct == "correct"
+	# 			answer.score = 1.0
+	# 		elsif answer.is_correct == "wrong"
+	# 			answer.score = 0.0
+	# 		end
+	# 	end
+	# end
+	# ================================================
+
+	# RUN ONLY ON STAGING AND DEV ENV
+	# ================================================
+	
+	# i = 0
+	# 5.times do
+	# 	tag = Tag.new
+	# 	tag.name = "tag" + i.to_s
+	# 	i += 1
+	# 	tag.save 
+	# end
+
+	# REMEMBER TO UPDATE TAG IDS IN QUESTIONS BEFORE RUNNING THIS
+	# Question.all.each do |question|
+	# 	if question.code != nil
+	# 		question.tag_ids = Tag.all.pluck(:id)
+	# 		question.save
+	# 	end
+	# end
+	# =======================================================================>
+
 	# Student.all.each do |student|
 	# 	student.difficulty_level = "easy"
 	# 	student.save
@@ -44,22 +82,6 @@ task :setup_data1 => :environment do
 	# 		end
 	# 	end
 	# 	answer.save
-	# end
-
-	# YET TO RUN ON HEROKU
-	# Student.all.each do |student|
-	# 	student.is_active = true
-	# 	student.save
-	# end
-
-	# Answer.all.each do |answer|
-	# 	if answer.question.question_type.name == "MCQ"
-	# 		if answer.is_correct == "correct"
-	# 			answer.score = 1.0
-	# 		elsif answer.is_correct == "wrong"
-	# 			answer.score = 0.0
-	# 		end
-	# 	end
 	# end
 
 end

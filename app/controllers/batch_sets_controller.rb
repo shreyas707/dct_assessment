@@ -98,11 +98,14 @@ class BatchSetsController < ApplicationController
       if @batch_set.save
 
         # FOR MAILER
-        @batch_set.batch.students.each do |student|
-          @user = student.user
-          UserMailer.batch_set_email(@user, @batch_set).deliver
-        end
+        # @batch_set.batch.students.each do |student|
+        #   @user = student.user
+        #   UserMailer.batch_set_email(@user, @batch_set).deliver
+        # end
         
+        # FOR MAILER CRONJOB
+        BatchSetEmailWorker.perform_async(@batch_set.id)
+
         format.html { redirect_to edit_batch_batch_set_path(@batch, @batch_set), notice: 'Batch set was successfully created.' }
         format.json { render :show, status: :created, location: @batch_set }
       else

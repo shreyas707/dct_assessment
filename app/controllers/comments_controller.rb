@@ -29,13 +29,17 @@ class CommentsController < ApplicationController
       if @comment.save
 
         #For mailer
-        # binding.pry
         if current_user.is_admin?
-          @user = @comment.answer.user
+          CommentEmailWorker.perform_async(@comment.answer.user.id, @comment.id)
         else
-          @user = User.find_by(email: "ani@dctacademy.com")
+          CommentEmailWorker.perform_async(User.find_by(email: "ani@dctacademy.com").id, @comment.id)
         end
-        UserMailer.comment_email(@user, @comment).deliver
+        # if current_user.is_admin?
+        #   @user = @comment.answer.user
+        # else
+        #   @user = User.find_by(email: "ani@dctacademy.com")
+        # end
+        # UserMailer.comment_email(@user, @comment).deliver
         
         format.html { redirect_to :back, notice: 'Comment was successfully created.' }
         format.json { render :show, status: :created, location: @comment }

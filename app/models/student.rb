@@ -3,7 +3,7 @@ class Student < ActiveRecord::Base
 	after_create :create_user
 	after_update :update_user
 	
-	has_one :user #, dependent: :destroy
+	has_one :user, dependent: :destroy
 
 	has_many :batch_students #, dependent: :destroy
 	has_many :batches, through: :batch_students

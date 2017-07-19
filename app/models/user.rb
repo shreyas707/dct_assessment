@@ -8,9 +8,9 @@ class User < ActiveRecord::Base
   # THIS IS FOR USERS TO UPDATE ACCOUNT INFO (EXCEPT NEW PASSWORD) WITHOUT PROVIDING PASSWORD
   attr_accessor :current_password
 
-  before_destroy :delete_user_from_qustion_sets, :delete_user_from_due_date_lists
+  # before_destroy :delete_user_id_from_qustion_sets, :delete_user_id_from_due_date_lists
 
-  belongs_to :student #, dependent: :destroy
+  belongs_to :student, dependent: :destroy
 
   acts_as_votable
   has_many :knowledge_bases
@@ -38,23 +38,25 @@ class User < ActiveRecord::Base
     "You are not allowed to log in."
   end
   
-  def delete_user_from_qustion_sets
-    QuestionSet.all.each do |question_set|
-      if question_set.user_ids.include?(self.id)
-        question_set.user_ids = question_set.user_ids - [self.id]
-        question_set.save
-      end
-    end
-  end
+  # def delete_user_id_from_qustion_sets
+  #   DeleteUserIdFromQuestionSetsWorker.perform_async(self.id)
+  #   QuestionSet.all.each do |question_set|
+  #     if question_set.user_ids.include?(self.id)
+  #       question_set.user_ids = question_set.user_ids - [self.id]
+  #       question_set.save
+  #     end
+  #   end
+  # end
 
-  def delete_user_from_due_date_lists
-    DueDateList.all.each do |due_date_list|
-      if due_date_list.user_ids.include?(self.id)
-        due_date_list.user_ids = due_date_list.user_ids - [self.id]
-        due_date_list.save
-      end
-    end
-  end
+  # def delete_user_id_from_due_date_lists
+  #   DeleteUserIdFromDueDateListsWorker.perform_async(self.id)
+  #   DueDateList.all.each do |due_date_list|
+  #     if due_date_list.user_ids.include?(self.id)
+  #       due_date_list.user_ids = due_date_list.user_ids - [self.id]
+  #       due_date_list.save
+  #     end
+  #   end
+  # end
 
   def name_with_difficulty_level
     self.name + " - " + self.difficulty_level

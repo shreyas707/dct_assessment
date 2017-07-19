@@ -6,4 +6,6 @@ class DueDateList < ActiveRecord::Base
 		due_date_time.strftime("%d-%b-%Y, %I:%M %p")
 	end
 
+	validates_presence_of :due_date_time
+
 end

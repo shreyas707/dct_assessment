@@ -21,6 +21,12 @@
 //= require_tree .
 
 // AJAX FOR UPDATING ANSWER SCORE
+// $(document).ready(function(){
+// 	$('.r_button').click(function(){
+// 		console.log($(this).closest('form'))
+// 		$(this).closest('form').submit();
+// 	});
+// });
 $(document).ready(function(){
 	$('.edit_answer input[type=radio]').click(function(){
 		$(this).parent('form').submit();

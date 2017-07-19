@@ -2,7 +2,8 @@ class Question < ActiveRecord::Base
 	
 	before_validation :question_code
 	before_destroy :delete_question_id_from_qustion_sets, :delete_question_id_from_tags
-	before_save :fix_jsonb, :add_question_ids_to_tag
+	before_save :fix_jsonb
+	after_save :add_question_id_to_tags
 	after_create :correct_answer_option
 
 	belongs_to :chapter
@@ -37,19 +38,12 @@ class Question < ActiveRecord::Base
 
 	def fix_jsonb
 		self.tag_ids = self.tag_ids.compact
-		# tmp_tag_ids = self.tag_ids.compact
-		# self.tag_ids = []
-		# # binding.pry
-		# tmp_tag_ids.each do |tag_id|
-		# 	self.tag_ids.push(Tag.find(tag_id).name)
-		# 	# binding.pry
-		# end
-		# # binding.pry
 	end
 
-	def add_question_ids_to_tag
+	def add_question_id_to_tags
+		# AddQuestionIdToTagsWorker.perform_async(self.id)
 		self.tag_ids.compact.each do |tag_id| 
-			tag = Tag.find(tag_id) 
+			tag = Tag.find(tag_id)
 			tag.question_ids.push(self.id) unless tag.question_ids.include?(self.id)
 			tag.save
 		end
@@ -65,21 +59,11 @@ class Question < ActiveRecord::Base
 	end
 
 	def delete_question_id_from_qustion_sets
-		QuestionSet.all.each do |question_set|
-			if question_set.question_ids.include?(self.id)
-				question_set.question_ids = question_set.question_ids - [self.id]
-				question_set.save
-			end
-		end
+		DeleteQuestionIdFromQuestionSetsWorker.perform_async(self.id)
 	end
 
 	def delete_question_id_from_tags
-		Tag.all.each do |tag|
-			if tag.question_ids.include?(self.id)
-				tag.question_ids = tag.question_ids - [self.id]
-				tag.save
-			end
-		end
+		DeleteQuestionIdFromTagsWorker.perform_async(self.id)
 	end
 
 	# DCT-1EMT-ARR-0001

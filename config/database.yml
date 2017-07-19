@@ -32,8 +32,10 @@ development:
   host: localhost
   database: dct_assessment
   pool: 5
-  username: root
-  password: root
+  # username: root
+  # password: root
+  username: shreyas
+  password: shreyas
   timeout: 5000
 
 test:
@@ -41,6 +43,8 @@ test:
   encoding: unicode
   database: dct_assessment
   pool: 5
-  username: root
-  password: root
+  # username: root
+  # password: root
+  username: shreyas
+  password: shreyas
   timeout: 5000
