@@ -29,13 +29,17 @@ task :setup_data1 => :environment do
 	# 	tag.save 
 	# end
 
-	# REMEMBER TO UPDATE TAG IDS IN QUESTIONS BEFORE RUNNING THIS
 	# Question.all.each do |question|
 	# 	if question.code != nil
 	# 		question.tag_ids = Tag.all.pluck(:id)
 	# 		question.save
+	# 		Tag.all.each do |tag|
+	# 			tag.question_ids.push(question.id)
+	# 			tag.save
+	# 		end
 	# 	end
 	# end
+
 	# =======================================================================>
 
 	# Student.all.each do |student|
