@@ -37,6 +37,7 @@ development:
   username: shreyas
   password: shreyas
   timeout: 5000
+  host: localhost
 
 test:
   adapter: postgresql
@@ -48,3 +49,4 @@ test:
   username: shreyas
   password: shreyas
   timeout: 5000
+  host: localhost

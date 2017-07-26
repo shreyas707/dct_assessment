@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   end
 
   resources :solutions
+  get 'new_views/new_view_1'
   get 'batches/student'
   get 'batch_sets/select_chapters'
   get 'knowledge_bases/select_chapter'

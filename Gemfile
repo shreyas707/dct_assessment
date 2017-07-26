@@ -25,7 +25,8 @@ gem 'sidekiq'
 gem 'redis'
 gem 'redis-store'
 gem 'redis-rails'
-
+gem 'yaml_db' # rake db:data:dump   ->   Dump contents of Rails database to db/data.yml
+gem 'httparty'
 
 group :development, :test do
   gem 'web-console', '~> 2.0'

@@ -59,11 +59,23 @@ class Question < ActiveRecord::Base
 	end
 
 	def delete_question_id_from_qustion_sets
-		DeleteQuestionIdFromQuestionSetsWorker.perform_async(self.id)
+		# DeleteQuestionIdFromQuestionSetsWorker.perform_async(self.id)
+		QuestionSet.all.each do |question_set|
+			if question_set.question_ids.include?(self.id)
+				question_set.question_ids = question_set.question_ids - [self.id]
+				question_set.save
+			end
+		end
 	end
 
 	def delete_question_id_from_tags
-		DeleteQuestionIdFromTagsWorker.perform_async(self.id)
+		# DeleteQuestionIdFromTagsWorker.perform_async(self.id)
+		Tag.all.each do |tag|
+			if tag.question_ids.include?(self.id)
+				tag.question_ids = tag.question_ids - [self.id]
+				tag.save
+			end
+		end
 	end
 
 	# DCT-1EMT-ARR-0001
