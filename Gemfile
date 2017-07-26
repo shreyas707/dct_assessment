@@ -21,10 +21,6 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'pg'
-gem 'sidekiq'
-gem 'redis'
-gem 'redis-store'
-gem 'redis-rails'
 gem 'yaml_db' # rake db:data:dump   ->   Dump contents of Rails database to db/data.yml
 gem 'httparty'
 
@@ -33,6 +29,10 @@ group :development, :test do
   gem 'byebug'
   gem 'faker', git: 'https://github.com/stympy/faker.git'
   gem 'bullet'
+  gem 'sidekiq'
+  gem 'redis'
+  gem 'redis-store'
+  gem 'redis-rails'
   gem 'hirb'
 end
 
