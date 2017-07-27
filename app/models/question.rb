@@ -24,7 +24,7 @@ class Question < ActiveRecord::Base
 	has_many :batch_sets , through: :batch_set_questions
 
 	validates_presence_of :statement, :chapter_id, :topic_id, :question_type_id, :kind
-	validates_uniqueness_of :code, :title
+	# validates_uniqueness_of :code, :title
 
 	def self.difficulty 
 		["easy","easy-medium","medium", "medium-hard", "hard"]
