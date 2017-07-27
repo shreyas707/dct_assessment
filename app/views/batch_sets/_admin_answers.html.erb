@@ -168,6 +168,7 @@
                       <%= ans.radio_button :score, 0.5 %>Satisfactory (0.5)<br/>
                       <%= ans.radio_button :score, 0.75 %>Good (0.75)<br/>
                       <%= ans.radio_button :score, 1.0 %>Very Good (1.0)<br/>
+                      <%= ans.submit %>
                     <% end %><br/>
                     <%= answer.remark.try(:title) %><br/>
                     <%= form_for (answer) do |f| %>
