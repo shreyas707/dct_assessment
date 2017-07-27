@@ -83,7 +83,10 @@
 						<%= question_set.collection_check_boxes :question_ids, @questions["yet_to_be_asked_questions"][question_set.object.id].to_a, :id, :formatted_statement do |f| %>
 							<tr>
 								<td><%= f.check_box %></td>
-								<td><%= f.label %><br/></td>
+								<td>
+									Difficulty: <%= f.object.try(:difficulty_level).capitalize %><br/><br/>
+									<%= f.label %><br/>
+								</td>
 							</tr>
 						<% end %>
 					</tbody>
@@ -102,7 +105,10 @@
 						<%= question_set.collection_check_boxes :question_ids, @questions["asked_questions"][question_set.object.id].to_a, :id, :formatted_statement do |f| %>
 							<tr>
 								<td><%= f.check_box %></td>
-								<td><%= f.label %><br/></td>
+								<td>
+									Difficulty: <%= f.object.try(:difficulty_level).capitalize %><br/><br/>
+									<%= f.label %><br/>
+								</td>
 							</tr>
 						<% end %>
 					</tbody>

@@ -52,7 +52,7 @@ class BatchSetsController < ApplicationController
       @questions["asked_questions"][question_set.id] = []
       @questions["yet_to_be_asked_questions"][question_set.id] = []
       @question_set_chapter_topics.where(question_set_id: question_set.id).each do |qsct|
-        Question.where(kind: @batch_set.kind, chapter_id: qsct.chapter_id, topic_id: qsct.topic_id, difficulty_level: question_set.difficulty_level).each do |question|
+        Question.where(kind: @batch_set.kind, chapter_id: qsct.chapter_id, topic_id: qsct.topic_id).each do |question|
           @questions["all_questions"][question_set.id] += [question]
           if question_set.question_ids.include?(question.id)
             @questions["asked_questions"][question_set.id].push(question) 
