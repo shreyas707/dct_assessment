@@ -21,14 +21,6 @@
       <%= f.radio_button :kind, "assignment", class: "hidden" %>
       <label for="batch_set_kind_assignment">Assignment</label>
     </div><br/>
-<!--     <div class="ui radio checkbox">
-      <%#= f.radio_button :kind, "homework", class: "hidden" %>
-      <label for="batch_set_kind_homework">Homework</label>
-    </div><br/> -->
-<!--     <div class="ui radio checkbox">
-      <%#= f.radio_button :kind, "test", class: "hidden" %>
-      <label for="batch_set_kind_test">Test</label>
-    </div> -->
   </div><br/>
 
   <div class="field">
@@ -44,40 +36,32 @@
 
   <%= f.hidden_field :batch_id, value: @batch.id %>
 
-<!--   <%#= f.fields_for :batch_set_chapter_topics, @batch_set_chapter_topic do |b| %>
-    Select Topic<br/>
-    <%#= b.collection_select :topic_id, Topic.all, :id, :name, {prompt: "Select topic"}, {class: "ui search dropdown"} %><br/><br/>
-    Select Chapter<br/>
-    <%#= b.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select Chapter"}, {class: "ui search dropdown"} %><br/>
-    <%#= b.link_to_remove "Delete Topic and Chapter" %><br/><br/><br/>
-  <%# end %>
-  <%#= f.link_to_add "Add Topic and Chapter", :batch_set_chapter_topics %>
-  <br/><br/> -->
-
   <%= f.fields_for :question_sets, @question_set do |question_set| %>
   <div class="ui divider"></div>
     <h3>New Question Set</h3>
-
-    <h4>Select Difficulty Level</h4>
-    <%= question_set.select :difficulty_level, QuestionSet.difficulty, {prompt: "Select Difficulty"}, {class: "ui search dropdown"} %><br/><br/>
-
-    <%= question_set.fields_for :question_set_chapter_topics, @question_set_chapter_topic do |question_set_chapter_topic| %>
-
-      <h4>Select Topic and Chapter</h4>
-      <%#= question_set_chapter_topic.hidden_field :question_set_id, value: @question_set.id %>
-      <b>Select Topic</b><br/>
-      <%= question_set_chapter_topic.collection_select :topic_id, Topic.all, :id, :name, {prompt: "Select Topic"}, {class: "ui search dropdown"} %><br/>
-      <b>Select Chapter</b><br/>
-      <%= question_set_chapter_topic.collection_select :chapter_id, Chapter.all, :id, :name, {prompt: "Select Chapter"}, {class: "ui search dropdown"} %><br/>
-      <%= question_set_chapter_topic.link_to_remove "Delete Chapter Topic" %><br/><br/>
-    <% end %>
-    <%= question_set.link_to_add "Add Chapter Topic", :question_set_chapter_topics %>
     
-    <h4>Select Questions and Users</h4>
-    <!-- <b>Select Questions</b><br/> -->
-    <%#= question_set.collection_select :question_ids, Question.all, :id, :formatted_statement, {prompt: "Select Questions"}, {class: "ui fluid search dropdown", multiple: ""} %>
-    <b>Select Users</b><br/>
-    <%= question_set.collection_select :user_ids, @batch_users, :id, :name_with_difficulty_level, {prompt: "Select Users"}, {class: "ui fluid search dropdown", multiple: ""} %><br/>
+    <h4>Select Tags</h4>
+
+    <select class="ui fluid search dropdown" multiple="" id="tags">
+    </select>
+    <br/><br/>
+
+      <div class="inline fields">
+        <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="frequency" id="any">
+            <label for="any">Any</label>
+          </div>
+          &nbsp&nbsp&nbsp&nbsp&nbsp
+          <div class="ui radio checkbox">
+            <input type="radio" name="frequency" id="exact">
+            <label for="exact">Exact</label>
+          </div>
+        </div>
+      </div>
+
+    <h4>Select Users</h4><br/>
+    <%#= question_set.collection_select :user_ids, @batch_users, :id, :name_with_difficulty_level, {prompt: "Select Users"}, {class: "ui fluid search dropdown", multiple: ""} %><br/>
     <%= question_set.link_to_remove "Delete Question Set" %><br/><br/>
   <% end %>
   <%= f.link_to_add "Add Question Set", :question_sets %>
@@ -101,33 +85,3 @@
 
 <% end %>
 
-<script type="text/javascript">
-
-    $(".add_nested_fields").click(function(){
-      //alert("Hello");
-      //$('.ui.dropdown').dropdown();
-  });
-
-  var topicHandle = document.getElementById('batch_set_question_sets_attributes_0_question_set_chapter_topics_attributes_0_topic_id');
-  var chapterHandle = document.getElementById('batch_set_question_sets_attributes_0_question_set_chapter_topics_attributes_0_chapter_id');
-
-  topicHandle.onchange = function(){
-    chapterHandle.innerHTML = "";
-    var request = new XMLHttpRequest();
-    request.open('GET', '/batch_sets/select_chapters.json?topic_id=' + topicHandle.value);
-    request.onreadystatechange = function(){
-      if(request.readyState === 4 && request.status === 200){
-        var response = JSON.parse(request.responseText);
-        response.forEach(function(chapter){
-          var newElement = document.createElement('option');
-          newElement.value = chapter.id;
-          var newText = document.createTextNode(chapter.name);
-          newElement.appendChild(newText);
-          chapterHandle.appendChild(newElement);
-        });
-      }
-    }
-    request.send();
-  };
-
-</script>

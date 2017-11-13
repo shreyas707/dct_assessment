@@ -150,6 +150,12 @@ class BatchSetsController < ApplicationController
     @chapters = @topic.chapters
   end
 
+  def answers
+    # binding.pry
+    @question_id = params[:question_id]
+    @batch_set = BatchSet.find(params[:id])
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_batch_set

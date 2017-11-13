@@ -10,6 +10,7 @@ class Answer < ActiveRecord::Base
 	has_many :comments #, dependent: :destroy
 
 	validates_presence_of :statement, :question_id, :user_id, :batch_set_id
+	validates_uniqueness_of :statement
 
 	def formatted_statement
    		self.statement.html_safe

@@ -1,7 +1,6 @@
 class AnswersController < ApplicationController
   before_action :set_answer, only: [:show, :edit, :update, :destroy]
-
-  load_and_authorize_resource 
+  # load_and_authorize_resource
 
   # GET /answers
   # GET /answers.json
@@ -27,8 +26,9 @@ class AnswersController < ApplicationController
   # POST /answers.json
   def create
     @answer = Answer.new(answer_params)
-    @batch = Batch.find(params[:batch_id])
-    @batch_set = BatchSet.find(params[:batch_set_id])
+    # @batch = Batch.find(params[:batch_id])
+    # @batch_set = BatchSet.find(params[:batch_set_id])
+    binding.pry
     respond_to do |format|
       if @answer.save
         format.html { redirect_to :back, notice: 'Answer was successfully created.' }
@@ -45,10 +45,10 @@ class AnswersController < ApplicationController
   def update
     respond_to do |format|
       if @answer.update(answer_params)
-        format.html { redirect_to :back, notice: 'Answer was successfully updated.' }
+        # format.html { redirect_to :back, notice: 'Answer was successfully updated.' }
         format.json { render :show, status: :ok, location: @answer }
       else
-        format.html { render :edit }
+        # format.html { render :edit }
         format.json { render json: @answer.errors, status: :unprocessable_entity }
       end
     end
@@ -72,7 +72,7 @@ class AnswersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def answer_params
-    params.require(:answer).permit(:statement, :question_id, :user_id, :batch_set_id, :remark_id, :is_correct, :score)
+    params.require(:answer).permit(:statement, :question_id, :user_id, :batch_set_id, :remark_id, :is_correct, :score, :output, :language)
   end
 
 end

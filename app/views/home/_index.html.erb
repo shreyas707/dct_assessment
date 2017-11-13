@@ -1,0 +1,244 @@
+<div class="row">
+  <div class="col-md-6">
+    <h2>Compiler</h2>
+    <div class="form-inline">
+    <select class="form-control-sm col-lg-3" name="language" id="sel">
+      <option value="ruby">Ruby</option>
+      <option value="javascript">JavaScript</option>
+      <option value="python">Python3</option>
+    </select><br><br>
+  </div>
+    <div id="text"></div>
+    <button type="button" name="execute" id="load" class="btn btn-primary margin-top">Execute</button>
+    <button type="button" name="reset" id="reset" class="btn btn-danger margin-top">Reset</button>
+    <button type="button" name="submit" class="btn btn-success" id="sub">Submit</button>
+  </div>
+
+  <div class="col-md-6 margin-top-header" id="para">
+    <h2>Output</h2>
+    <div id="result"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    //this is compiler code
+    var flag = true;
+    var lang = "ruby";
+    var web = "<%= answers_path %>";
+    var js = jcode = "//type js code here";
+    var pythoncon = pcode = "#type python code here";
+    var rubycon = rcode = "#type ruby code here";
+    var rid = 0;
+    var jsid = 0;
+    var pid = 0;
+    check(lang);
+    var editor = CodeMirror(document.getElementById('text'),{
+      value: "#type ruby code here",
+      mode: "ruby",
+      lineNumbers: true,
+      keyMap: "sublime",
+      theme: "monokai",
+      tabSize: 2,
+      indentUnit: 2,
+      smartIndent: true,
+      indentWithTabs: true,
+      tabIndex: 2
+    });
+    var result = CodeMirror(document.getElementById('result'),{
+      value: "Your result appears here",
+      mode: "text",
+      keyMap: "sublime",
+      theme: "monokai",
+      tabSize: 2,
+      tabIndex: 2,
+      readOnly: "nocursor"
+    });
+
+    $("#sel").on('change',function(){
+      lang = this.value;
+      check(lang);
+    });
+
+
+    function check(lang){
+      $.ajax({
+        url: "<%= home_check_cache_path %>",
+        type: "get",
+        data: {
+          uid: "<%= current_user.id %>",
+          aid: "<%= @question_id.to_s %>",
+          bid: "<%= @batch_set.id %>",
+          language: lang
+        },
+        success: function(response){
+          resp = response["response"]["statement"];
+          if(resp == "default"){
+          switch (lang) {
+            case "python":
+              editor.setOption("value",js);
+              editor.setOption("value", pcode);
+              result.setOption("value","Your result appears here");
+              flag = true;
+              break;
+            case "javascript":
+              editor.setOption("value", jcode);
+              result.setOption("value","Your result appears here");
+              flag = true;
+              break;
+            default:
+              editor.setOption("value",js);
+              editor.setOption("value",rcode);
+              result.setOption("value","Your result appears here");
+              flag = true;
+              break;
+          }
+        }else{
+          switch (lang) {
+            case "python":
+              editor.setOption("value",js);
+              editor.setOption("value",resp);
+              result.setOption("value","Your result appears here");
+              pid = response["response"]["id"];
+              web = web + pid;
+              flag = false;
+              break;
+            case "javascript":
+              editor.setOption("value",resp);
+              jsid = response["response"]["id"];
+              result.setOption("value","Your result appears here");
+              web = web + jsid;
+              flag = false;
+              break;
+            default:
+              editor.setOption("value",js);
+              editor.setOption("value",resp);
+              result.setOption("value","Your result appears here");
+              rid = response["response"]["id"];
+              web = web + "/" + rid;
+              flag = false;
+              break;
+          }
+          console.log(web);
+        }
+          editor.setOption("mode",lang);
+        }
+      });
+    };
+
+    $("#load").click(function(){
+        var sent = editor.getValue();
+        if(sent == js || sent == pythoncon || sent == rubycon){
+          swal(
+            'Ooops...!!!',
+            "Looks like you din't type in any code.",
+            'error'
+          )
+        }else{
+          switch (lang) {
+            case "python":
+              pcode = sent;
+              break;
+            case "javascript":
+              jcode = sent;
+              break;
+            default:
+              rcode = sent;
+              break;
+          }
+        $.ajax({
+          url: "http://compilez.herokuapp.com/home/input",
+          type: "get",
+          data: {
+            content: sent,
+            extension: lang
+          },
+          success: function(response){
+            result.setOption("value", response["response"]);
+          }
+        });
+      }
+    });
+
+    $("#sub").click(function(){
+       var sent = editor.getValue();
+       var out = result.getValue();
+       var args = {};
+        args["user_id"] = "<%= current_user.id %>";
+        args["statement"] = sent;
+        args["output"] = out;
+        args["question_id"] = "<%= @question_id.to_s %>";
+        args["language"] = lang;
+        args["batch_set_id"] = "<%= @batch_set.id %>";
+        if(sent == js || sent == pythoncon || sent == rubycon || out == "Your result appears here"){
+         swal(
+           'Ooops...!!!',
+           'You must execute before you submit your code.',
+           'error'
+         )
+       }else{
+         if(flag){
+         $.ajax({
+           url: "<%= answers_path %>",
+           type: "post",
+           data: {
+             answer: args
+           },
+           success: function(response){
+             swal(
+               'Success',
+               'Your code was submitted successfully.',
+               'success'
+             )
+           }
+         });
+       }else{
+        debugger
+         $.ajax({
+           url: web,
+           type: "patch",
+           data: {
+             answer: args
+           },
+           success: function(response){
+             swal(
+               'Success',
+               'Your code was updated successfully.',
+               'success'
+             )
+           }
+         });
+       }
+     }
+ });
+
+    $("#reset").click(function(){
+          swal({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, reset it!'
+      }).then(function () {
+        $("#sel").prop('selectedIndex',0);
+        editor.setOption("value",js);
+        editor.setOption("value",rubycon);
+        result.setOption("value","Your result appears here");
+        swal(
+          'Reset!',
+          'Your Work Has Been Reset.',
+          'success'
+        )
+      },function(dismiss){
+        if(dismiss === "cancel"){
+          swal(
+            'Cancelled'
+          )
+        }
+      }
+    )
+    });
+  });//end of document
+</script>

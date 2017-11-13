@@ -1,15 +1,17 @@
 Rails.application.routes.draw do
-  resources :tags
   namespace :api do
     namespace :v1 do
       resources :batches
     end
   end
+  
+  get 'home/check_cache'
+  get 'home/input'
 
-  resources :solutions
   get 'new_views/new_view_1'
   get 'batches/student'
   get 'batch_sets/select_chapters'
+  get 'batches/:id/batch_sets/:id/answers' => 'batch_sets#answers', as: "batch_sets_answers"
   get 'knowledge_bases/select_chapter'
   get 'knowledge_bases/liked_articles'
   get 'knowledge_bases/my_articles'
@@ -23,6 +25,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :solutions
+  resources :tags
   resources :event_types
   resources :events
   resources :remarks

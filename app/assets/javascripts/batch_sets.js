@@ -1,3 +1,30 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+$(document).ready(function(){
+  
+  var tags = [];
+
+  $.ajax({
+    url: "http://72db3440.ngrok.io/tags.json",
+    type: "get",
+    success: function(response){
+      tags = response;
+      tags.forEach(function(tag){
+        $
+      });
+      console.log(response);
+    }
+  });
+});
+
+// $('#any').click(function(){
+//   $.ajax({
+//     url: "http://compilez.herokuapp.com/home/input",
+//     type: "get",
+//     data: {
+//       content: sent,
+//       extension: lang
+//     },
+//     success: function(response){
+//       result.setOption("value", response["response"]);
+//     }
+//   });
+// });

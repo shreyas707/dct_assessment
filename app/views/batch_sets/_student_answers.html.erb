@@ -101,28 +101,32 @@
                   <h4><%= question.formatted_statement %></h4>
                   <% if !Question.find(question_id).answers.where('user_id = ? AND question_id = ? AND batch_set_id = ?', current_user.id, question_id, @batch_set.id).exists? %>
 
-                    <%= f.fields_for :answers, @answer do |ans| %>
-                      <%= ans.hidden_field :question_id, value: question_id %>
-                      <%= ans.hidden_field :user_id, value: current_user.id %>
-                      <%= ans.hidden_field :batch_set_id, value: @batch_set.id %>
-                      <% if Question.find(question_id).question_type.name == "MCQ" %>
-                        <% Question.find(question_id).options.each do |option| %>
-                          <%= ans.radio_button :statement, option.statement.html_safe, class: "ui radio checkbox" %><%= option.statement.html_safe %><br/>
-                        <% end %>
+                    <%# form_tag(batch_sets_path) do %>
+                      <%= link_to 'Solve', batch_sets_answers_path(question_id: question_id, ), {class: "ui primary button"} %>
+                    <%# end %>
+<!--                     <%#= f.fields_for :answers, @answer do |ans| %>
+                      <%#= ans.hidden_field :question_id, value: question_id %>
+                      <%#= ans.hidden_field :user_id, value: current_user.id %>
+                      <%#= ans.hidden_field :batch_set_id, value: @batch_set.id %>
+                      <%# if Question.find(question_id).question_type.name == "MCQ" %>
+                        <%# Question.find(question_id).options.each do |option| %>
+                          <%#= ans.radio_button :statement, option.statement.html_safe, class: "ui radio checkbox" %><%#= option.statement.html_safe %><br/>
+                        <%# end %>
                         <div class="ui divider"></div>
-                      <% else %>
+                      <%# else %>
                         <div class="ui form">
                           <div class="field">
-                            <%= ans.text_area :statement, class: "textEditor" %>
+                            <%#= render 'home/index' %>
+                            <%#= ans.text_area :statement, class: "textEditor" %>
                           </div>    
                         </div>
                         <div class="ui divider"></div>
-                      <% end %>
-                    <% end %>
+                      <%# end %>
+                    <%# end %> -->
                   <% end %> 
                 <% end %>
                   <%# if question_id == question_set.question_ids.last %>
-                    <br/><%= f.submit 'Submit Answer', {class: "ui primary button"} %>
+                    <br/><br/><%#= f.submit 'Submit Answer', {class: "ui primary button"},  %>
                   <%# end %>
               <% end %>
             <% end %>

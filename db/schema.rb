@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170711112735) do
+ActiveRecord::Schema.define(version: 20171113125652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 20170711112735) do
     t.integer  "remark_id"
     t.string   "is_correct"
     t.float    "score"
+    t.string   "language"
+    t.text     "output"
   end
 
   create_table "batch_events", force: :cascade do |t|
@@ -164,6 +166,20 @@ ActiveRecord::Schema.define(version: 20170711112735) do
     t.datetime "updated_at",      null: false
   end
 
+  create_table "question_set_questions", force: :cascade do |t|
+    t.integer  "question_set_id"
+    t.integer  "question_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "question_set_tags", force: :cascade do |t|
+    t.integer  "question_set_id"
+    t.integer  "tag_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
   create_table "question_sets", force: :cascade do |t|
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
@@ -183,15 +199,14 @@ ActiveRecord::Schema.define(version: 20170711112735) do
     t.text     "statement"
     t.integer  "question_type_id"
     t.integer  "answer_option_id"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.integer  "topic_id"
     t.integer  "chapter_id"
     t.string   "kind"
     t.string   "code"
     t.string   "title"
     t.string   "difficulty_level"
-    t.jsonb    "tag_ids",          default: [],              array: true
   end
 
   create_table "remarks", force: :cascade do |t|
@@ -222,12 +237,32 @@ ActiveRecord::Schema.define(version: 20170711112735) do
     t.boolean  "is_active",        default: true
   end
 
-  create_table "tags", force: :cascade do |t|
-    t.string   "name"
-    t.jsonb    "question_ids", default: [],              array: true
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+  create_table "taggings", force: :cascade do |t|
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.integer  "tagger_id"
+    t.string   "tagger_type"
+    t.string   "context",       limit: 128
+    t.datetime "created_at"
   end
+
+  add_index "taggings", ["context"], name: "index_taggings_on_context", using: :btree
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
+  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy", using: :btree
+  add_index "taggings", ["taggable_id"], name: "index_taggings_on_taggable_id", using: :btree
+  add_index "taggings", ["taggable_type"], name: "index_taggings_on_taggable_type", using: :btree
+  add_index "taggings", ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type", using: :btree
+  add_index "taggings", ["tagger_id"], name: "index_taggings_on_tagger_id", using: :btree
+
+  create_table "tags", force: :cascade do |t|
+    t.string  "name"
+    t.integer "taggings_count", default: 0
+  end
+
+  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
   create_table "topics", force: :cascade do |t|
     t.string   "name"
